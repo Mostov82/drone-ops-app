@@ -1,8 +1,19 @@
 import express from "express";
+import {
+  createPrismaSettingsStore,
+  createSettingsRouter,
+  type SettingsStore,
+} from "./routes/settings.js";
 
-export function createApp() {
+export interface AppDeps {
+  settingsStore?: SettingsStore;
+}
+
+export function createApp(deps: AppDeps = {}) {
   const app = express();
   app.use(express.json());
+
+  app.use("/api/settings", createSettingsRouter(deps.settingsStore ?? createPrismaSettingsStore()));
 
   app.get("/api/hello", (_req, res) => {
     res.json({

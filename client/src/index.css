@@ -6,6 +6,8 @@
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --border: oklch(0.922 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
 }
 
 @theme inline {
@@ -14,4 +16,12 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-border: var(--border);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+}
+
+/* Icons whose shape encodes direction (arrows, chevrons) mirror in RTL.
+   Non-directional icons must NOT get this class. */
+[dir="rtl"] .icon-directional {
+  transform: scaleX(-1);
 }
