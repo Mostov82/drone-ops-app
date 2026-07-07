@@ -1,4 +1,5 @@
 import { Router, type Request } from "express";
+import { AUTH_SETTING_PREFIX } from "../auth/service.js";
 
 /**
  * Storage seam for settings. The production store is Prisma-backed (Setting
@@ -50,7 +51,12 @@ export function createSettingsRouter(store: SettingsStore) {
 
   router.get("/", async (_req, res) => {
     try {
-      res.json({ settings: await store.getAll() });
+      // auth.* keys (PIN hash, DO-005) are internal — never exposed here.
+      const all = await store.getAll();
+      const settings = Object.fromEntries(
+        Object.entries(all).filter(([key]) => !key.startsWith(AUTH_SETTING_PREFIX)),
+      );
+      res.json({ settings });
     } catch {
       res.status(500).json({ error: "Failed to read settings" });
     }
@@ -60,6 +66,11 @@ export function createSettingsRouter(store: SettingsStore) {
     const entries = parseBody(req);
     if (entries === null) {
       res.status(400).json({ error: "Body must be { settings: Record<string, string> }" });
+      return;
+    }
+    if (Object.keys(entries).some((key) => key.startsWith(AUTH_SETTING_PREFIX))) {
+      // Writing auth.* through this route would bypass the change-PIN flow.
+      res.status(400).json({ error: "auth.* keys are reserved" });
       return;
     }
     try {

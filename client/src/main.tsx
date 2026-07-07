@@ -1,20 +1,23 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AppShell from "./components/layout/AppShell";
-import i18n, { applyLanguageToDocument, DEFAULT_LANGUAGE, initI18n } from "./i18n";
-import { loadSettings } from "./lib/settings-api";
-import { MODULE_NAV_ITEMS, SETTINGS_PATH } from "./lib/navigation";
-import DashboardPage from "./pages/DashboardPage";
-import PlaceholderPage from "./pages/PlaceholderPage";
-import SettingsPage from "./pages/SettingsPage";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import i18n, {
+  applyLanguageToDocument,
+  DEFAULT_LANGUAGE,
+  initI18n,
+  isAppLanguage,
+} from "./i18n";
+import { fetchAuthStatus } from "./lib/auth-api";
 import "./index.css";
 
 async function bootstrap() {
-  // Language persists via the Setting model (DO-002); fall back to the default
-  // when the server is unreachable so the shell still renders.
-  const settings = await loadSettings().catch(() => null);
-  const language = settings?.language ?? DEFAULT_LANGUAGE;
+  // The open status endpoint reports auth state AND the saved UI language, so
+  // the PIN gate renders in the right language before any authenticated API
+  // (including settings) is reachable. Fall back to defaults if the server is
+  // down so the gate still renders and can show its error.
+  const auth = await fetchAuthStatus().catch(() => null);
+  const language = auth && isAppLanguage(auth.language) ? auth.language : DEFAULT_LANGUAGE;
 
   await initI18n(language);
   applyLanguageToDocument(language);
@@ -23,15 +26,7 @@ async function bootstrap() {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <BrowserRouter>
-        <Routes>
-          <Route element={<AppShell />}>
-            <Route path="/" element={<DashboardPage />} />
-            {MODULE_NAV_ITEMS.filter((item) => item.path !== "/").map((item) => (
-              <Route key={item.key} path={item.path} element={<PlaceholderPage item={item} />} />
-            ))}
-            <Route path={SETTINGS_PATH} element={<SettingsPage />} />
-          </Route>
-        </Routes>
+        <App initialAuthState={auth?.status ?? "locked"} />
       </BrowserRouter>
     </StrictMode>,
   );

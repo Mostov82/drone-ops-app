@@ -38,7 +38,39 @@ work/     Planning docs: goal briefs, intent docs, session logs, decision log
 
 ## Data & backup
 
-*(Placeholder — filled in by DO-004/DO-005: database location, documents folder, backup/restore.)*
+All app data lives in `app-data/` at the repo root (gitignored): the SQLite database
+(`drone-ops.db`) and the document vault (`documents/`). This single directory is the unit of
+backup.
+
+**Backup** (Settings → Backup): enter a destination folder → the app writes a timestamped
+`drone-ops-backup_YYYY-MM-DD_HHmm.zip` containing a consistent DB snapshot (safe while the app
+runs), all documents, and a manifest recording the schema migration state.
+
+**Restore** (Settings → Restore): enter an archive path → explicit confirmation → **all current
+data is replaced** by the archive's contents and the app reloads. Restore refuses archives whose
+schema state doesn't match the running app (protects against version drift). Restores are
+full-replacement — there is no merge.
+
+**Documents:** uploaded files are stored by the app under `app-data/documents/<entity-type>/<uuid>.<ext>`
+with their metadata in the database. Allowed types: PDF, PNG, JPG; size limit 25 MB per file.
+Files and metadata are created and deleted together — never move or delete files in
+`app-data/documents/` by hand.
+
+## PIN login
+
+On first launch the app asks you to set a **PIN (4–12 digits)**. Every later launch requires it
+before any data is shown. This is a local convenience lock for a single-user machine — it is not
+encryption and not internet-facing security (the server only listens on `127.0.0.1`).
+
+**Forgot the PIN?** Stop the app, then run from the repo root:
+
+```
+npm run auth:reset-pin -w server
+```
+
+This clears only the stored PIN hash — all data stays intact — and the app asks for a new PIN on
+the next launch. Anyone with access to this machine's files could do the same; that is by design
+for lockout recovery (the data was never encrypted with the PIN).
 
 ## Engineering conventions
 

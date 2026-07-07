@@ -1,7 +1,7 @@
-// Hebrew shell strings — pending human review (Jonathan), per intent DO-003 escalation trigger 3.
+// Hebrew shell strings — reviewed and approved by Jonathan, 2026-07-07 (see work/decision-log.md).
 // Flat keys, one per line, mirroring en.ts. `satisfies` below enforces key parity with English.
-// Strings whose aviation/regulatory terminology I could not assert confidently carry a
-// "[HE?] " prefix — replace the whole value when reviewing; the prefix is intentionally visible.
+// Convention for future strings: terminology an agent cannot assert confidently carries a
+// visible "[HE?] " prefix until human review — never guess regulatory terms.
 import type en from "./en";
 
 const he = {
@@ -11,8 +11,7 @@ const he = {
   // Navigation
   "nav.ariaLabel": "ניווט ראשי",
   "nav.dashboard": "לוח בקרה",
-  // "Compliance" as a regulatory module name — uncertain terminology, flagged for review:
-  "nav.compliance": "[HE?] ציות ורגולציה",
+  "nav.compliance": "רישוי ורגולציה",
   "nav.fleet": "צי כלים",
   "nav.airspace": "מרחב אווירי",
   "nav.missions": "משימות",
@@ -48,6 +47,51 @@ const he = {
   "settings.saved": "נשמר",
   "settings.saveError": "לא ניתן לשמור את ההגדרות.",
   "settings.loadError": "לא ניתן לטעון את ההגדרות מהשרת. מוצגים ערכי ברירת מחדל.",
+
+  // Backup & restore (DO-004)
+  "backup.title": "גיבוי",
+  "backup.description": "יוצר קובץ ארכיון יחיד של מסד הנתונים וכל המסמכים בתיקייה שתבחר.",
+  "backup.destLabel": "תיקיית יעד",
+  "backup.destPlaceholder": "לדוגמה: D:\\Backups",
+  "backup.run": "צור גיבוי",
+  "backup.success": "הגיבוי נוצר:",
+  "backup.error": "הגיבוי נכשל.",
+  "restore.title": "שחזור",
+  "restore.description": "מחליף את כל הנתונים הקיימים בתוכן של קובץ גיבוי. פעולה זו אינה הפיכה.",
+  "restore.archiveLabel": "נתיב קובץ הגיבוי",
+  "restore.archivePlaceholder": "לדוגמה: D:\\Backups\\drone-ops-backup_2026-07-07_2030.zip",
+  "restore.run": "שחזר מגיבוי",
+  "restore.confirmPrompt": "השחזור יחליף לצמיתות את כל הנתונים והמסמכים הקיימים בתוכן הגיבוי. להמשיך?",
+  "restore.success": "השחזור הושלם. טוען מחדש…",
+  "restore.error": "השחזור נכשל.",
+
+  // PIN login (DO-005)
+  "auth.setupTitle": "בחירת קוד PIN",
+  "auth.setupDescription": "קוד ה-PIN נועל את האפליקציה במחשב זה. יש להשתמש ב-4 עד 12 ספרות.",
+  "auth.loginTitle": "הזנת קוד PIN",
+  "auth.pinLabel": "קוד PIN",
+  "auth.confirmPinLabel": "אימות קוד PIN",
+  "auth.setPin": "קביעת קוד PIN",
+  "auth.unlock": "כניסה",
+  "auth.pinMismatch": "קודי ה-PIN אינם תואמים.",
+  "auth.serverError": "לא ניתן להתחבר לשרת המקומי.",
+  "auth.resetHint": "שכחת את הקוד? פקודת האיפוס מתועדת בקובץ README.",
+  "auth.changeTitle": "החלפת קוד PIN",
+  "auth.currentPinLabel": "קוד PIN נוכחי",
+  "auth.newPinLabel": "קוד PIN חדש",
+  "auth.confirmNewPinLabel": "אימות קוד PIN חדש",
+  "auth.changeSubmit": "החלפת קוד",
+  "auth.changed": "קוד ה-PIN הוחלף.",
+
+  // Dev-only upload test page (DO-005 scaffolding; replaced by the vault, DO-009)
+  "devUploads.title": "בדיקת העלאת מסמכים",
+  "devUploads.devOnly": "עמוד לפיתוח בלבד — כספת המסמכים האמיתית תיבנה בשלב 1.",
+  "devUploads.upload": "העלאה",
+  "devUploads.empty": "אין מסמכים שמורים.",
+  "devUploads.view": "צפייה",
+  "devUploads.delete": "מחיקה",
+  "devUploads.uploaded": "הועלה.",
+  "devUploads.deleted": "נמחק.",
 } satisfies Record<keyof typeof en, string>;
 
 export default he;

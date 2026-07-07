@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import BackupSection from "@/components/BackupSection";
+import ChangePinSection from "@/components/ChangePinSection";
 import { SUPPORTED_LANGUAGES, type AppLanguage } from "@/i18n";
 import {
   DEFAULT_SETTINGS,
@@ -112,6 +114,9 @@ export default function SettingsPage() {
           )}
         </div>
       </section>
+
+      <ChangePinSection />
+      <BackupSection />
     </article>
   );
 }
