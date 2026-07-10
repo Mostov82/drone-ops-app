@@ -56,6 +56,80 @@ with their metadata in the database. Allowed types: PDF, PNG, JPG; size limit 25
 Files and metadata are created and deleted together — never move or delete files in
 `app-data/documents/` by hand.
 
+## Offline map & elevation data (one-time setup)
+
+The Airspace map (DO-012) runs **fully offline** from two user-installed packages under
+`app-data/map/` (gitignored, like all app data). The app re-checks for them on every request —
+drop the files in place and press "Check again" on the Map page; no restart needed. To **replace
+or remove** an already-installed package, stop the app first (Windows keeps the files locked
+while they are in use).
+
+| File | What it is |
+|---|---|
+| `app-data/map/tiles.mbtiles` | Raster map tiles of Israel (zoom 0–14), built once from an OpenStreetMap extract |
+| `app-data/map/dem/*.tif` | Copernicus GLO-30 elevation tiles (GeoTIFF), downloaded once |
+
+> **Licensing note:** never bulk-download tiles from `tile.openstreetmap.org` — the OSM tile
+> usage policy prohibits it and blocks offenders. The steps below render tiles locally from a
+> Geofabrik data extract, which the ODbL license fully permits (with attribution, which the app
+> shows on the map).
+
+### 1. Map tiles (`tiles.mbtiles`)
+
+One-time build on this computer, ~1–3 hours mostly unattended. Primary path — **QGIS** (free,
+no Docker):
+
+1. Download the OSM extract (~115 MB):
+   <https://download.geofabrik.de/asia/israel-and-palestine-latest.osm.pbf>
+2. Install **QGIS LTR** (free): <https://qgis.org>
+3. Convert the extract to a GeoPackage once (from the **OSGeo4W Shell** installed with QGIS):
+
+   ```
+   ogr2ogr -f GPKG israel.gpkg israel-and-palestine-latest.osm.pbf
+   ```
+
+4. In QGIS, open `israel.gpkg` (drag it in; add the `multipolygons`, `lines`, `points` layers in
+   that order) and style them as a basemap. Ready-made styling guides:
+   <https://docs.mapeo.app/complete-reference-guide/customization-options/custom-base-maps/creating-custom-maps/creating-mbtiles>
+   and <https://jacopofarina.eu/posts/static-maps-part-1-qgis-raster/>
+5. Processing Toolbox → **Raster tools → Generate XYZ tiles (MBTiles)**:
+   extent = the map canvas (framed on Israel), zoom **0 to 14**, format **PNG**, tile size 256.
+   Save the output as `app-data/map/tiles.mbtiles`.
+   Tip: test with zoom 0–8 first (minutes) to check the styling before the full 0–14 run.
+
+Fallback path (better cartography, more moving parts — Docker Desktop with WSL2 required):
+build vector tiles with [tilemaker](https://github.com/systemed/tilemaker)
+(`tilemaker israel-and-palestine-latest.osm.pbf --output israel.mbtiles`), serve them rendered
+with `docker run --rm -v ${PWD}:/data -p 8080:8080 maptiler/tileserver-gl`, then capture
+`http://localhost:8080/styles/<style>/{z}/{x}/{y}.png` for the Israel extent into an MBTiles
+atlas with [MOBAC](https://mobac.sourceforge.io/) (custom XML map source pointing at
+**localhost only**).
+
+### 2. Elevation data (Copernicus GLO-30 DEM)
+
+Ten 1°×1° GeoTIFF tiles cover Israel (~300 MB total), served from the public AWS Open Data
+bucket — plain HTTPS, no account or key. From PowerShell at the repo root:
+
+```powershell
+New-Item -ItemType Directory -Force app-data\map\dem
+$tiles = "N29_00_E034_00","N29_00_E035_00","N30_00_E034_00","N30_00_E035_00",
+         "N31_00_E034_00","N31_00_E035_00","N32_00_E034_00","N32_00_E035_00",
+         "N33_00_E034_00","N33_00_E035_00"
+foreach ($t in $tiles) {
+  $n = "Copernicus_DSM_COG_10_${t}_DEM"
+  Invoke-WebRequest "https://copernicus-dem-30m.s3.amazonaws.com/$n/$n.tif" -OutFile "app-data\map\dem\$n.tif"
+}
+```
+
+Elevation lookups then work offline (values are ~30 m grid, typically ±4 m — the app always
+marks them **approximate**). The optional "Cross-check online" button on the Map page queries the
+free, keyless Open Topo Data public API (SRTM 30 m; limits: 1 call/sec, 1,000 calls/day) and is
+never called automatically.
+
+Copernicus DEM license: free use with credit — *"produced using Copernicus WorldDEM-30 © DLR
+e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the
+European Union and ESA; all rights reserved."*
+
 ## PIN login
 
 On first launch the app asks you to set a **PIN (4–12 digits)**. Every later launch requires it

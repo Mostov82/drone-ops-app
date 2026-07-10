@@ -7,6 +7,7 @@ import { MODULE_NAV_ITEMS, SETTINGS_PATH } from "./lib/navigation";
 import type { AuthState } from "./lib/auth-api";
 import DashboardPage from "./pages/DashboardPage";
 import DevUploadsPage from "./pages/DevUploadsPage";
+import MapPage from "./pages/MapPage";
 import PinGate from "./pages/PinGate";
 import PlaceholderPage from "./pages/PlaceholderPage";
 import RulesetPage from "./pages/RulesetPage";
@@ -28,9 +29,13 @@ export default function App({ initialAuthState }: { initialAuthState: AuthState 
     <Routes>
       <Route element={<AppShell />}>
         <Route path="/" element={<DashboardPage />} />
-        {MODULE_NAV_ITEMS.filter((item) => item.path !== "/").map((item) => (
-          <Route key={item.key} path={item.path} element={<PlaceholderPage item={item} />} />
-        ))}
+        {MODULE_NAV_ITEMS.filter((item) => item.path !== "/" && item.path !== "/map").map(
+          (item) => (
+            <Route key={item.key} path={item.path} element={<PlaceholderPage item={item} />} />
+          ),
+        )}
+        {/* Offline map (DO-012) — FR-C1/C2/C5; DO-014 adds zone overlays here. */}
+        <Route path="/map" element={<MapPage />} />
         <Route path={SETTINGS_PATH} element={<SettingsPage />} />
         {/* Ruleset editor (DO-010) — entry point from Settings per FR-S3. */}
         <Route path={`${SETTINGS_PATH}/ruleset`} element={<RulesetPage />} />
