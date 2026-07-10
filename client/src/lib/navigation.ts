@@ -16,6 +16,7 @@ export const MODULE_NAV_ITEMS: readonly ModuleNavItem[] = [
   { key: "compliance", path: "/compliance", phase: 1 },
   { key: "fleet", path: "/fleet", phase: 1 },
   { key: "airspace", path: "/airspace", phase: 2 },
+  { key: "map", path: "/map", phase: 2 }, // DO-012 — offline map (FR-C1); real page, not a placeholder
   { key: "missions", path: "/missions", phase: 3 },
   { key: "checklists", path: "/checklists", phase: 3 },
   { key: "maintenance", path: "/maintenance", phase: 4 },

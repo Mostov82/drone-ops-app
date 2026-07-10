@@ -25,7 +25,8 @@
     "@turf/turf": "^7.3.5",
     "adm-zip": "^0.5.16",
     "argon2": "^0.44.0",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "geotiff": "^3.0.5"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.7",

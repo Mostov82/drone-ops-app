@@ -113,6 +113,43 @@ const en = {
   "ruleset.rule.permit_turnaround_hours_max": "Permit turnaround (maximum)",
   "ruleset.rule.registration_weight_threshold_g": "Registration weight threshold",
 
+  // Offline map & elevation (DO-012, FR-C1/C2/C5)
+  "nav.map": "Map",
+  "map.title": "Map",
+  "map.description": "Offline map of Israel. Click the map or enter coordinates to place a pin.",
+  "map.loading": "Loading map status…",
+  "map.statusError": "Could not reach the local server for map status.",
+  "map.missing.title": "Offline map package not installed",
+  "map.missing.body":
+    "The map works fully offline from a tile package built once on this computer. Follow the one-time steps in the README, then check again.",
+  "map.missing.vectorBody":
+    "The installed tile package holds vector tiles, which this app cannot display. Rebuild it as raster (PNG) tiles per the README's one-time steps, then check again.",
+  "map.missing.recheck": "Check again",
+  "map.entry.label": "Coordinates (decimal or DMS)",
+  "map.entry.placeholder": `31.771959, 35.217018 or 31° 46' 19.05" N, 35° 13' 1.26" E`,
+  "map.entry.go": "Move pin",
+  "map.entry.error": "Could not read these coordinates — use decimal degrees or DMS.",
+  "map.pin.title": "Pinned point",
+  "map.pin.none": "No pin yet — click the map or enter coordinates.",
+  "map.pin.decimal": "Decimal",
+  "map.pin.dms": "DMS",
+  "map.elevation.label": "Terrain elevation",
+  "map.elevation.loading": "Looking up elevation…",
+  "map.elevation.value": "{{value}} m",
+  "map.elevation.approximate": "Approximate",
+  "map.elevation.approximateNote":
+    "From a ~30 m surface model (typically ±4 m). Never precise; planning must round conservatively.",
+  "map.elevation.missing":
+    "No offline elevation data installed — see the README's one-time DEM download.",
+  "map.elevation.outOfCoverage": "Outside the installed elevation tiles.",
+  "map.elevation.error": "Elevation lookup failed.",
+  "map.crosscheck.run": "Cross-check online",
+  "map.crosscheck.failed": "Online cross-check unavailable (offline, or the provider did not answer).",
+  "map.crosscheck.note":
+    "Optional online sanity check via Open Topo Data (SRTM 30 m). Runs only when you press the button.",
+  // OSM data attribution (ODbL) — kept in Latin script in both locales.
+  "map.attributionFallback": "© OpenStreetMap contributors",
+
   // PIN login (DO-005)
   "auth.setupTitle": "Choose a PIN",
   "auth.setupDescription": "The PIN locks this app on this computer. Use 4–12 digits.",

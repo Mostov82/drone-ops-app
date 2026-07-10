@@ -112,6 +112,46 @@ const he = {
   "ruleset.rule.permit_turnaround_hours_max": "זמן טיפול בהיתר (מקסימלי)",
   "ruleset.rule.registration_weight_threshold_g": "סף משקל המראה לחובת רישום",
 
+  // Offline map & elevation (DO-012, FR-C1/C2/C5).
+  // "[HE?]"-prefixed terms are new regulatory-adjacent coinage awaiting
+  // Jonathan's review (terrain-elevation terminology feeds DO-015's AGL/AMSL
+  // vertical-separation language). Full list in the DO-012 session log.
+  "nav.map": "מפה",
+  "map.title": "מפה",
+  "map.description": "מפת ישראל ללא חיבור לרשת. לחיצה על המפה או הזנת קואורדינטות מציבה סיכה.",
+  "map.loading": "טוען את מצב המפה…",
+  "map.statusError": "לא ניתן לקבל את מצב המפה מהשרת המקומי.",
+  "map.missing.title": "חבילת אריחי המפה אינה מותקנת",
+  "map.missing.body":
+    "המפה פועלת ללא חיבור לרשת מתוך חבילת אריחים שנבנית פעם אחת במחשב זה. יש לבצע את השלבים החד-פעמיים המתועדים ב-README ואז לבדוק שוב.",
+  "map.missing.vectorBody":
+    "חבילת האריחים המותקנת מכילה אריחים וקטוריים שהאפליקציה אינה יכולה להציג. יש לבנות אותה מחדש כאריחי תמונה (PNG) לפי השלבים ב-README ואז לבדוק שוב.",
+  "map.missing.recheck": "בדיקה חוזרת",
+  "map.entry.label": "קואורדינטות (עשרוני או DMS)",
+  // Example coordinates are LTR data — identical in both locales.
+  "map.entry.placeholder": `31.771959, 35.217018 or 31° 46' 19.05" N, 35° 13' 1.26" E`,
+  "map.entry.go": "הזזת הסיכה",
+  "map.entry.error": "לא ניתן לפענח את הקואורדינטות — יש להשתמש במעלות עשרוניות או ב-DMS.",
+  "map.pin.title": "הנקודה המסומנת",
+  "map.pin.none": "אין סיכה עדיין — יש ללחוץ על המפה או להזין קואורדינטות.",
+  "map.pin.decimal": "עשרוני",
+  "map.pin.dms": "מעלות־דקות־שניות (DMS)",
+  "map.elevation.label": "[HE?] גובה פני הקרקע",
+  "map.elevation.loading": "בודק גובה…",
+  "map.elevation.value": "{{value}} מ׳",
+  "map.elevation.approximate": "משוער",
+  "map.elevation.approximateNote":
+    "[HE?] מבוסס על מודל פני שטח ברזולוציה של כ-30 מ׳ (סטייה אופיינית ±4 מ׳). לעולם אינו מדויק; תכנון חייב לעגל באופן שמרני.",
+  "map.elevation.missing": "לא מותקנים נתוני גובה לא-מקוונים — ראו את הורדת ה-DEM החד-פעמית ב-README.",
+  "map.elevation.outOfCoverage": "מחוץ לאריחי הגובה המותקנים.",
+  "map.elevation.error": "בדיקת הגובה נכשלה.",
+  "map.crosscheck.run": "בדיקה צולבת מקוונת",
+  "map.crosscheck.failed": "הבדיקה הצולבת המקוונת אינה זמינה (אין חיבור לרשת, או שהספק לא השיב).",
+  "map.crosscheck.note":
+    "בדיקת אימות מקוונת אופציונלית באמצעות Open Topo Data‏ (SRTM ‏30 מ׳). מופעלת רק בלחיצה על הכפתור.",
+  // OSM data attribution (ODbL) — kept in Latin script in both locales.
+  "map.attributionFallback": "© OpenStreetMap contributors",
+
   // PIN login (DO-005)
   "auth.setupTitle": "בחירת קוד PIN",
   "auth.setupDescription": "קוד ה-PIN נועל את האפליקציה במחשב זה. יש להשתמש ב-4 עד 12 ספרות.",
