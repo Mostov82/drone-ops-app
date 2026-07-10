@@ -65,6 +65,53 @@ const he = {
   "restore.success": "השחזור הושלם. טוען מחדש…",
   "restore.error": "השחזור נכשל.",
 
+  // Regulations Ruleset editor (DO-010, FR-A5)
+  // Rule labels carry regulatory terminology not yet human-reviewed → "[HE?] "
+  // prefix per the standing convention above; listed for review in the
+  // DO-010 session log.
+  "ruleset.entry.title": "מאגר כללי רגולציה",
+  "ruleset.entry.description":
+    "מגבלות רגולטוריות, היסטוריית שינויים ותאריכי אימות. כל המודולים קוראים את המגבלות מכאן.",
+  "ruleset.entry.open": "פתיחת עורך הכללים",
+  "ruleset.title": "מאגר כללי רגולציה",
+  "ruleset.description":
+    "שינוי כלל כאן הוא עריכת נתונים — ללא שינוי קוד. ערכים המסומנים כלא מאומתים טרם אושרו מול מקורות רשמיים.",
+  "ruleset.backToSettings": "חזרה להגדרות",
+  "ruleset.loadError": "לא ניתן לטעון את מאגר הכללים מהשרת.",
+  "ruleset.unverified": "לא מאומת",
+  "ruleset.verifiedOn": "אומת {{date}}",
+  "ruleset.markVerified": "סימון כמאומת",
+  "ruleset.edit": "עריכה",
+  "ruleset.save": "שמירה",
+  "ruleset.cancel": "ביטול",
+  "ruleset.valueLabel": "ערך",
+  "ruleset.noteLabel": "הערת שינוי (לא חובה)",
+  "ruleset.saveError": "לא ניתן לשמור את השינוי.",
+  "ruleset.verifyError": "לא ניתן לסמן את הכלל כמאומת.",
+  "ruleset.history.show": "היסטוריה",
+  "ruleset.history.hide": "הסתרת היסטוריה",
+  "ruleset.history.empty": "לא נרשמו שינויים.",
+  "ruleset.value.true": "כן",
+  "ruleset.value.false": "לא",
+  "ruleset.value.unset": "לא נקבע",
+  "ruleset.category.ALTITUDE": "גובה",
+  "ruleset.category.DISTANCE": "מרחקים",
+  "ruleset.category.OPERATIONAL": "תפעול",
+  "ruleset.category.LICENSING": "רישוי",
+  "ruleset.category.PERMITS": "היתרים",
+  "ruleset.category.WEIGHT": "משקל",
+  "ruleset.rule.max_altitude_agl_m": "[HE?] גובה טיסה מרבי מעל פני הקרקע",
+  "ruleset.rule.min_distance_people_structures_m": "[HE?] מרחק מזערי מאנשים וממבנים",
+  "ruleset.rule.airport_buffer_km": "[HE?] רדיוס חיץ סביב שדות תעופה",
+  "ruleset.rule.vlos_required": "[HE?] נדרש קשר עין רציף עם הכלי",
+  "ruleset.rule.daylight_only": "[HE?] טיסה באור יום בלבד",
+  "ruleset.rule.min_registration_age_years": "[HE?] גיל מזערי לרישום",
+  "ruleset.rule.moc_frequency_license_required": "[HE?] נדרש רישיון תדר ממשרד התקשורת",
+  "ruleset.rule.permit_fee_recreational_nis": "[HE?] אגרת היתר טיסת פנאי",
+  "ruleset.rule.permit_turnaround_hours_min": "[HE?] זמן טיפול בהיתר (מזערי)",
+  "ruleset.rule.permit_turnaround_hours_max": "[HE?] זמן טיפול בהיתר (מרבי)",
+  "ruleset.rule.registration_weight_threshold_g": "[HE?] סף משקל לחובת רישום",
+
   // PIN login (DO-005)
   "auth.setupTitle": "בחירת קוד PIN",
   "auth.setupDescription": "קוד ה-PIN נועל את האפליקציה במחשב זה. יש להשתמש ב-4 עד 12 ספרות.",

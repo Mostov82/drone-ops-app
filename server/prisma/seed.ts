@@ -2,6 +2,7 @@
 // Ruleset baseline values ship with DO-010 (GB-02).
 // Run with: npm run db:seed
 import { PrismaClient } from "@prisma/client";
+import { seedRuleset } from "../src/ruleset/seed-catalog.js";
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,9 @@ async function main() {
   for (const zt of zoneTypes) {
     await prisma.zoneType.upsert({ where: { code: zt.code }, update: {}, create: zt });
   }
+
+  // Regulations Ruleset baseline (DO-010; GB-02 Gate 1 catalog).
+  await seedRuleset(prisma);
 }
 
 main()

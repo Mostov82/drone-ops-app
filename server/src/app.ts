@@ -10,6 +10,8 @@ import { createAuthMiddleware } from "./auth/middleware.js";
 import { createAuthRouter } from "./auth/routes.js";
 import { createPrismaPinStore, SessionStore, type PinStore } from "./auth/service.js";
 import { createDocumentsRouter } from "./routes/documents.js";
+import { createRulesetRouter } from "./ruleset/routes.js";
+import { createPrismaRulesetStore, type RulesetStore } from "./ruleset/service.js";
 import {
   createPrismaDocumentMetaStore,
   DocumentStorage,
@@ -24,6 +26,7 @@ export interface AppDeps {
   appDataDir?: string;
   documentMetaStore?: DocumentMetaStore;
   maxUploadBytes?: number;
+  rulesetStore?: RulesetStore;
 }
 
 export function createApp(deps: AppDeps = {}) {
@@ -46,6 +49,7 @@ export function createApp(deps: AppDeps = {}) {
   app.use("/api/auth", createAuthRouter({ pinStore, sessions, settingsStore }));
   app.use("/api/settings", createSettingsRouter(settingsStore));
   app.use("/api/documents", createDocumentsRouter(documentStorage));
+  app.use("/api/ruleset", createRulesetRouter(deps.rulesetStore ?? createPrismaRulesetStore()));
   app.use(createBackupRouter(prisma)); // DO-004; behind the PIN middleware above
 
   app.get("/api/hello", (_req, res) => {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import BackupSection from "@/components/BackupSection";
 import ChangePinSection from "@/components/ChangePinSection";
@@ -113,6 +114,15 @@ export default function SettingsPage() {
             </span>
           )}
         </div>
+      </section>
+
+      {/* Ruleset editor entry point (DO-010, FR-S3). */}
+      <section className="mt-8">
+        <h2 className="text-sm font-medium">{t("ruleset.entry.title")}</h2>
+        <p className="mt-1 text-xs text-muted-foreground">{t("ruleset.entry.description")}</p>
+        <Button asChild variant="outline" className="mt-2">
+          <Link to="/settings/ruleset">{t("ruleset.entry.open")}</Link>
+        </Button>
       </section>
 
       <ChangePinSection />
