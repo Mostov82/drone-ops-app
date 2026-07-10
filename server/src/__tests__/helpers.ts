@@ -9,6 +9,11 @@ import type TestAgent from "supertest/lib/agent.js";
 import { createApp, type AppDeps } from "../app.js";
 import { SessionStore, type PinStore } from "../auth/service.js";
 import type { SettingsStore } from "../routes/settings.js";
+import type {
+  RuleChangeRecord,
+  RuleRecord,
+  RulesetStore,
+} from "../ruleset/service.js";
 import type { DocumentMeta, DocumentMetaStore } from "../storage/documents.js";
 
 export function memoryPinStore(): PinStore {
@@ -51,6 +56,62 @@ export function memoryDocumentMetaStore(): DocumentMetaStore {
   };
 }
 
+/** Build a RuleRecord fixture. Values here are arbitrary test data, never regulatory. */
+export function ruleFixture(partial: Partial<RuleRecord> & { key: string }): RuleRecord {
+  return {
+    id: randomUUID(),
+    category: "TEST",
+    label: partial.key,
+    valueType: "NUMBER",
+    numberValue: null,
+    boolValue: null,
+    textValue: null,
+    unit: null,
+    description: null,
+    lastVerifiedAt: null,
+    ...partial,
+  };
+}
+
+export function memoryRulesetStore(
+  rules: RuleRecord[] = [],
+): RulesetStore & { changes: RuleChangeRecord[] } {
+  const rows = new Map(rules.map((r) => [r.key, { ...r }]));
+  const changes: RuleChangeRecord[] = [];
+  const byId = (ruleId: string) => {
+    const rule = [...rows.values()].find((r) => r.id === ruleId);
+    if (!rule) throw new Error("Rule to update does not exist");
+    return rule;
+  };
+  return {
+    changes,
+    async list() {
+      return [...rows.values()].map((r) => ({ ...r }));
+    },
+    async getByKey(key) {
+      const rule = rows.get(key);
+      return rule ? { ...rule } : null;
+    },
+    async applyValueChange({ ruleId, data, previousValue, newValue, note }) {
+      const rule = byId(ruleId);
+      Object.assign(rule, data);
+      changes.push({ id: randomUUID(), ruleId, changedAt: new Date(), previousValue, newValue, note });
+      return { ...rule };
+    },
+    async setVerified(ruleId, when) {
+      const rule = byId(ruleId);
+      rule.lastVerifiedAt = when;
+      return { ...rule };
+    },
+    async history(ruleId) {
+      return changes
+        .filter((c) => c.ruleId === ruleId)
+        .sort((a, b) => b.changedAt.getTime() - a.changedAt.getTime())
+        .map((c) => ({ ...c }));
+    },
+  };
+}
+
 export function tempAppDataDir(): string {
   return fs.mkdtempSync(path.join(os.tmpdir(), "drone-ops-test-"));
 }
@@ -61,6 +122,7 @@ export function makeApp(overrides: AppDeps = {}) {
     sessions: new SessionStore(),
     settingsStore: memorySettingsStore(),
     documentMetaStore: memoryDocumentMetaStore(),
+    rulesetStore: memoryRulesetStore(),
     appDataDir: tempAppDataDir(),
     ...overrides,
   });

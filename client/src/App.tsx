@@ -9,6 +9,7 @@ import DashboardPage from "./pages/DashboardPage";
 import DevUploadsPage from "./pages/DevUploadsPage";
 import PinGate from "./pages/PinGate";
 import PlaceholderPage from "./pages/PlaceholderPage";
+import RulesetPage from "./pages/RulesetPage";
 import SettingsPage from "./pages/SettingsPage";
 
 export default function App({ initialAuthState }: { initialAuthState: AuthState }) {
@@ -31,6 +32,8 @@ export default function App({ initialAuthState }: { initialAuthState: AuthState 
           <Route key={item.key} path={item.path} element={<PlaceholderPage item={item} />} />
         ))}
         <Route path={SETTINGS_PATH} element={<SettingsPage />} />
+        {/* Ruleset editor (DO-010) — entry point from Settings per FR-S3. */}
+        <Route path={`${SETTINGS_PATH}/ruleset`} element={<RulesetPage />} />
         {/* Dev-only route (DO-005): absent from production builds; DO-009 replaces it. */}
         {import.meta.env.DEV && <Route path="/dev/uploads" element={<DevUploadsPage />} />}
       </Route>
