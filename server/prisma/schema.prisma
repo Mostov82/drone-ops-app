@@ -1,0 +1,444 @@
+// Drone Operations App — full V1 schema (DO-002)
+// SQLite via Prisma. NOTE (NFR-7): no SQLite-only features; portable to Postgres.
+// SQLite connector limitations honored: no native enums (String + documented values),
+// no Json type (String fields containing JSON, suffixed *Json).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ───────────────────────── Module A — Compliance ─────────────────────────
+
+model Operator {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  licenses  License[]
+  insurance InsurancePolicy[]
+  drones    Drone[]
+  documents Document[]
+}
+
+// kind: CAAI_RECREATIONAL | CAAI_COMMERCIAL | MOC_FREQUENCY  (PRD FR-A1 incl. 2026-07-07 amendment)
+model License {
+  id         String    @id @default(uuid())
+  operatorId String
+  operator   Operator  @relation(fields: [operatorId], references: [id])
+  kind       String
+  number     String
+  issueDate  DateTime?
+  expiryDate DateTime?
+  examNotes  String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  documents Document[]
+
+  @@index([expiryDate])
+}
+
+model InsurancePolicy {
+  id             String    @id @default(uuid())
+  operatorId     String
+  operator       Operator  @relation(fields: [operatorId], references: [id])
+  policyNumber   String
+  insurer        String
+  coverageAmount Int? // whole ILS
+  startDate      DateTime?
+  expiryDate     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  documents Document[]
+
+  @@index([expiryDate])
+}
+
+// Vault metadata. File lives under app-managed documents/ (GB-01 Gate 3); path is RELATIVE.
+// Linked to at most one parent entity via the optional FKs (validated at app level).
+model Document {
+  id                  String           @id @default(uuid())
+  fileName            String
+  relativePath        String           @unique
+  mimeType            String
+  sizeBytes           Int
+  uploadedAt          DateTime         @default(now())
+  operatorId          String?
+  operator            Operator?        @relation(fields: [operatorId], references: [id])
+  licenseId           String?
+  license             License?         @relation(fields: [licenseId], references: [id])
+  insurancePolicyId   String?
+  insurancePolicy     InsurancePolicy? @relation(fields: [insurancePolicyId], references: [id])
+  droneId             String?
+  drone               Drone?           @relation(fields: [droneId], references: [id])
+  permitApplicationId String?
+  permitApplication   PermitApplication? @relation(fields: [permitApplicationId], references: [id])
+}
+
+// The Regulations Ruleset (FR-A5). valueType: NUMBER | BOOLEAN | TEXT.
+// All regulatory limits live here as data — never hard-coded (conventions §4).
+model RegulationRule {
+  id             String    @id @default(uuid())
+  key            String    @unique // e.g. "max_altitude_agl_m"
+  category       String // e.g. ALTITUDE | DISTANCE | WEIGHT | TIME | LICENSING | PERMITS
+  label          String
+  valueType      String
+  numberValue    Float?
+  boolValue      Boolean?
+  textValue      String?
+  unit           String? // e.g. "m", "km", "g", "days"
+  description    String?
+  lastVerifiedAt DateTime? // "last verified against official source" (FR-A5)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  changes RegulationRuleChange[]
+}
+
+// Append-only change history for the Ruleset (FR-A5).
+model RegulationRuleChange {
+  id            String         @id @default(uuid())
+  ruleId        String
+  rule          RegulationRule @relation(fields: [ruleId], references: [id])
+  changedAt     DateTime       @default(now())
+  previousValue String // JSON snapshot {numberValue,boolValue,textValue,unit}
+  newValue      String // JSON snapshot
+  note          String?
+}
+
+// ───────────────────────── Module B — Fleet ─────────────────────────
+
+// status: AIRWORTHY | GROUNDED | IN_MAINTENANCE
+model Drone {
+  id           String    @id @default(uuid())
+  operatorId   String
+  operator     Operator  @relation(fields: [operatorId], references: [id])
+  name         String
+  model        String
+  serial       String    @unique
+  weightGrams  Int
+  status       String    @default("AIRWORTHY")
+  purchaseDate DateTime?
+  flightHours  Float     @default(0) // derived-but-stored; incremented by flight logs (FR-G2)
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  registrations        RegistrationRecord[]
+  batteries            Battery[]
+  payloads             Payload[]
+  accessories          Accessory[]
+  documents            Document[]
+  missions             Mission[]
+  flightLogs           FlightLog[]
+  maintenanceRecords   MaintenanceRecord[]
+  maintenanceSchedules MaintenanceSchedule[]
+  checklistRuns        ChecklistRun[]
+}
+
+// authority: CAAI | ICD
+model RegistrationRecord {
+  id                 String    @id @default(uuid())
+  droneId            String
+  drone              Drone     @relation(fields: [droneId], references: [id])
+  authority          String
+  registrationNumber String
+  issueDate          DateTime?
+  expiryDate         DateTime?
+
+  @@index([expiryDate])
+}
+
+// healthStatus: GOOD | DEGRADED | RETIRE
+model Battery {
+  id           String  @id @default(uuid())
+  droneId      String?
+  drone        Drone?  @relation(fields: [droneId], references: [id])
+  label        String
+  model        String?
+  cycleCount   Int     @default(0) // derived-but-stored; incremented by flight logs (FR-G2)
+  healthStatus String  @default("GOOD")
+  notes        String?
+
+  maintenanceRecords MaintenanceRecord[]
+  flightLogs         FlightLog[]
+}
+
+model Payload {
+  id          String  @id @default(uuid())
+  droneId     String?
+  drone       Drone?  @relation(fields: [droneId], references: [id])
+  kind        String // e.g. CAMERA | SENSOR | OTHER
+  model       String
+  weightGrams Int?
+  notes       String?
+
+  missions Mission[]
+}
+
+model Accessory {
+  id      String  @id @default(uuid())
+  droneId String?
+  drone   Drone?  @relation(fields: [droneId], references: [id])
+  kind    String // e.g. CONTROLLER | PROPS | CASE | OTHER
+  label   String
+  notes   String?
+
+  maintenanceRecords MaintenanceRecord[]
+}
+
+// ───────────────────────── Module C — Airspace & Zones ─────────────────────────
+
+// code: AIRPORT | BORDER_SECURITY | NATURE_RESERVE | POPULATED | OTHER
+// defaultVerdict: RESTRICTED | NEEDS_PERMIT | CLEAR — the editable zone-type→verdict
+// mapping resolved in GB-03 Gate 3 lives here as data.
+model ZoneType {
+  id             String @id @default(uuid())
+  code           String @unique
+  name           String
+  defaultVerdict String
+
+  zones Zone[]
+}
+
+// A named dataset/layer of imported zones with provenance (FR-C4).
+model MapLayer {
+  id         String   @id @default(uuid())
+  name       String
+  source     String // provenance: where this dataset came from
+  importedAt DateTime @default(now())
+  visible    Boolean  @default(true)
+  verified   Boolean  @default(false) // Jonathan's visual verification (GB-06 Gate 3)
+
+  zones Zone[]
+}
+
+model Zone {
+  id           String    @id @default(uuid())
+  name         String
+  zoneTypeId   String
+  zoneType     ZoneType  @relation(fields: [zoneTypeId], references: [id])
+  mapLayerId   String?
+  mapLayer     MapLayer? @relation(fields: [mapLayerId], references: [id])
+  geometryJson String // GeoJSON geometry
+  notes        String?
+
+  @@index([zoneTypeId])
+}
+
+// Saved/checked locations (FR-C2).
+model FlightLocation {
+  id    String  @id @default(uuid())
+  name  String?
+  lat   Float
+  lng   Float
+  notes String?
+
+  missions Mission[]
+}
+
+// ───────────────────────── Module D — Missions & Permits ─────────────────────────
+
+// status: PLANNED | CHECKED | FLOWN | CANCELLED
+model Mission {
+  id                 String          @id @default(uuid())
+  droneId            String
+  drone              Drone           @relation(fields: [droneId], references: [id])
+  payloadId          String?
+  payload            Payload?        @relation(fields: [payloadId], references: [id])
+  flightLocationId   String?
+  flightLocation     FlightLocation? @relation(fields: [flightLocationId], references: [id])
+  lat                Float?
+  lng                Float?
+  plannedAt          DateTime
+  purpose            String
+  plannedAltitudeM   Float?
+  plannedDurationMin Int?
+  weatherNote        String? // manual snapshot (FR-D4)
+  status             String          @default("PLANNED")
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  complianceChecks   ComplianceCheck[]
+  permitApplications PermitApplication[]
+  flightLogs         FlightLog[]
+  checklistRuns      ChecklistRun[]
+}
+
+// Append-only: one row per check run (FR-D2). Never updated after creation.
+model ComplianceCheck {
+  id          String   @id @default(uuid())
+  missionId   String
+  mission     Mission  @relation(fields: [missionId], references: [id])
+  ranAt       DateTime @default(now())
+  passed      Boolean
+  resultsJson String // itemized [{ruleKey, severity: BLOCK|WARN, passed, reason}]
+}
+
+// status: DRAFT | SUBMITTED | APPROVED | REJECTED  (FR-D3)
+model PermitApplication {
+  id              String    @id @default(uuid())
+  missionId       String?
+  mission         Mission?  @relation(fields: [missionId], references: [id])
+  status          String    @default("DRAFT")
+  submittedAt     DateTime?
+  respondedAt     DateTime?
+  referenceNumber String?
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  documents Document[] // generated package + CAAI correspondence
+}
+
+// ───────────────────────── Module E — Checklists ─────────────────────────
+
+model ChecklistTemplate {
+  id        String   @id @default(uuid())
+  name      String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items ChecklistItem[]
+  runs  ChecklistRun[]
+}
+
+// Item DEFINITION within a template. section: EQUIPMENT | ENVIRONMENT | LEGAL | SAFETY.
+// autoKey: null = manual item; otherwise names the auto-population source (FR-E2),
+// e.g. "license_valid", "insurance_valid", "drone_airworthy", "batteries_healthy",
+// "zone_clear", "compliance_passed".
+model ChecklistItem {
+  id         String            @id @default(uuid())
+  templateId String
+  template   ChecklistTemplate @relation(fields: [templateId], references: [id])
+  section    String
+  label      String
+  blocking   Boolean           @default(false)
+  autoKey    String?
+  sortOrder  Int               @default(0)
+}
+
+// Append-only once completed (NFR-4). result: GO | NO_GO.
+// itemResultsJson: [{itemId, label, section, blocking, passed, note}] — snapshot,
+// deliberately denormalized so later template edits cannot rewrite history.
+model ChecklistRun {
+  id                    String            @id @default(uuid())
+  templateId            String
+  template              ChecklistTemplate @relation(fields: [templateId], references: [id])
+  droneId               String
+  drone                 Drone             @relation(fields: [droneId], references: [id])
+  missionId             String?
+  mission               Mission?          @relation(fields: [missionId], references: [id])
+  startedAt             DateTime          @default(now())
+  completedAt           DateTime?
+  result                String? // GO | NO_GO, null while in progress
+  itemResultsJson       String?
+  overrideJustification String? // logged justification for WARN overrides (GB-04 Gate 1)
+
+  flightLogs FlightLog[]
+}
+
+// ───────────────────────── Module F — Maintenance ─────────────────────────
+
+// Target is exactly one of droneId/batteryId/accessoryId (app-level validation).
+model MaintenanceRecord {
+  id              String     @id @default(uuid())
+  droneId         String?
+  drone           Drone?     @relation(fields: [droneId], references: [id])
+  batteryId       String?
+  battery         Battery?   @relation(fields: [batteryId], references: [id])
+  accessoryId     String?
+  accessory       Accessory? @relation(fields: [accessoryId], references: [id])
+  date            DateTime   @default(now())
+  type            String // e.g. INSPECTION | REPAIR | FIRMWARE | BATTERY_SERVICE | OTHER
+  notes           String?
+  cost            Int? // whole ILS
+  technician      String?
+  clearsGrounding Boolean    @default(false) // FR-F3: un-grounds the drone when true
+
+  parts Part[]
+}
+
+model Part {
+  id                  String            @id @default(uuid())
+  maintenanceRecordId String
+  maintenanceRecord   MaintenanceRecord @relation(fields: [maintenanceRecordId], references: [id])
+  name                String
+  quantity            Int               @default(1)
+  cost                Int? // whole ILS
+}
+
+// intervalType: FLIGHT_HOURS | CYCLES | CALENDAR_DAYS. mandatory: GB-05 Gate 1 flag.
+model MaintenanceSchedule {
+  id            String    @id @default(uuid())
+  droneId       String
+  drone         Drone     @relation(fields: [droneId], references: [id])
+  name          String
+  intervalType  String
+  intervalValue Float
+  mandatory     Boolean   @default(false)
+  lastDoneAt    DateTime?
+  lastDoneHours Float?
+  notes         String?
+
+  @@index([droneId])
+}
+
+// ───────────────────────── Module G — Flight Log ─────────────────────────
+
+// Append-only once saved (NFR-4). Corrections reference the original via correctsLogId.
+model FlightLog {
+  id             String        @id @default(uuid())
+  droneId        String
+  drone          Drone         @relation(fields: [droneId], references: [id])
+  batteryId      String?
+  battery        Battery?      @relation(fields: [batteryId], references: [id])
+  missionId      String?
+  mission        Mission?      @relation(fields: [missionId], references: [id])
+  checklistRunId String?
+  checklistRun   ChecklistRun? @relation(fields: [checklistRunId], references: [id])
+  date           DateTime
+  locationName   String?
+  lat            Float?
+  lng            Float?
+  durationMin    Int
+  purpose        String?
+  outcome        String? // e.g. NORMAL | ABORTED | INCIDENT
+  notes          String?
+  correctsLogId  String?       @unique // append-only correction pattern
+  correctsLog    FlightLog?    @relation("LogCorrection", fields: [correctsLogId], references: [id])
+  correctedBy    FlightLog?    @relation("LogCorrection")
+  createdAt      DateTime      @default(now())
+
+  incidents Incident[]
+
+  @@index([droneId, date])
+}
+
+// severity: NEAR_MISS | MINOR | MAJOR
+model Incident {
+  id          String    @id @default(uuid())
+  flightLogId String
+  flightLog   FlightLog @relation(fields: [flightLogId], references: [id])
+  severity    String
+  description String
+}
+
+// ───────────────────────── Shared Foundations ─────────────────────────
+
+// FR-S3/FR-S6: app settings and auth (PIN hash stored as setting by DO-005 or its own row here).
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
