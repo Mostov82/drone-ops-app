@@ -7,6 +7,9 @@ Added 2026-07-10 by Jonathan (see `work/decision-log.md`, GB-03 Gate 1 amendment
 | `aip_a-17_prohibited-restricted-danger-areas.pdf` | aip_א'-17.pdf | Chapter א'-17: prohibited (LLP), restricted (LLR), and danger areas — full text + coordinate appendices (49 pp.) | 2/25 (02 Oct 2025); some pages 3/24 (31 Oct 2024) |
 | `aip_b-08_north-sheet.pdf` | aip_ב'-08 גיליון צפוני.pdf | Chart ב'-08, northern sheet — the official zone map | rev. Sep 2025 |
 | `aip_b-08_south-sheet.pdf` | aip_ב'-08 גיליון דרומי.pdf | Chart ב'-08, southern sheet — the official zone map | rev. Sep 2025 |
+| `aip_b-03_cvfr-routes.pdf` | aip_ב'-03.pdf | Chapter ב'-03: CVFR low transport routes (נתיבי תובלה נמוכים) — governing publication for flight lanes (added 2026-07-10, Gate 4) | current edition |
+| `aip_b-03_cvfr-north.pdf` | aip_ב'-03 CVFR צפוני-.pdf | CVFR chart, northern sheet — lane cross-check | current edition |
+| `aip_b-03_cvfr-south.pdf` | aip_ב'-03 CVFR דרומי.pdf | CVFR chart, southern sheet — lane cross-check | current edition |
 
 ## What's inside א'-17 (extraction targets for DO-013)
 
