@@ -1,0 +1,23 @@
+{
+ "layerKey": "aip-a17-llu-drone",
+ "title": "AIP א'-17 appendix ג' — LLU drone no-fly zones (MTOW < 25 kg, VLOS)",
+ "sourceFiles": [
+  {
+   "path": "data-sources/aip/aip_a-17_prohibited-restricted-danger-areas.pdf",
+   "sha256": "e4acb5e7ed014b44b671a35ef8a5554af20344e1f09ea674d2453b063248952c"
+  }
+ ],
+ "aipUpdateStamp": "עדכון 2/25 (02 Oct 2025); appendix pages stamped עדכון 1/25 (15 May 2025)",
+ "extractedAt": "2026-07-10",
+ "extractionTools": [
+  "pyogrio 0.13.0 (GDAL 3.12.4)",
+  "pyproj 3.7.2",
+  "PyMuPDF 1.28.0",
+  "server/src/zones builders (DO-013)"
+ ],
+ "circleSegments": 64,
+ "featureCount": 73,
+ "importable": true,
+ "verified": false,
+ "notes": "Centers/radii/vertices exactly as published in appendix ג'. Circles are geodesic polygons. LLU59–LLU72 carry a 300 ft AGL max-height note (from chapter prose) in properties.aglCeilingFt — NOT in the AMSL columns."
+}

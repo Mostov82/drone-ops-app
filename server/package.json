@@ -13,13 +13,16 @@
     "db:generate": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "auth:reset-pin": "tsx scripts/reset-pin.ts"
+    "auth:reset-pin": "tsx scripts/reset-pin.ts",
+    "zones:build": "tsx scripts/zones/build-datasets.ts",
+    "zones:import": "tsx scripts/zones/import-datasets.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
+    "@turf/turf": "^7.3.5",
     "adm-zip": "^0.5.16",
     "argon2": "^0.44.0",
     "express": "^4.21.2"

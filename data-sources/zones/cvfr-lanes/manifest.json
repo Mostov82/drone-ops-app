@@ -1,0 +1,22 @@
+{
+ "layerKey": "cvfr-lanes",
+ "title": "CVFR low transport routes (נתיבי תובלה נמוכים) — CONVERTED, import pending directional-altitude decision (trigger 6)",
+ "sourceFiles": [
+  {
+   "path": "data-sources/gis/CVFR_caai.zip",
+   "sha256": "6334788f9635508d22ada16ccc99a6898f830ea815317c36105f7259ad64ca02"
+  }
+ ],
+ "aipUpdateStamp": "CVFR_ROUTES2023 / CVFR_POINTS2023 (CAAI GIS layer); governing publication פמ\"ת ב'-03",
+ "extractedAt": "2026-07-10",
+ "extractionTools": [
+  "pyogrio 0.13.0 (GDAL 3.12.4)",
+  "pyproj 3.7.2",
+  "PyMuPDF 1.28.0",
+  "server/src/zones builders (DO-013)"
+ ],
+ "featureCount": 265,
+ "importable": false,
+ "verified": false,
+ "notes": "TRIGGER 6: lanes have per-direction altitudes (N_A/S_A/W_Alt/E_Alt incl. 'X', blanks and dual values) but Zone has one floor/ceiling pair. All published values carried verbatim in properties. Import deliberately blocked until the modeling decision (see reconciliation.md + session log DO-013_2026-07-10)."
+}

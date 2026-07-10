@@ -1,0 +1,1678 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-1042045384",
+    "nameHe": null,
+    "nameEn": "Al Quwayrah Highway Strip",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "مهبط الطائرات القويرة",
+     "name:ar": "مهبط الطائرات القويرة",
+     "name:en": "Al Quwayrah Highway Strip",
+     "source": "ourairports.com"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/1042045384; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.3278796,
+     29.8240618
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-1042047142",
+    "nameHe": "מנחת ערד",
+    "nameEn": "Arad Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת ערד",
+     "name:en": "Arad Airport",
+     "name:fr": "Aéroport d'Arad",
+     "name:he": "מנחת ערד",
+     "source": "ourairports.com",
+     "wikidata": "Q28152534"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/1042047142; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.1890373,
+     31.2291698
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-1042047153",
+    "nameHe": "מנחת קציעות",
+    "nameEn": "Kzioth Airstrip",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLKZ",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "icao": "LLKZ",
+     "name": "מנחת קציעות",
+     "name:en": "Kzioth Airstrip",
+     "name:fr": "Aéroport Kzioth",
+     "name:he": "מנחת קציעות",
+     "source": "local knowledge;https://www.gov.il/he/pages/kziot"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/1042047153; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.4433299,
+     30.8591332
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-1084317793",
+    "nameHe": "מנחת נען",
+    "nameEn": "Naan airstrip",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת נען",
+     "name:en": "Naan airstrip",
+     "name:fr": "Piste d'atterrissage de Naan",
+     "name:he": "מנחת נען"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/1084317793; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.8857106,
+     31.8850287
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-11107769005",
+    "nameHe": "מנחת נגבה-גולד",
+    "nameEn": "Negba-Gold Landing Strip",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת נגבה-גולד",
+     "name:en": "Negba-Gold Landing Strip",
+     "name:he": "מנחת נגבה-גולד"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/11107769005; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.702259,
+     31.6793522
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-12064839451",
+    "nameHe": "מנחת דרקונים",
+    "nameEn": "Dragond landing strip",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "internet_access": "no",
+     "name": "Dragond landing strip",
+     "name:he": "מנחת דרקונים"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/12064839451; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.2320218,
+     31.255197
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-12657922336",
+    "nameHe": "מנחת שיטים",
+    "nameEn": "Shittim Airstrip",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת שיטים",
+     "name:en": "Shittim Airstrip"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/12657922336; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.0174734,
+     30.1657484
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-12657922337",
+    "nameHe": "מנחת הג'יפטליק",
+    "nameEn": null,
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת הג'יפטליק"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/12657922337; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.4881798,
+     32.1234777
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-12657922338",
+    "nameHe": "מנחת יונתן",
+    "nameEn": null,
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת יונתן"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/12657922338; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.7555558,
+     32.9357342
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-12657922339",
+    "nameHe": "מנחת בנטל",
+    "nameEn": null,
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת בנטל"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/12657922339; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.8009513,
+     33.1304935
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-12657922342",
+    "nameHe": "מנחת החולה",
+    "nameEn": null,
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת החולה"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/12657922342; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.5816679,
+     33.1127553
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-12657934434",
+    "nameHe": "מנחת אליעז",
+    "nameEn": null,
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת אליעז"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/12657934434; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.4356199,
+     32.5359263
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-3866053974",
+    "nameHe": "מנחת מישר",
+    "nameEn": "Meishar Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "ele": "395",
+     "name": "מנחת מישר",
+     "name:en": "Meishar Airport",
+     "name:fr": "Aéroport de Meishar",
+     "name:he": "מנחת מישר",
+     "wikidata": "Q16340779"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/3866053974; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.9145357,
+     30.410033
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-408501605",
+    "nameHe": "מנחת מגידו",
+    "nameEn": "Megiddo Airfield",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLMG",
+    "osmTags": {
+     "aerodrome:type": "public",
+     "aeroway": "aerodrome",
+     "closest_town": "Afula",
+     "ele": "61",
+     "icao": "LLMG",
+     "name": "מנחת מגידו",
+     "name:ar": "مطار مجدو",
+     "name:en": "Megiddo Airfield",
+     "name:fr": "Aéroport de Megiddo",
+     "name:he": "מנחת מגידו",
+     "operator": "Jezreel Valley Regional Council",
+     "source": "wikipedia",
+     "wikidata": "Q651167",
+     "wikipedia": "en:Megiddo Airport",
+     "wikipedia:en": "Megiddo Airport"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/408501605; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.2369156,
+     32.5941887
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-4126096726",
+    "nameHe": "מנחת ציקלון",
+    "nameEn": "Cyclone Runway",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת ציקלון",
+     "name:en": "Cyclone Runway",
+     "name:fr": "Piste cyclone",
+     "name:he": "מנחת ציקלון",
+     "wikidata": "Q55649111",
+     "wikipedia": "he:מנחת ציקלון",
+     "wikipedia:he": "מנחת ציקלון"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/4126096726; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.1900537,
+     32.906062
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-412875681",
+    "nameHe": "שדה התעופה קרית שמונה",
+    "nameEn": "Kiryat Shmona Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLKS",
+    "osmTags": {
+     "aerodrome:type": "public",
+     "aeroway": "aerodrome",
+     "city_served": "Kiryat Shmona",
+     "ele": "115",
+     "iata": "KSW",
+     "icao": "LLKS",
+     "name": "שדה התעופה קרית שמונה",
+     "name:en": "Kiryat Shmona Airport",
+     "name:fr": "Aéroport de Kiryat Shmona",
+     "name:he": "שדה התעופה קרית שמונה",
+     "owner": "Disputed",
+     "source": "wikipedia",
+     "wikidata": "Q2920278",
+     "wikipedia": "he:שדה התעופה קריית שמונה"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/412875681; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.5929008,
+     33.2133046
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-8859306316",
+    "nameHe": "טיסנים ארסוף",
+    "nameEn": "RC Aircraft Arsuf",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "טיסנים ארסוף",
+     "name:en": "RC Aircraft Arsuf",
+     "name:he": "טיסנים ארסוף"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/8859306316; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.8159323,
+     32.2062509
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-922248960",
+    "nameHe": "מנחת הבונים",
+    "nameEn": "HaBonim Runway",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLBO",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "icao": "LLBO",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/5/54/Habonim_Paradive3.jpg",
+     "name": "מנחת הבונים",
+     "name:en": "HaBonim Runway",
+     "name:fr": "Piste HaBonim",
+     "name:he": "מנחת הבונים",
+     "wikidata": "Q6611751",
+     "wikipedia": "he:מנחת הבונים",
+     "wikipedia:he": "מנחת הבונים"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/922248960; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.9329437,
+     32.6471217
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-922249886",
+    "nameHe": "מנחת ראשון לציון",
+    "nameEn": "Rishon LeZion Runway",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLRS",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "icao": "LLRS",
+     "name": "מנחת ראשון לציון",
+     "name:en": "Rishon LeZion Runway",
+     "name:fr": "Aérodrome de Rishon LeZion",
+     "name:he": "מנחת ראשון לציון",
+     "name:ru": "Аэродром Ришон ле-Цион",
+     "wikidata": "Q12409298",
+     "wikipedia": "he:מנחת ראשון לציון",
+     "wikipedia:he": "מנחת ראשון לציון"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/922249886; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.7527132,
+     31.9686014
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-922250484",
+    "nameHe": "מנחת יוטבתה",
+    "nameEn": "Yotvata Runway",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLYO",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "iata": "YOT",
+     "icao": "LLYO",
+     "name": "מנחת יוטבתה",
+     "name:en": "Yotvata Runway",
+     "name:fr": "Aéroport de Yotvata",
+     "name:he": "מנחת יוטבתה",
+     "wikidata": "Q2917010"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/922250484; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.0669918,
+     29.8987599
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-922251737",
+    "nameHe": "מנחת עין יהב",
+    "nameEn": "Ein Yahav Airstrip",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLEY",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "iata": "EIY",
+     "icao": "LLEY",
+     "name": "מנחת עין יהב",
+     "name:en": "Ein Yahav Airstrip",
+     "name:fr": "Aérodrome d'Ein Yahav",
+     "name:he": "מנחת עין יהב",
+     "wikidata": "Q1934920",
+     "wikipedia": "en:Ein Yahav Airfield"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/922251737; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.2013787,
+     30.6176292
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-node-922252704",
+    "nameHe": "מנחת פיק",
+    "nameEn": "Fik Runway",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLFK",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "alt_name:en": "Ramat HaGolan Runway",
+     "alt_name:he": "מנחת רמת הגולן",
+     "icao": "LLFK",
+     "name": "מנחת פיק",
+     "name:ar": "مطار فيك",
+     "name:en": "Fik Runway",
+     "name:es": "Aeródromo de Fik",
+     "name:fa": "فرودگاه صحرایی فک",
+     "name:fr": "Aérodrome de Fik",
+     "name:he": "מנחת פיק",
+     "wikidata": "Q940169",
+     "wikipedia": "ar:مطار فيك",
+     "wikipedia:ar": "مطار فيك"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap node/922252704; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.7243236,
+     32.7923189
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-relation-10609939",
+    "nameHe": null,
+    "nameEn": "Taba Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "HETB",
+    "osmTags": {
+     "aerodrome:type": "international",
+     "aeroway": "aerodrome",
+     "alt_name": "مطار طابا الدولي",
+     "alt_name:ar": "مطار طاب الدولي",
+     "alt_name:en": "Taba International Airport",
+     "city_served": "Taba (Egypt)",
+     "ele": "736",
+     "iata": "TCP",
+     "icao": "HETB",
+     "name": "ميناء طابا الجوى",
+     "name:ar": "ميناء طابا الجوى",
+     "name:de": "Internationaler Flughafen Taba",
+     "name:en": "Taba Airport",
+     "name:ru": "Международный аэропорт Таба",
+     "type": "multipolygon",
+     "wikidata": "Q690636",
+     "wikipedia": "en:Taba International Airport"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap relation/10609939; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.7753174,
+     29.5950095
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-1207552549",
+    "nameHe": "שדה תעופה ג'בור",
+    "nameEn": "Jabbour Airfield",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aerodrome:type": "private",
+     "aeroway": "aerodrome",
+     "name": "مطار جبور",
+     "name:ar": "مطار جبور",
+     "name:en": "Jabbour Airfield",
+     "name:he": "שדה תעופה ג'בור",
+     "operator": "Hezbollah",
+     "owner": "IRGC"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/1207552549; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.6109815,
+     33.4757405
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-1310993003",
+    "nameHe": null,
+    "nameEn": "The Royal Aero Sports Club Of Jordan",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "The Royal Aero Sports Club Of Jordan"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/1310993003; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.5771928,
+     31.7738517
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-150895887",
+    "nameHe": "בסיס חיל האוויר עובדה",
+    "nameEn": "Ovda Airbase",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLOV",
+    "osmTags": {
+     "aerodrome:type": "military/public",
+     "aeroway": "aerodrome",
+     "alt_name:de": "Flughafen Uvda",
+     "barrier": "fence",
+     "closest_town": "Eilat",
+     "ele": "445",
+     "gns_ref": "9243407",
+     "iata": "VDA",
+     "icao": "LLOV",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/IHM_בסיס_חיל_האוויר_עובדה.jpeg",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "בסיס חיל האוויר עובדה",
+     "name:de": "Flughafen Owda",
+     "name:en": "Ovda Airbase",
+     "name:fr": "Base aérienne d'Ovda",
+     "name:he": "בסיס חיל האוויר עובדה",
+     "name:hr": "Aerodrom Ovda",
+     "operator": "Israeli Air Force",
+     "source": "wikipedia",
+     "wikidata": "Q573524",
+     "wikipedia": "en:Ovda Airport",
+     "wikipedia:en": "Ovda Airport"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/150895887; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.9333927,
+     29.9375637
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-156572636",
+    "nameHe": "מנחת בר־יהודה",
+    "nameEn": "Bar Yehuda Airfield",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLMZ",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "area": "yes",
+     "ele": "-378",
+     "iata": "MTZ",
+     "icao": "LLMZ",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Barjehudaafmecadan.jpg",
+     "name": "מנחת בר־יהודה",
+     "name:ar": "مطار بر يهودا",
+     "name:en": "Bar Yehuda Airfield",
+     "name:fr": "Aérodrome de Bar Yehuda",
+     "name:he": "מנחת בר־יהודה",
+     "name:ru": "Аэродром Бар-Йехуда",
+     "wikidata": "Q1934910",
+     "wikipedia": "he:מנחת בר-יהודה",
+     "wikipedia:en": "Bar Yehuda Airfield",
+     "wikipedia:he": "מנחת בר-יהודה"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/156572636; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.3882433,
+     31.3285109
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-156580173",
+    "nameHe": null,
+    "nameEn": "Amman Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "OJAM",
+    "osmTags": {
+     "aerodrome:type": "public",
+     "aeroway": "aerodrome",
+     "alt_name": "مطار ماركا",
+     "alt_name:en": "Marka Airport",
+     "ele": "779",
+     "iata": "ADJ",
+     "icao": "OJAM",
+     "name": "مطار عمان",
+     "name:ar": "مطار عمان",
+     "name:el": "Αεροδρόμιο Αμμάν",
+     "name:en": "Amman Airport",
+     "wikidata": "Q1432011",
+     "wikipedia": "ar:مطار عمان المدني"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/156580173; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.9923899,
+     31.9733066
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-156580417",
+    "nameHe": null,
+    "nameEn": "Queen Alia International Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "OJAI",
+    "osmTags": {
+     "aerodrome:type": "public",
+     "aeroway": "aerodrome",
+     "alt_name": "Matar al-Malikah 'Alya' ad-Dowaly",
+     "ele": "730",
+     "iata": "AMM",
+     "icao": "OJAI",
+     "name": "مطار الملكة علياء الدولي",
+     "name:ar": "مطار الملكة علياء الدولي",
+     "name:de": "Königin-Alia-Flughafen",
+     "name:en": "Queen Alia International Airport",
+     "name:etymology:wikidata": "Q269437",
+     "name:fa": "فرودگاه بین‌المللی ملکه علیا",
+     "name:fr": "Aéroport international Reine-Alia",
+     "name:hi": "क्वीन एलिया हवाई अड्डा",
+     "name:ml": "ക്വീൻ അലിയ അന്താരാഷ്ട്ര വിമാനത്താവളം",
+     "name:ur": "ملکہ علیا بین الاقوامی ہوائی اڈا",
+     "operator": "الهيئة العامة للطيران المدني",
+     "passengers": "7089000",
+     "source": "wikipedia",
+     "start_date": "1983",
+     "wikidata": "Q721494",
+     "wikipedia": "ar:مطار الملكة علياء الدولي"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/156580417; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.9953751,
+     31.7236763
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-156581561",
+    "nameHe": null,
+    "nameEn": "King Hussein International Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "OJAQ",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "alt_name": "مطار العقبة",
+     "alt_name:en": "Aqaba Airport",
+     "alt_name:es": "Aeropuerto de Áqaba",
+     "ele": "53",
+     "iata": "AQJ",
+     "icao": "OJAQ",
+     "int_name": "Maţār al Ḩusayn ad Dawlī, Matar al Husayn al Dawli",
+     "name": "مطار الملك الحسين الدولي",
+     "name:ar": "مطار الملك الحسين الدولي",
+     "name:de": "Flughafen Akaba",
+     "name:en": "King Hussein International Airport",
+     "name:es": "Aeropuerto Internacional Rey Husein",
+     "name:fa": "فرودگاه بین‌المللی ملک حسین",
+     "name:fr": "Aéroport International Hussein",
+     "name:ru": "Международный аэропорт имени короля Хусейна",
+     "official_name:ar": "مطار الملك حسين الدولي",
+     "official_name:en": "King Hussein International Airport",
+     "operator": "الأجنحة الملكية",
+     "ref": "AQJ",
+     "source": "wikipedia",
+     "type": "public",
+     "wikidata": "Q1430839",
+     "wikipedia": "ar:مطار الملك حسين الدولي"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/156581561; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.0182689,
+     29.6099294
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-198348905",
+    "nameHe": "שדה התעופה הרצליה",
+    "nameEn": "Herzliya Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLHZ",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "alt_name": "Herzliya Modi Alon airport",
+     "alt_name:ar": "مطار هرتسيليا",
+     "alt_name:he": "שדה התעופה הרצליה על-שם מודי אלון‎",
+     "ele": "36.8",
+     "icao": "LLHZ",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/91/IHM_שדה_התעופה_הרצליה.jpeg",
+     "internet_access": "terminal",
+     "internet_access:fee": "no",
+     "name": "שדה התעופה הרצליה",
+     "name:en": "Herzliya Airport",
+     "name:fr": "Aéroport d'Herzliya",
+     "name:he": "שדה התעופה הרצליה",
+     "operator": "Israeli Airport Authority",
+     "operator:type": "government",
+     "website": "https://www.iaa.gov.il/en/airports/herzlia/",
+     "wikidata": "Q2614943"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/198348905; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.833253,
+     32.1805924
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-198351455",
+    "nameHe": "נמל התעופה חיפה",
+    "nameEn": "Haifa Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLHA",
+    "osmTags": {
+     "aerodrome:type": "military/public",
+     "aeroway": "aerodrome",
+     "closest_town": "Haifa",
+     "ele": "9",
+     "iata": "HFA",
+     "icao": "LLHA",
+     "name": "נמל התעופה חיפה",
+     "name:en": "Haifa Airport",
+     "name:fr": "Aéroport international de Haïfa",
+     "name:he": "נמל התעופה חיפה",
+     "name:ru": "Аэропорт Хайфа",
+     "operator": "Israel Airports Authority",
+     "ref": "HFA",
+     "source": "wikipedia",
+     "wikidata": "Q643113",
+     "wikipedia": "en:Haifa Airport",
+     "wikipedia:en": "Haifa Airport"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/198351455; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.0443377,
+     32.8105331
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-198356187",
+    "nameHe": "נמל התעופה בן-גוריון",
+    "nameEn": "Ben Gurion Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLBG",
+    "osmTags": {
+     "aerodrome:type": "international",
+     "aeroway": "aerodrome",
+     "ele": "41",
+     "iata": "TLV",
+     "icao": "LLBG",
+     "internet_access": "yes",
+     "internet_access:fee": "no",
+     "name": "נמל התעופה בן-גוריון",
+     "name:ar": "مطار بن غوريون",
+     "name:de": "Flughafen Ben Gurion",
+     "name:el": "Αεροδρόμιο Μπεν Γκουριόν",
+     "name:en": "Ben Gurion Airport",
+     "name:es": "Aeropuerto Ben Gurión",
+     "name:fi": "Ben Gurionin",
+     "name:fr": "Aéroport Ben-Gourion",
+     "name:he": "נמל התעופה בן-גוריון",
+     "name:hi": "बेन गुरियन हवाई अड्डा",
+     "name:hu": "Ben Gurion Repülőtér",
+     "name:ml": "ബെൻ ഗുരിയോൺ വിമാനത്താവളം",
+     "name:ru": "Аэропорт имени Бен-Гуриона",
+     "name:sr": "Аеродром Бен Гурион",
+     "name:uk": "Міжнародний Aеропорт Бен-Гуріона",
+     "name:zh-Hans": "本-古里安机场",
+     "name:zh-Hant": "本-古里安機場",
+     "official_name:en": "Ben Gurion International Airport",
+     "old_name:en": "Lod International Airport;Lod Airport",
+     "operator": "רשות שדות התעופה",
+     "operator:ar": "سلطة المطارات في إسرائيل",
+     "operator:es": "Autoridad Aeroportuaria de Israel",
+     "ref": "TLV",
+     "short_name:he": "נתב\"ג",
+     "website": "https://www.iaa.gov.il/he-IL/airports/BenGurion/Pages/default.aspx",
+     "wikidata": "Q181479"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/198356187; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.8787236,
+     32.0029934
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-208533786",
+    "nameHe": "בסיס חיל האויר חצור",
+    "nameEn": "Hatzor Airbase",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLHS",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "barrier": "fence",
+     "icao": "LLHS",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "בסיס חיל האויר חצור",
+     "name:cs": "Letecká základna Chacor",
+     "name:en": "Hatzor Airbase",
+     "name:es": "Base Aérea de Hatzor",
+     "name:fr": "Base aérienne de Hatzor",
+     "name:he": "בסיס חיל האויר חצור",
+     "old_name": "RAF Kastina",
+     "operator": "Israeli Air Force",
+     "wikidata": "Q2629807",
+     "wikipedia": "he:בסיס חצור",
+     "wikipedia:he": "בסיס חצור"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/208533786; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.7306654,
+     31.7592574
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-292165446",
+    "nameHe": "בסיס חיל האוויר תל נוף",
+    "nameEn": "Tel Nof Airbase",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLEK",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "alt_name:en": "Air Force Base 8",
+     "alt_name:es": "Base de la Fuerza Aérea 8",
+     "icao": "LLEK",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "בסיס חיל האוויר תל נוף",
+     "name:de": "Militärflugplatz Tel Nof",
+     "name:en": "Tel Nof Airbase",
+     "name:es": "Base Aérea de Tel Nof",
+     "name:fr": "Base aérienne de Tel Nof",
+     "name:he": "בסיס חיל האוויר תל נוף",
+     "name:hu": "Tel Nof katonai repülőtér",
+     "wikidata": "Q1229630",
+     "wikipedia": "he:בסיס תל נוף",
+     "wikipedia:he": "בסיס תל נוף"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/292165446; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.823105,
+     31.8360115
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-292186859",
+    "nameHe": "בסיס חיל האוויר נבטים",
+    "nameEn": "Nevatim Airbase",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLNV",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "iata": "VTM",
+     "icao": "LLNV",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "בסיס חיל האוויר נבטים",
+     "name:ar": "قاعدة نفاطيم الجوية",
+     "name:cs": "Letecká základna Nevatim",
+     "name:de": "Militärflugplatz Nevatim",
+     "name:en": "Nevatim Airbase",
+     "name:es": "Base Aérea de Nevatim",
+     "name:fr": "Base aérienne de Nevatim",
+     "name:he": "בסיס חיל האוויר נבטים",
+     "name:pl": "Baza lotnicza Nevatim",
+     "name:ru": "Неватим",
+     "name:zh": "内瓦提姆空军基地",
+     "operator": "Israeli Air Force",
+     "wikidata": "Q1935038",
+     "wikipedia": "en:Nevatim Airbase",
+     "wikipedia:en": "Nevatim Airbase"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/292186859; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.0303181,
+     31.1979574
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-292211006",
+    "nameHe": "בסיס חיל האויר חצרים",
+    "nameEn": "Hatzerim Airbase",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLHB",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "barrier": "fence",
+     "ele": "221",
+     "icao": "LLHB",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "בסיס חיל האויר חצרים",
+     "name:cs": "Letecká základna Chacerim",
+     "name:de": "Militärflugplatz Chazerim",
+     "name:en": "Hatzerim Airbase",
+     "name:fr": "Base aérienne de Hatzerim",
+     "name:he": "בסיס חיל האויר חצרים",
+     "name:zh": "哈泽里姆空军基地",
+     "operator": "Israeli Air Force",
+     "wikidata": "Q1283490",
+     "wikipedia": "en:Hatzerim Airbase",
+     "wikipedia:en": "Hatzerim Airbase"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/292211006; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.6530549,
+     31.2399545
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-292211011",
+    "nameHe": "בסיס חיל האויר רמת דוד",
+    "nameEn": "Ramat David Airbase",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLRD",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "icao": "LLRD",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "בסיס חיל האויר רמת דוד",
+     "name:en": "Ramat David Airbase",
+     "name:fr": "Base de Ramat David",
+     "name:he": "בסיס חיל האויר רמת דוד",
+     "operator": "Israeli Air Force",
+     "wikidata": "Q2629816",
+     "wikipedia": "en:Ramat David Airbase",
+     "wikipedia:en": "Ramat David Airbase"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/292211011; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.1800743,
+     32.6660056
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-292211017",
+    "nameHe": "בסיס חיל-האוויר רמון",
+    "nameEn": "Ramon Airbase",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLRM",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "barrier": "fence",
+     "icao": "LLRM",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "בסיס חיל-האוויר רמון",
+     "name:en": "Ramon Airbase",
+     "name:fr": "Base aérienne de Ramon",
+     "name:he": "בסיס חיל-האוויר רמון",
+     "operator": "Israeli Air Force",
+     "wikidata": "Q2361539",
+     "wikipedia": "en:Ramon Airbase",
+     "wikipedia:en": "Ramon Airbase"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/292211017; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.6707093,
+     30.7638066
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-292211031",
+    "nameHe": "בסיס חיל האוויר פלמחים",
+    "nameEn": "Palmachim Air Force Base",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LL59",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "barrier": "fence",
+     "icao": "LL59",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "בסיס חיל האוויר פלמחים",
+     "name:ar": "قاعدة بلمحيم الجوية",
+     "name:cs": "Letecká základna Palmachim",
+     "name:de": "Luftwaffenstützpunkt Palmachim",
+     "name:el": "Αεροπορική Βάση Παλμαχίμ",
+     "name:en": "Palmachim Air Force Base",
+     "name:fr": "Base aérienne de Palmachim",
+     "name:he": "בסיס חיל האוויר פלמחים",
+     "name:pl": "Baza lotnicza Palmachim",
+     "operator": "Israeli Air Force;Israel Space Agency",
+     "wikidata": "Q590092",
+     "wikimedia_commons": "Category:Palmachim IAF base",
+     "wikipedia": "en:Palmachim Airbase",
+     "wikipedia:en": "Palmachim Airbase"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/292211031; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.6996726,
+     31.9109887
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-295636680",
+    "nameHe": "שדה תעופה ראש פינה",
+    "nameEn": "Rosh Pina Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLIB",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "iata": "RPN",
+     "icao": "LLIB",
+     "name": "שדה תעופה ראש פינה",
+     "name:en": "Rosh Pina Airport",
+     "name:fr": "Aéroport de Rosh Pina",
+     "name:he": "שדה תעופה ראש פינה",
+     "ref": "RPN",
+     "wikidata": "Q1432620",
+     "wikipedia": "en:Rosh Pina Airport",
+     "wikipedia:en": "Rosh Pina Airport"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/295636680; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.5705733,
+     32.9816241
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-302215672",
+    "nameHe": "מנחת עין שמר",
+    "nameEn": "Ein Shemer Airfield",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLES",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "iata": "HDA",
+     "icao": "LLES",
+     "name": "מנחת עין שמר",
+     "name:en": "Ein Shemer Airfield",
+     "name:fr": "Aérodrome d'Ein Shemer",
+     "name:he": "מנחת עין שמר",
+     "operator": "Israeli Air Force",
+     "wikidata": "Q2916266",
+     "wikipedia": "en:Ein Shemer Airfield",
+     "wikipedia:en": "Ein Shemer Airfield"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/302215672; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.0062422,
+     32.437561
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-41847401",
+    "nameHe": null,
+    "nameEn": "Bethlehem Heliport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "PS-0003",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "icao": "PS-0003",
+     "landuse": "military",
+     "military": "airfield",
+     "name": "Bethlehem Heliport"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/41847401; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.1886101,
+     31.6949045
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-497180311",
+    "nameHe": "מנחת עין ורד",
+    "nameEn": "Ein Vered Runway",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLEV",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "ele": "190",
+     "icao": "LLEV",
+     "name": "מנחת עין ורד",
+     "name:en": "Ein Vered Runway",
+     "name:fr": "Aérodrome Ein Vered",
+     "name:he": "מנחת עין ורד",
+     "name:ru": "Аэродром Эйн Веред",
+     "operator": "David Shaft"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/497180311; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.9522562,
+     32.2646946
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-497837561",
+    "nameHe": "מנחת שדה תימן",
+    "nameEn": "Sde Teyman Airfield",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLBS",
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "ele": "200",
+     "iata": "BEV",
+     "icao": "LLBS",
+     "name": "מנחת שדה תימן",
+     "name:en": "Sde Teyman Airfield",
+     "name:fr": "Aérodrome Sde Teyman",
+     "name:he": "מנחת שדה תימן",
+     "name:ru": "Аэродром Сде Тейман",
+     "wikidata": "Q1430946"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/497837561; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.7232951,
+     31.2869749
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-57674644",
+    "nameHe": "מנחת דימונה",
+    "nameEn": "Dimona airfield",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת דימונה",
+     "name:en": "Dimona airfield",
+     "name:fr": "Aérodrome de Dimona",
+     "name:he": "מנחת דימונה"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/57674644; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.010377,
+     31.061098
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-626897245",
+    "nameHe": "מנחת פארן",
+    "nameEn": "Pharan Airstrip",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "description": "16 / 34",
+     "name": "מנחת פארן",
+     "name:en": "Pharan Airstrip",
+     "name:fr": "Piste d'atterrissage du Pharan",
+     "name:he": "מנחת פארן"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/626897245; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.1572186,
+     30.3705853
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-664123394",
+    "nameHe": "נמל התעופה רמון",
+    "nameEn": "Ramon International Airport",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLER",
+    "osmTags": {
+     "aerodrome:type": "international",
+     "aeroway": "aerodrome",
+     "alt_name:ru": "Аэропорт «Тимна» им. Илана и Асафа Рамонов",
+     "iata": "ETM",
+     "icao": "LLER",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Ramon_Airport_LLER_Tower_15-02-2019.jpg",
+     "image1": "https://upload.wikimedia.org/wikipedia/commons/9/91/IHM_נמל_תעופה_רמון.jpeg",
+     "int_name": "Ramon International Airport",
+     "is_in": "Israel",
+     "name": "נמל תעופה רמון",
+     "name:ar": "مطار رامون",
+     "name:cs": "Ramonovo mezinárodní letiště",
+     "name:en": "Ramon International Airport",
+     "name:fr": "Aéroport international Ramon",
+     "name:he": "נמל התעופה רמון",
+     "name:hi": "रामोन अंतर्राष्ट्रीय विमानक्षेत्र",
+     "name:it": "Aeroporto Internazionale Eilat Ramon",
+     "name:ru": "Аэропорт Эйлат—Рамон",
+     "name:ur": "رامون ہوائی اڈا",
+     "name:zh": "拉蒙机场",
+     "official_name:en": "Ilan and Assaf Ramon Airport - Eilat",
+     "official_name:he": "נמל התעופהרמון ע\"ש אילן ואסף רמון - אילת",
+     "operator": "Israel Airport Authority",
+     "start_date": "2019",
+     "website": "http://www.timnaairport.com",
+     "wikidata": "Q2896949",
+     "wikipedia": "he:נמל התעופה רמון",
+     "wikipedia:he": "נמל התעופה רמון"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/664123394; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.0117765,
+     29.7286897
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-669632986",
+    "nameHe": "מנחת דלתון",
+    "nameEn": null,
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת דלתון",
+     "name:he": "מנחת דלתון",
+     "wikidata": "Q55649114"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/669632986; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.4652689,
+     33.0216322
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-670442986",
+    "nameHe": "מנחת מצפה רמון",
+    "nameEn": "Mizpe Ramon Runway",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": "LLMR",
+    "osmTags": {
+     "aerodrome:type": "private",
+     "aeroway": "aerodrome",
+     "iata": "MIP",
+     "icao": "LLMR",
+     "name": "מנחת מצפה רמון",
+     "name:en": "Mizpe Ramon Runway",
+     "name:es": "Pista de Mitzpé Ramón",
+     "name:fr": "Piste de Mizpe Ramon",
+     "name:he": "מנחת מצפה רמון",
+     "source": "ourairports.com",
+     "wikidata": "Q3566273"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/670442986; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.8075359,
+     30.6509742
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-728121921",
+    "nameHe": null,
+    "nameEn": null,
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "landuse": "military",
+     "military": "airfield"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/728121921; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.1638856,
+     29.5968015
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-948690788",
+    "nameHe": "טיסנים אלישמע",
+    "nameEn": null,
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "טיסנים אלישמע",
+     "name:he": "טיסנים אלישמע",
+     "sport": "model_aerodrome"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/948690788; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.931346,
+     32.1456447
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSM-way-964973952",
+    "nameHe": "מנחת רונית",
+    "nameEn": "Ronit Runway",
+    "zoneTypeCode": "AIRPORT",
+    "bufferRuleKey": "airport_buffer_km",
+    "icao": null,
+    "osmTags": {
+     "aeroway": "aerodrome",
+     "name": "מנחת רונית",
+     "name:en": "Ronit Runway",
+     "name:he": "מנחת רונית"
+    },
+    "notes": "OSM gap-filler (Gate 1): aerodrome location from OpenStreetMap way/964973952; buffer circle generated at import from Ruleset airport_buffer_km"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     34.8493897,
+     32.2264511
+    ]
+   }
+  }
+ ]
+}

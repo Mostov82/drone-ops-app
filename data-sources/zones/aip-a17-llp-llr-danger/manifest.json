@@ -1,0 +1,26 @@
+{
+ "layerKey": "aip-a17-llp-llr-danger",
+ "title": "AIP א'-17 prohibited / restricted / danger areas (LLP·LLR·LLD)",
+ "sourceFiles": [
+  {
+   "path": "data-sources/gis/ZONE_gdb.zip",
+   "sha256": "f83ef7a194ed7443f3538cadee936dc8e58c6e59b94f61612f2b3e781d2e7213"
+  },
+  {
+   "path": "data-sources/aip/aip_a-17_prohibited-restricted-danger-areas.pdf",
+   "sha256": "e4acb5e7ed014b44b671a35ef8a5554af20344e1f09ea674d2453b063248952c"
+  }
+ ],
+ "aipUpdateStamp": "עדכון 2/25 (02 Oct 2025); appendix pages stamped עדכון 1/25 (15 May 2025)",
+ "extractedAt": "2026-07-10",
+ "extractionTools": [
+  "pyogrio 0.13.0 (GDAL 3.12.4)",
+  "pyproj 3.7.2",
+  "PyMuPDF 1.28.0",
+  "server/src/zones builders (DO-013)"
+ ],
+ "featureCount": 113,
+ "importable": true,
+ "verified": false,
+ "notes": "Geometry: CAAI zones geodatabase F_Limited (EPSG:32636→WGS-84, verified in-session against Limited_Edges published DMS, ~1 cm agreement). Altitude bands: א'-17 text governs; gdb used only where the text has no entry (flagged). GND/MSL floors stored as 0 ft AMSL (CAAI gdb convention) — see zones-api.md caveat."
+}

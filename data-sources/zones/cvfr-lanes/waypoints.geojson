@@ -1,0 +1,3422 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "AAKKO",
+    "nameHe": "עכו",
+    "report": "חובה",
+    "eastDmsRaw": "35.0963888889",
+    "northDmsRaw": "32.9186111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0963889,
+     32.9186111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "AFFEK",
+    "nameHe": "אפק",
+    "report": "חובה",
+    "eastDmsRaw": "35.1277777778",
+    "northDmsRaw": "32.8402777778"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1277778,
+     32.8402778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "AFULA",
+    "nameHe": "צומת עפולה",
+    "report": "חובה",
+    "eastDmsRaw": "35.2819444444",
+    "northDmsRaw": "32.6036111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2819444,
+     32.6036111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "AHIUD",
+    "nameHe": "אחיהוד",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1811111111",
+    "northDmsRaw": "32.9119444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1811111,
+     32.9119444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ALLON",
+    "nameHe": "אלון",
+    "report": "דרישה",
+    "eastDmsRaw": "35.3666666667",
+    "northDmsRaw": "32.0413888889"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3666667,
+     32.0413889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ALMOG",
+    "nameHe": "אלמוג",
+    "report": "דרישה",
+    "eastDmsRaw": "35.4563888889",
+    "northDmsRaw": "31.7897222222"
+   },
+   "geometry": {
+    "coordinates": [
+     35.4563889,
+     31.7897222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ALUMT",
+    "nameHe": "אלומות",
+    "report": "דרישה",
+    "eastDmsRaw": "35.5463888889",
+    "northDmsRaw": "32.7141666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5463889,
+     32.7141667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "AMIOZ",
+    "nameHe": "עמיעוז",
+    "report": "דרישה",
+    "eastDmsRaw": "34.4027777778",
+    "northDmsRaw": "31.2566666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.4027778,
+     31.2566667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "AMNON",
+    "nameHe": "אמנון",
+    "report": "דרישה",
+    "eastDmsRaw": "35.5666666667",
+    "northDmsRaw": "32.9055555556"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5666667,
+     32.9055556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ANATA",
+    "nameHe": "ענאתא",
+    "report": "חובה",
+    "eastDmsRaw": "35.2713888889",
+    "northDmsRaw": "31.8211111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2713889,
+     31.8211111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "APOLN",
+    "nameHe": "אפולוניה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7972222222",
+    "northDmsRaw": "32.1911111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7972222,
+     32.1911111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ARAVA",
+    "nameHe": "צומת הערבה",
+    "report": "דרישה",
+    "eastDmsRaw": "35.3091666667",
+    "northDmsRaw": "30.9894444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3091667,
+     30.9894444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ARENA",
+    "nameHe": "ארנה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7856333333",
+    "northDmsRaw": "32.1648166667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7856333,
+     32.1648167
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ARGMN",
+    "nameHe": "ארגמן",
+    "report": "דרישה",
+    "eastDmsRaw": "35.5325",
+    "northDmsRaw": "32.1730555556"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5325,
+     32.1730556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ARRAD",
+    "nameHe": "צומת ערד",
+    "report": "חובה",
+    "eastDmsRaw": "35.2097222222",
+    "northDmsRaw": "31.2544444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2097222,
+     31.2544444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ASKLN",
+    "nameHe": "תל אשקלון",
+    "report": "דרישה",
+    "eastDmsRaw": "34.5391666667",
+    "northDmsRaw": "31.6663888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.5391667,
+     31.6663889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "AYLON",
+    "nameHe": "איילון",
+    "report": "חובה",
+    "eastDmsRaw": "34.9436111111",
+    "northDmsRaw": "31.8716666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9436111,
+     31.8716667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "AZOOZ",
+    "nameHe": "עזוז",
+    "report": "דרישה",
+    "eastDmsRaw": "34.4702777778",
+    "northDmsRaw": "30.8"
+   },
+   "geometry": {
+    "coordinates": [
+     34.4702778,
+     30.8
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BASAN",
+    "nameHe": "להבות הבשן",
+    "report": "חובה",
+    "eastDmsRaw": "35.6380555556",
+    "northDmsRaw": "33.1461111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.6380556,
+     33.1461111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BAZRA",
+    "nameHe": "בצרה",
+    "report": "חובה",
+    "eastDmsRaw": "34.8825",
+    "northDmsRaw": "32.2186111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8825,
+     32.2186111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BEREC",
+    "nameHe": "הר ברך",
+    "report": "חובה",
+    "eastDmsRaw": "34.9102580556",
+    "northDmsRaw": "29.7931780556"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9102581,
+     29.7931781
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BEZRA",
+    "nameHe": "בית עזרא",
+    "report": "חובה",
+    "eastDmsRaw": "34.6458333333",
+    "northDmsRaw": "31.7414166667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6458333,
+     31.7414167
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BHAIL",
+    "nameHe": "ברור חיל",
+    "report": "דרישה",
+    "eastDmsRaw": "34.6325",
+    "northDmsRaw": "31.5577777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6325,
+     31.5577778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BKAMA",
+    "nameHe": "בית קמה",
+    "report": "חובה",
+    "eastDmsRaw": "34.7655555556",
+    "northDmsRaw": "31.4416666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7655556,
+     31.4416667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BMNUH",
+    "nameHe": "באר מנוחה",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1341666667",
+    "northDmsRaw": "30.3033333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1341667,
+     30.3033333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BOKER",
+    "nameHe": "שדה בוקר",
+    "report": "חובה",
+    "eastDmsRaw": "34.7858333333",
+    "northDmsRaw": "30.875"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7858333,
+     30.875
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BOREN",
+    "nameHe": "בית אורן",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9707694444",
+    "northDmsRaw": "32.7143638889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9707694,
+     32.7143639
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BOVED",
+    "nameHe": "בית עובד",
+    "report": "דרישה",
+    "eastDmsRaw": "34.77",
+    "northDmsRaw": "31.9202777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.77,
+     31.9202778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BRORA",
+    "nameHe": "באר אורה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9972222222",
+    "northDmsRaw": "29.7080555556"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9972222,
+     29.7080556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "BSEMS",
+    "nameHe": "בית שמש",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9813888889",
+    "northDmsRaw": "31.7547222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9813889,
+     31.7547222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "CLORE",
+    "nameHe": "קלור",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7358333333",
+    "northDmsRaw": "32.0530166667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7358333,
+     32.0530167
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "DALIA",
+    "nameHe": "דליה",
+    "report": "חובה",
+    "eastDmsRaw": "35.0833333333",
+    "northDmsRaw": "32.5969444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0833333,
+     32.5969444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "DAROM",
+    "nameHe": "מחלף דרום",
+    "report": "חובה",
+    "eastDmsRaw": "34.9433333333",
+    "northDmsRaw": "32.7961111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9433333,
+     32.7961111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "DEENA",
+    "nameHe": "דינה",
+    "report": "חובה",
+    "eastDmsRaw": "34.6405555556",
+    "northDmsRaw": "32.0238888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6405556,
+     32.0238889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "DEROR",
+    "nameHe": "בני דרור",
+    "report": "חובה",
+    "eastDmsRaw": "34.8911111111",
+    "northDmsRaw": "32.2572222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8911111,
+     32.2572222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "DESHE",
+    "nameHe": "כרי דשא",
+    "report": "חובה",
+    "eastDmsRaw": "35.5325",
+    "northDmsRaw": "32.87"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5325,
+     32.87
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "DIMON",
+    "nameHe": "דימונה",
+    "report": "חובה",
+    "eastDmsRaw": "35.0058333333",
+    "northDmsRaw": "31.0677777778"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0058333,
+     31.0677778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "DUGIT",
+    "nameHe": "דוגית",
+    "report": "חובה",
+    "eastDmsRaw": "35.0516666667",
+    "northDmsRaw": "32.8525"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0516667,
+     32.8525
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "DUMIM",
+    "nameHe": "כפר אדומים",
+    "report": "דרישה",
+    "eastDmsRaw": "35.3247222222",
+    "northDmsRaw": "31.8038888889"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3247222,
+     31.8038889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "EILAT",
+    "nameHe": "אילת",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9588888889",
+    "northDmsRaw": "29.5583333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9588889,
+     29.5583333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "EIRON",
+    "nameHe": "עירון",
+    "report": "דרישה",
+    "eastDmsRaw": "35.0244444444",
+    "northDmsRaw": "32.4808333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0244444,
+     32.4808333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "EITAN",
+    "nameHe": "נווה איתן",
+    "report": "דרישה",
+    "eastDmsRaw": "35.5185491667",
+    "northDmsRaw": "32.5064941667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5185492,
+     32.5064942
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "EMMEK",
+    "nameHe": "משמר העמק",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1416666667",
+    "northDmsRaw": "32.615"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1416667,
+     32.615
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ENGDI",
+    "nameHe": "עין גדי",
+    "report": "חובה",
+    "eastDmsRaw": "35.3948333333",
+    "northDmsRaw": "31.4641666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3948333,
+     31.4641667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ESTOL",
+    "nameHe": "אשתאול",
+    "report": "דרישה",
+    "eastDmsRaw": "35.0113888889",
+    "northDmsRaw": "31.7794444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0113889,
+     31.7794444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "EVLYM",
+    "nameHe": "אבליים",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1513888889",
+    "northDmsRaw": "32.8238888889"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1513889,
+     32.8238889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "FAZEL",
+    "nameHe": "צומת פצאל",
+    "report": "דרישה",
+    "eastDmsRaw": "35.4630555556",
+    "northDmsRaw": "32.0480555556"
+   },
+   "geometry": {
+    "coordinates": [
+     35.4630556,
+     32.0480556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "FRDIS",
+    "nameHe": "צומת פורדיס",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9463888889",
+    "northDmsRaw": "32.5919444444"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9463889,
+     32.5919444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "GALIM",
+    "nameHe": "בת גלים",
+    "report": "חובה",
+    "eastDmsRaw": "34.9811111111",
+    "northDmsRaw": "32.8411111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9811111,
+     32.8411111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "GILAM",
+    "nameHe": "גילעם",
+    "report": "חובה",
+    "eastDmsRaw": "35.1325",
+    "northDmsRaw": "32.8213888889"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1325,
+     32.8213889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "GILAT",
+    "nameHe": "גילת",
+    "report": "חובה",
+    "eastDmsRaw": "34.6530555556",
+    "northDmsRaw": "31.3372222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6530556,
+     31.3372222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "GNYAM",
+    "nameHe": "גני עם",
+    "report": "חובה",
+    "eastDmsRaw": "34.8941666667",
+    "northDmsRaw": "32.1502777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8941667,
+     32.1502778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "GOVRN",
+    "nameHe": "בית גוברין",
+    "report": "דרישה",
+    "eastDmsRaw": "34.8927777778",
+    "northDmsRaw": "31.6061111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8927778,
+     31.6061111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "GVARM",
+    "nameHe": "גברעם",
+    "report": "דרישה",
+    "eastDmsRaw": "34.6102777778",
+    "northDmsRaw": "31.5933333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6102778,
+     31.5933333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "GVULT",
+    "nameHe": "גבולות",
+    "report": "ARP",
+    "eastDmsRaw": "34.4602777778",
+    "northDmsRaw": "31.2275"
+   },
+   "geometry": {
+    "coordinates": [
+     34.4602778,
+     31.2275
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HADRA",
+    "nameHe": "חדרה",
+    "report": "חובה",
+    "eastDmsRaw": "34.9122222222",
+    "northDmsRaw": "32.4647222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9122222,
+     32.4647222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HAREL",
+    "nameHe": "מחלף הראל",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1461111111",
+    "northDmsRaw": "31.7986111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1461111,
+     31.7986111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HAROV",
+    "nameHe": "כפר חרוב",
+    "report": "חובה",
+    "eastDmsRaw": "35.6683333333",
+    "northDmsRaw": "32.7591666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.6683333,
+     32.7591667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HASID",
+    "nameHe": "כפר חסידים",
+    "report": "חובה",
+    "eastDmsRaw": "35.0777777778",
+    "northDmsRaw": "32.7466666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0777778,
+     32.7466667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HATRU",
+    "nameHe": "צומת חתרורים",
+    "report": "חובה",
+    "eastDmsRaw": "35.2483333333",
+    "northDmsRaw": "31.2188888889"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2483333,
+     31.2188889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HAZVA",
+    "nameHe": "חצבה",
+    "report": "דרישה",
+    "eastDmsRaw": "35.2363888889",
+    "northDmsRaw": "30.7733333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2363889,
+     30.7733333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HNINA",
+    "nameHe": "בית חנינא",
+    "report": "חובה",
+    "eastDmsRaw": "35.2075",
+    "northDmsRaw": "31.8302777778"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2075,
+     31.8302778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HODYA",
+    "nameHe": "הודיה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.6525",
+    "northDmsRaw": "31.6827777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6525,
+     31.6827778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HOLOT",
+    "nameHe": "חולות",
+    "report": "דרישה",
+    "eastDmsRaw": "34.3602777778",
+    "northDmsRaw": "30.9941666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.3602778,
+     30.9941667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HOTRM",
+    "nameHe": "החותרים",
+    "report": "חובה",
+    "eastDmsRaw": "34.9369333333",
+    "northDmsRaw": "32.7538138889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9369333,
+     32.7538139
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HOVAV",
+    "nameHe": "רמת חובב",
+    "report": "חובה",
+    "eastDmsRaw": "34.805",
+    "northDmsRaw": "31.1355555556"
+   },
+   "geometry": {
+    "coordinates": [
+     34.805,
+     31.1355556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HRGVS",
+    "nameHe": "הר גבס",
+    "report": "דרישה",
+    "eastDmsRaw": "34.95",
+    "northDmsRaw": "30.6227777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.95,
+     30.6227778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HTZUK",
+    "nameHe": "הצוק",
+    "report": "חובה",
+    "eastDmsRaw": "34.77825",
+    "northDmsRaw": "32.1456833333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.77825,
+     32.1456833
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "HULAT",
+    "nameHe": "חולתה",
+    "report": "חובה",
+    "eastDmsRaw": "35.6294444444",
+    "northDmsRaw": "33.0436111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.6294444,
+     33.0436111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "IKKEA",
+    "nameHe": "איקיאה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7702777778",
+    "northDmsRaw": "31.9513888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7702778,
+     31.9513889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "KANOT",
+    "nameHe": "צומת כנות",
+    "report": "חובה",
+    "eastDmsRaw": "34.7634416667",
+    "northDmsRaw": "31.8042888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7634417,
+     31.8042889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "KKANA",
+    "nameHe": "כפר כנא",
+    "report": "דרישה",
+    "eastDmsRaw": "35.3455555556",
+    "northDmsRaw": "32.7591666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3455556,
+     32.7591667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "KKDEM",
+    "nameHe": "קדם",
+    "report": "ARP",
+    "eastDmsRaw": "34.6502777778",
+    "northDmsRaw": "31.2627777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6502778,
+     31.2627778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "KNTRY",
+    "nameHe": "קאנטרי קלאב",
+    "report": "חובה",
+    "eastDmsRaw": "34.8013888889",
+    "northDmsRaw": "32.1408333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8013889,
+     32.1408333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "KOYAR",
+    "nameHe": "כוכב הירדן",
+    "report": "דרישה",
+    "eastDmsRaw": "35.5436111111",
+    "northDmsRaw": "32.5975"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5436111,
+     32.5975
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "KRYON",
+    "nameHe": "קיריון",
+    "report": "חובה",
+    "eastDmsRaw": "35.0888888889",
+    "northDmsRaw": "32.8433333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0888889,
+     32.8433333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "KTORA",
+    "nameHe": "צומת קטורה",
+    "report": "חובה",
+    "eastDmsRaw": "35.0763888889",
+    "northDmsRaw": "29.9894444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0763889,
+     29.9894444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "KUVSH",
+    "nameHe": "כובשים",
+    "report": "חובה",
+    "eastDmsRaw": "34.7636111111",
+    "northDmsRaw": "31.2584722222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7636111,
+     31.2584722
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LAHAV",
+    "nameHe": "להב",
+    "report": "דרישה",
+    "eastDmsRaw": "34.82708",
+    "northDmsRaw": "31.3825933333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.82708,
+     31.3825933
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LIAAD",
+    "nameHe": "ליעד",
+    "report": "דרישה",
+    "eastDmsRaw": "34.515",
+    "northDmsRaw": "31.9583333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.515,
+     31.9583333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLBG",
+    "nameHe": "בן גוריון",
+    "report": "ARP",
+    "eastDmsRaw": "34.8855555556",
+    "northDmsRaw": "32.0094444444"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8855556,
+     32.0094444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLBO",
+    "nameHe": "הבונים",
+    "report": "ARP",
+    "eastDmsRaw": "34.9327777778",
+    "northDmsRaw": "32.65"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9327778,
+     32.65
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLBS",
+    "nameHe": "תימן",
+    "report": "ARP",
+    "eastDmsRaw": "34.7227777778",
+    "northDmsRaw": "31.2869444444"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7227778,
+     31.2869444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLEK",
+    "nameHe": "תל נוף",
+    "report": "ARP",
+    "eastDmsRaw": "34.8183333333",
+    "northDmsRaw": "31.8366666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8183333,
+     31.8366667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLER",
+    "nameHe": "אילן ואסף רמון",
+    "report": "ARP",
+    "eastDmsRaw": "35.0141666667",
+    "northDmsRaw": "29.7272222222"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0141667,
+     29.7272222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLES",
+    "nameHe": "עין שמר",
+    "report": "ARP",
+    "eastDmsRaw": "35.0033333333",
+    "northDmsRaw": "32.4413888889"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0033333,
+     32.4413889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLEV",
+    "nameHe": "עין ורד",
+    "report": "ARP",
+    "eastDmsRaw": "34.9516666667",
+    "northDmsRaw": "32.265"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9516667,
+     32.265
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLEY",
+    "nameHe": "עין יהב",
+    "report": "ARP",
+    "eastDmsRaw": "35.2030555556",
+    "northDmsRaw": "30.6216666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2030556,
+     30.6216667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLFK",
+    "nameHe": "פיק",
+    "report": "ARP",
+    "eastDmsRaw": "35.7172222222",
+    "northDmsRaw": "32.7852777778"
+   },
+   "geometry": {
+    "coordinates": [
+     35.7172222,
+     32.7852778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLHA",
+    "nameHe": "חיפה",
+    "report": "ARP",
+    "eastDmsRaw": "35.0427777778",
+    "northDmsRaw": "32.8083333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0427778,
+     32.8083333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLHB",
+    "nameHe": "חצרים",
+    "report": "ARP",
+    "eastDmsRaw": "34.655",
+    "northDmsRaw": "31.2433333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.655,
+     31.2433333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLHS",
+    "nameHe": "חצור",
+    "report": "ARP",
+    "eastDmsRaw": "34.7230555556",
+    "northDmsRaw": "31.7577777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7230556,
+     31.7577778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLHZ",
+    "nameHe": "הרצליה",
+    "report": "ARP",
+    "eastDmsRaw": "34.8344444444",
+    "northDmsRaw": "32.1794444444"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8344444,
+     32.1794444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLIB",
+    "nameHe": "ראש פינה",
+    "report": "ARP",
+    "eastDmsRaw": "35.5708333333",
+    "northDmsRaw": "32.9805555556"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5708333,
+     32.9805556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLKS",
+    "nameHe": "קרית שמונה",
+    "report": "ARP",
+    "eastDmsRaw": "35.5963888889",
+    "northDmsRaw": "33.2116666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5963889,
+     33.2116667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLKZ",
+    "nameHe": "קציעות",
+    "report": "ARP",
+    "eastDmsRaw": "34.4436111111",
+    "northDmsRaw": "30.8588888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.4436111,
+     30.8588889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLMG",
+    "nameHe": "מגידו",
+    "report": "ARP",
+    "eastDmsRaw": "35.2347222222",
+    "northDmsRaw": "32.5972222222"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2347222,
+     32.5972222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLMZ",
+    "nameHe": "מצדה",
+    "report": "חובה",
+    "eastDmsRaw": "35.3883333333",
+    "northDmsRaw": "31.3291666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3883333,
+     31.3291667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLNV",
+    "nameHe": "נבטים",
+    "report": "ARP",
+    "eastDmsRaw": "35.0183333333",
+    "northDmsRaw": "31.2133333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0183333,
+     31.2133333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLNV",
+    "nameHe": "נגב",
+    "report": "ARP",
+    "eastDmsRaw": "35.039095",
+    "northDmsRaw": "31.1954372222"
+   },
+   "geometry": {
+    "coordinates": [
+     35.039095,
+     31.1954372
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLOV",
+    "nameHe": "עובדה",
+    "report": "ARP",
+    "eastDmsRaw": "34.9408333333",
+    "northDmsRaw": "29.935"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9408333,
+     29.935
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLPL",
+    "nameHe": "פלמחים",
+    "report": "ARP",
+    "eastDmsRaw": "34.69",
+    "northDmsRaw": "31.8983333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.69,
+     31.8983333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLRD",
+    "nameHe": "רמת דוד",
+    "report": "ARP",
+    "eastDmsRaw": "35.1833333333",
+    "northDmsRaw": "32.6666666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1833333,
+     32.6666667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLRM",
+    "nameHe": "רמון",
+    "report": "ARP",
+    "eastDmsRaw": "34.6666666667",
+    "northDmsRaw": "30.775"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6666667,
+     30.775
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LLRS",
+    "nameHe": "ראשון לציון",
+    "report": "ARP",
+    "eastDmsRaw": "34.7536111111",
+    "northDmsRaw": "31.9675"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7536111,
+     31.9675
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "LTRUN",
+    "nameHe": "לטרון",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9866666667",
+    "northDmsRaw": "31.8386111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9866667,
+     31.8386111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MACHR",
+    "nameHe": "מכר",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1561111111",
+    "northDmsRaw": "32.9375"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1561111,
+     32.9375
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MEHOL",
+    "nameHe": "משולש חולות",
+    "report": "חובה",
+    "eastDmsRaw": "34.7641666667",
+    "northDmsRaw": "31.9608333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7641667,
+     31.9608333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MESAR",
+    "nameHe": "מעלה מישר",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9436111111",
+    "northDmsRaw": "30.5016666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9436111,
+     30.5016667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MESEK",
+    "nameHe": "משק",
+    "report": "חובה",
+    "eastDmsRaw": "34.6997222222",
+    "northDmsRaw": "31.2646666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6997222,
+     31.2646667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "METAH",
+    "nameHe": "מתח",
+    "report": "חובה",
+    "eastDmsRaw": "34.755",
+    "northDmsRaw": "31.2255555556"
+   },
+   "geometry": {
+    "coordinates": [
+     34.755,
+     31.2255556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MIHMS",
+    "nameHe": "מעלה מכמש",
+    "report": "חובה",
+    "eastDmsRaw": "35.3294444444",
+    "northDmsRaw": "31.8544444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3294444,
+     31.8544444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MINGV",
+    "nameHe": "משמר הנגב",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7127777778",
+    "northDmsRaw": "31.3688888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7127778,
+     31.3688889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MMORR",
+    "nameHe": "מור",
+    "report": "דרישה",
+    "eastDmsRaw": "35.3683333333",
+    "northDmsRaw": "31.2544444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3683333,
+     31.2544444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MOVIL",
+    "nameHe": "המוביל",
+    "report": "חובה",
+    "eastDmsRaw": "35.2333333333",
+    "northDmsRaw": "32.7591666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2333333,
+     32.7591667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MRISN",
+    "nameHe": "מחלף ראשון",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7919444444",
+    "northDmsRaw": "31.9769444444"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7919444,
+     31.9769444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MYTAR",
+    "nameHe": "מיתר",
+    "report": "חובה",
+    "eastDmsRaw": "34.9380555556",
+    "northDmsRaw": "31.3147222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9380556,
+     31.3147222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "MZDOT",
+    "nameHe": "מצודות",
+    "report": "חובה",
+    "eastDmsRaw": "35.1075",
+    "northDmsRaw": "31.3565"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1075,
+     31.3565
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NAAMA",
+    "nameHe": "נעמה",
+    "report": "דרישה",
+    "eastDmsRaw": "35.4625",
+    "northDmsRaw": "31.9086111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.4625,
+     31.9086111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NAGID",
+    "nameHe": "כפר הנגיד",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7558333333",
+    "northDmsRaw": "31.8897222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7558333,
+     31.8897222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NAHEM",
+    "nameHe": "כפר מנחם",
+    "report": "דרישה",
+    "eastDmsRaw": "34.8222222222",
+    "northDmsRaw": "31.7452777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8222222,
+     31.7452778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NAHLA",
+    "nameHe": "נחלה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.8091666667",
+    "northDmsRaw": "31.6563888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8091667,
+     31.6563889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NASIH",
+    "nameHe": "אשל הנשיא",
+    "report": "חובה",
+    "eastDmsRaw": "34.6983333333",
+    "northDmsRaw": "31.3302777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6983333,
+     31.3302778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NCITY",
+    "nameHe": "צפון העיר",
+    "report": "חובה",
+    "eastDmsRaw": "34.7913833333",
+    "northDmsRaw": "31.2874166667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7913833,
+     31.2874167
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NCSHN",
+    "nameHe": "צומת נחשון",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9168058333",
+    "northDmsRaw": "31.8156458333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9168058,
+     31.8156458
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NEGEV",
+    "nameHe": "צומת הנגב",
+    "report": "דרישה",
+    "eastDmsRaw": "34.8380555556",
+    "northDmsRaw": "31.0661111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8380556,
+     31.0661111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NITZA",
+    "nameHe": "ניצן",
+    "report": "חובה",
+    "eastDmsRaw": "34.5705555556",
+    "northDmsRaw": "31.7241666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.5705556,
+     31.7241667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NIZAN",
+    "nameHe": "מזלג ניצנה",
+    "report": "חובה",
+    "eastDmsRaw": "34.565",
+    "northDmsRaw": "30.7544444444"
+   },
+   "geometry": {
+    "coordinates": [
+     34.565,
+     30.7544444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NMASD",
+    "nameHe": "נמל אשדוד",
+    "report": "חובה",
+    "eastDmsRaw": "34.6252777778",
+    "northDmsRaw": "31.8333333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6252778,
+     31.8333333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NOAAM",
+    "nameHe": "נעם",
+    "report": "חובה",
+    "eastDmsRaw": "34.7758333333",
+    "northDmsRaw": "31.5713888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7758333,
+     31.5713889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NSHRM",
+    "nameHe": "מחלף נשרים",
+    "report": "חובה",
+    "eastDmsRaw": "34.8916666667",
+    "northDmsRaw": "31.9091666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8916667,
+     31.9091667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NTAIM",
+    "nameHe": "נטעים",
+    "report": "חובה",
+    "eastDmsRaw": "34.7808333333",
+    "northDmsRaw": "31.9436111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7808333,
+     31.9436111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "NTVOT",
+    "nameHe": "נתיבות",
+    "report": "דרישה",
+    "eastDmsRaw": "34.5991666667",
+    "northDmsRaw": "31.4291666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.5991667,
+     31.4291667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OFKIM",
+    "nameHe": "אופקים",
+    "report": "דרישה",
+    "eastDmsRaw": "34.6188888889",
+    "northDmsRaw": "31.3222222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6188889,
+     31.3222222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OHLIM",
+    "nameHe": "אוהלים",
+    "report": "חובה",
+    "eastDmsRaw": "34.8047222222",
+    "northDmsRaw": "31.1911111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8047222,
+     31.1911111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OLGAH",
+    "nameHe": "אולגה",
+    "report": "חובה",
+    "eastDmsRaw": "34.8658333333",
+    "northDmsRaw": "32.4313888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8658333,
+     32.4313889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OMMER",
+    "nameHe": "עומר",
+    "report": "חובה",
+    "eastDmsRaw": "34.8284677778",
+    "northDmsRaw": "31.2748161111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8284678,
+     31.2748161
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OSNAT",
+    "nameHe": "אסנת",
+    "report": "דרישה",
+    "eastDmsRaw": "34.5233333333",
+    "northDmsRaw": "31.8327777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.5233333,
+     31.8327778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "OVDAT",
+    "nameHe": "חורבות עבדת",
+    "report": "חובה",
+    "eastDmsRaw": "34.7933333333",
+    "northDmsRaw": "30.8027777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7933333,
+     30.8027778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "PARDS",
+    "nameHe": "פרדס",
+    "report": "חובה",
+    "eastDmsRaw": "34.8477777778",
+    "northDmsRaw": "32.1027777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8477778,
+     32.1027778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "PELEG",
+    "nameHe": "פלג",
+    "report": "דרישה",
+    "eastDmsRaw": "34.8372222222",
+    "northDmsRaw": "32.33"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8372222,
+     32.33
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "RANNO",
+    "nameHe": "רעננה צפון",
+    "report": "חובה",
+    "eastDmsRaw": "34.8883333333",
+    "northDmsRaw": "32.1908333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8883333,
+     32.1908333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "REVAH",
+    "nameHe": "רווחה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7302777778",
+    "northDmsRaw": "31.6444444444"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7302778,
+     31.6444444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "RIDNG",
+    "nameHe": "רידינג",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7624333333",
+    "northDmsRaw": "32.1102"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7624333,
+     32.1102
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ROKCH",
+    "nameHe": "רוקח",
+    "report": "דרישה",
+    "eastDmsRaw": "34.8036111111",
+    "northDmsRaw": "32.1025"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8036111,
+     32.1025
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "RUHOT",
+    "nameHe": "צומת הרוחות",
+    "report": "חובה",
+    "eastDmsRaw": "34.8088888889",
+    "northDmsRaw": "30.66"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8088889,
+     30.66
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SAHAR",
+    "nameHe": "סער",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7527777778",
+    "northDmsRaw": "32.2958333333"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7527778,
+     32.2958333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SAMAR",
+    "nameHe": "סמר",
+    "report": "חובה",
+    "eastDmsRaw": "35.0286111111",
+    "northDmsRaw": "29.8313888889"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0286111,
+     29.8313889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SDROT",
+    "nameHe": "שדרות",
+    "report": "חובה",
+    "eastDmsRaw": "34.5855555556",
+    "northDmsRaw": "31.5066666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.5855556,
+     31.5066667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SDTYM",
+    "nameHe": "שדות ים",
+    "report": "חובה",
+    "eastDmsRaw": "34.885",
+    "northDmsRaw": "32.4966666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.885,
+     32.4966667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SEGEV",
+    "nameHe": "שגב",
+    "report": "דרישה",
+    "eastDmsRaw": "35.2625",
+    "northDmsRaw": "32.8611111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.2625,
+     32.8611111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SFAIM",
+    "nameHe": "שפיים",
+    "report": "חובה",
+    "eastDmsRaw": "34.8072222222",
+    "northDmsRaw": "32.2105555556"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8072222,
+     32.2105556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SHAHR",
+    "nameHe": "כוכב השחר",
+    "report": "דרישה",
+    "eastDmsRaw": "35.3369444444",
+    "northDmsRaw": "31.9575"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3369444,
+     31.9575
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SHALM",
+    "nameHe": "מצפה שלם",
+    "report": "דרישה",
+    "eastDmsRaw": "35.4025",
+    "northDmsRaw": "31.5586111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.4025,
+     31.5586111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SHARG",
+    "nameHe": "שער הגיא",
+    "report": "דרישה",
+    "eastDmsRaw": "35.0211111111",
+    "northDmsRaw": "31.8197222222"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0211111,
+     31.8197222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SHARO",
+    "nameHe": "צומת השרון",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9038888889",
+    "northDmsRaw": "32.3230555556"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9038889,
+     32.3230556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SHRUT",
+    "nameHe": "שחרות",
+    "report": "חובה",
+    "eastDmsRaw": "35.0033333333",
+    "northDmsRaw": "29.9078333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0033333,
+     29.9078333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SIGAL",
+    "nameHe": "סיגל",
+    "report": "חובה",
+    "eastDmsRaw": "34.2927777778",
+    "northDmsRaw": "31.195"
+   },
+   "geometry": {
+    "coordinates": [
+     34.2927778,
+     31.195
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SIRNI",
+    "nameHe": "נצר סירני",
+    "report": "דרישה",
+    "eastDmsRaw": "34.8299338889",
+    "northDmsRaw": "31.9279361111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8299339,
+     31.9279361
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SITIM",
+    "nameHe": "שיטים",
+    "report": "דרישה",
+    "eastDmsRaw": "35.0144444444",
+    "northDmsRaw": "30.1758333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0144444,
+     30.1758333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SIZFN",
+    "nameHe": "שזפון",
+    "report": "חובה",
+    "eastDmsRaw": "35.0144444444",
+    "northDmsRaw": "30.0475"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0144444,
+     30.0475
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SMRAT",
+    "nameHe": "שמרת",
+    "report": "דרישה",
+    "eastDmsRaw": "35.09",
+    "northDmsRaw": "32.9516666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.09,
+     32.9516667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SOKET",
+    "nameHe": "צומת שוקת",
+    "report": "חובה",
+    "eastDmsRaw": "34.9011111111",
+    "northDmsRaw": "31.3075"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9011111,
+     31.3075
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SORES",
+    "nameHe": "שורש",
+    "report": "חובה",
+    "eastDmsRaw": "35.0761111111",
+    "northDmsRaw": "31.7997222222"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0761111,
+     31.7997222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SOVAL",
+    "nameHe": "שובל",
+    "report": "חובה",
+    "eastDmsRaw": "34.7463888889",
+    "northDmsRaw": "31.4113888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7463889,
+     31.4113889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SUPER",
+    "nameHe": "סופרלנד",
+    "report": "חובה",
+    "eastDmsRaw": "34.7416",
+    "northDmsRaw": "31.9763388889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7416,
+     31.9763389
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "SZION",
+    "nameHe": "שבי ציון",
+    "report": "דרישה",
+    "eastDmsRaw": "35.0933333333",
+    "northDmsRaw": "32.9794444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0933333,
+     32.9794444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "TARAD",
+    "nameHe": "תל ערד",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1255555556",
+    "northDmsRaw": "31.2775"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1255556,
+     31.2775
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "TAVOR",
+    "nameHe": "כפר תבור",
+    "report": "דרישה",
+    "eastDmsRaw": "35.42",
+    "northDmsRaw": "32.6902777778"
+   },
+   "geometry": {
+    "coordinates": [
+     35.42,
+     32.6902778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "TIRAT",
+    "nameHe": "טירת צבי",
+    "report": "דרישה",
+    "eastDmsRaw": "35.5266666667",
+    "northDmsRaw": "32.4244444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.5266667,
+     32.4244444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "TLLIM",
+    "nameHe": "טללים",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7622222222",
+    "northDmsRaw": "30.9905555556"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7622222,
+     30.9905556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "TYONA",
+    "nameHe": "תל יונה",
+    "report": "חובה",
+    "eastDmsRaw": "34.7272222222",
+    "northDmsRaw": "32.0047222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7272222,
+     32.0047222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "TZHOT",
+    "nameHe": "צלחות",
+    "report": "דרישה",
+    "eastDmsRaw": "34.5297222222",
+    "northDmsRaw": "31.3077777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.5297222,
+     31.3077778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "VINGT",
+    "nameHe": "וינגייט",
+    "report": "דרישה",
+    "eastDmsRaw": "34.8169444444",
+    "northDmsRaw": "32.2555555556"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8169444,
+     32.2555556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YAHEL",
+    "nameHe": "יהל",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1333333333",
+    "northDmsRaw": "30.0822222222"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1333333,
+     30.0822222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YAHOL",
+    "nameHe": "ים חולון",
+    "report": "דרישה",
+    "eastDmsRaw": "34.4605555556",
+    "northDmsRaw": "32.0225"
+   },
+   "geometry": {
+    "coordinates": [
+     34.4605556,
+     32.0225
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YAPAL",
+    "nameHe": "ים פלמחים",
+    "report": "דרישה",
+    "eastDmsRaw": "34.4583333333",
+    "northDmsRaw": "31.915"
+   },
+   "geometry": {
+    "coordinates": [
+     34.4583333,
+     31.915
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YASDD",
+    "nameHe": "ים אשדוד",
+    "report": "דרישה",
+    "eastDmsRaw": "34.4563888889",
+    "northDmsRaw": "31.8102777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.4563889,
+     31.8102778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YASFA",
+    "nameHe": "ים שפיים",
+    "report": "דרישה",
+    "eastDmsRaw": "34.6247222222",
+    "northDmsRaw": "32.2186111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.6247222,
+     32.2186111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YATED",
+    "nameHe": "יתד",
+    "report": "דרישה",
+    "eastDmsRaw": "34.3344444444",
+    "northDmsRaw": "31.2047222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.3344444,
+     31.2047222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YAVNE",
+    "nameHe": "יבנה מזרח",
+    "report": "דרישה",
+    "eastDmsRaw": "34.7569444444",
+    "northDmsRaw": "31.8719444444"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7569444,
+     31.8719444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YOTVT",
+    "nameHe": "יטבתה",
+    "report": "דרישה",
+    "eastDmsRaw": "35.0672222222",
+    "northDmsRaw": "29.9008333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.0672222,
+     29.9008333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YRIHO",
+    "nameHe": "מצפה יריחו",
+    "report": "חובה",
+    "eastDmsRaw": "35.3875",
+    "northDmsRaw": "31.8194444444"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3875,
+     31.8194444
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "YRUHM",
+    "nameHe": "ירוחם",
+    "report": "דרישה",
+    "eastDmsRaw": "34.9108333333",
+    "northDmsRaw": "30.9897222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9108333,
+     30.9897222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZAFIT",
+    "nameHe": "צומת צפית",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1997222222",
+    "northDmsRaw": "31.0425"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1997222,
+     31.0425
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZALMN",
+    "nameHe": "צלמון",
+    "report": "דרישה",
+    "eastDmsRaw": "35.4116666667",
+    "northDmsRaw": "32.8533333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.4116667,
+     32.8533333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZASHD",
+    "nameHe": "צומת אשדוד",
+    "report": "חובה",
+    "eastDmsRaw": "34.7083333333",
+    "northDmsRaw": "31.8261111111"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7083333,
+     31.8261111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZDAFA",
+    "nameHe": "צדפה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.5996833333",
+    "northDmsRaw": "31.7816"
+   },
+   "geometry": {
+    "coordinates": [
+     34.5996833,
+     31.7816
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZGOAL",
+    "nameHe": "גורל",
+    "report": "חובה",
+    "eastDmsRaw": "34.7877777778",
+    "northDmsRaw": "31.3127777778"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7877778,
+     31.3127778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZHRYA",
+    "nameHe": "זכריה",
+    "report": "דרישה",
+    "eastDmsRaw": "34.945",
+    "northDmsRaw": "31.6997222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.945,
+     31.6997222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZLHAV",
+    "nameHe": "צומת להבים",
+    "report": "חובה",
+    "eastDmsRaw": "34.7933333333",
+    "northDmsRaw": "31.3725"
+   },
+   "geometry": {
+    "coordinates": [
+     34.7933333,
+     31.3725
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZMGEN",
+    "nameHe": "צומת מגן",
+    "report": "חובה",
+    "eastDmsRaw": "34.4322222222",
+    "northDmsRaw": "31.2938888889"
+   },
+   "geometry": {
+    "coordinates": [
+     34.4322222,
+     31.2938889
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZMGID",
+    "nameHe": "צומת מגידו",
+    "report": "חובה",
+    "eastDmsRaw": "35.1911111111",
+    "northDmsRaw": "32.5727777778"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1911111,
+     32.5727778
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZOFAR",
+    "nameHe": "צופר",
+    "report": "חובה",
+    "eastDmsRaw": "35.1866666667",
+    "northDmsRaw": "30.5597222222"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1866667,
+     30.5597222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZOHAR",
+    "nameHe": "נווה זוהר",
+    "report": "חובה",
+    "eastDmsRaw": "35.3725",
+    "northDmsRaw": "31.1508333333"
+   },
+   "geometry": {
+    "coordinates": [
+     35.3725,
+     31.1508333
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZOREA",
+    "nameHe": "הזורע",
+    "report": "דרישה",
+    "eastDmsRaw": "35.1188888889",
+    "northDmsRaw": "32.6480555556"
+   },
+   "geometry": {
+    "coordinates": [
+     35.1188889,
+     32.6480556
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZRANA",
+    "nameHe": "רעננה מרכז",
+    "report": "חובה",
+    "eastDmsRaw": "34.8877777778",
+    "northDmsRaw": "32.1772222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.8877778,
+     32.1772222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZUKIM",
+    "nameHe": "עינות צוקים",
+    "report": "חובה",
+    "eastDmsRaw": "35.4497222222",
+    "northDmsRaw": "31.7161111111"
+   },
+   "geometry": {
+    "coordinates": [
+     35.4497222,
+     31.7161111
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZURIM",
+    "nameHe": "עין צורים",
+    "report": "חובה",
+    "eastDmsRaw": "34.715",
+    "northDmsRaw": "31.7016666667"
+   },
+   "geometry": {
+    "coordinates": [
+     34.715,
+     31.7016667
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZYAAR",
+    "nameHe": "צומת יער",
+    "report": "חובה",
+    "eastDmsRaw": "34.9036111111",
+    "northDmsRaw": "32.4097222222"
+   },
+   "geometry": {
+    "coordinates": [
+     34.9036111,
+     32.4097222
+    ],
+    "type": "Point"
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "code": "ZZHOR",
+    "nameHe": "צומת ציחור",
+    "report": "דרישה",
+    "eastDmsRaw": "35.02",
+    "northDmsRaw": "30.2766666667"
+   },
+   "geometry": {
+    "coordinates": [
+     35.02,
+     30.2766667
+    ],
+    "type": "Point"
+   }
+  }
+ ]
+}

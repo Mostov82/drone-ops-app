@@ -1,0 +1,22 @@
+{
+ "layerKey": "aip-a17-inpa-closures",
+ "title": "AIP א'-17 appendix ה' — INPA closures (parks/reserves/nesting sites) — attributes only, geometry source outstanding",
+ "sourceFiles": [
+  {
+   "path": "data-sources/aip/aip_a-17_prohibited-restricted-danger-areas.pdf",
+   "sha256": "e4acb5e7ed014b44b671a35ef8a5554af20344e1f09ea674d2453b063248952c"
+  }
+ ],
+ "aipUpdateStamp": "עדכון 2/25 (02 Oct 2025); appendix pages stamped עדכון 1/25 (15 May 2025)",
+ "extractedAt": "2026-07-10",
+ "extractionTools": [
+  "pyogrio 0.13.0 (GDAL 3.12.4)",
+  "pyproj 3.7.2",
+  "PyMuPDF 1.28.0",
+  "server/src/zones builders (DO-013)"
+ ],
+ "featureCount": 544,
+ "importable": false,
+ "verified": false,
+ "notes": "Appendix ה' publishes code/name/type/max-height(ft AGL) but NO coordinates. Geometry requires RATAG_kmz.zip (download manifest item 7 — outstanding, optional) or an OSM gap-filler match (blocked this session — see reconciliation.md). Max heights are AGL and stay out of the AMSL columns."
+}

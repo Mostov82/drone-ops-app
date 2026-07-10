@@ -231,6 +231,12 @@ model Zone {
   mapLayer     MapLayer? @relation(fields: [mapLayerId], references: [id])
   geometryJson String // GeoJSON geometry
   notes        String?
+  // Altitude band, ft AMSL exactly as the AIP publishes it (approved migration,
+  // decision log 2026-07-10). Null = no published band (conventions §4 — never guessed).
+  // Unit conversion is display-only elsewhere. AGL-published ceilings (e.g. appendix ה')
+  // do NOT belong here — they stay in notes/properties until a modeling decision.
+  floorAmslFt   Int?
+  ceilingAmslFt Int?
 
   @@index([zoneTypeId])
 }

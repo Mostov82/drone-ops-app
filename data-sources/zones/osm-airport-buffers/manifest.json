@@ -1,0 +1,24 @@
+{
+ "layerKey": "osm-airport-buffers",
+ "title": "OSM gap-filler — aerodrome locations; buffer circles generated at import from Ruleset airport_buffer_km",
+ "sourceFiles": [
+  {
+   "path": "data-sources/zones/osm-airport-buffers/overpass-raw.json",
+   "sha256": "01850eec6460b82f73734a69e64e1bbc95cee7b49223592d54ed037cee11d4a1"
+  }
+ ],
+ "aipUpdateStamp": "OpenStreetMap via Overpass API, data timestamp 2026-07-10T20:50:30Z",
+ "extractedAt": "2026-07-10",
+ "extractionTools": [
+  "pyogrio 0.13.0 (GDAL 3.12.4)",
+  "pyproj 3.7.2",
+  "PyMuPDF 1.28.0",
+  "server/src/zones builders (DO-013)",
+  "Overpass API (aeroway=aerodrome, bbox 29.4,34.2,33.5,36.0)"
+ ],
+ "circleSegments": 64,
+ "featureCount": 53,
+ "importable": true,
+ "verified": false,
+ "notes": "Gap-filler per Gate 1 (amended): OSM aerodrome locations only. Buffer radius is NOT stored here — the import pipeline reads Ruleset rule airport_buffer_km (fail-closed) and generates the circles at import time (FR-C3/NFR-5)."
+}
