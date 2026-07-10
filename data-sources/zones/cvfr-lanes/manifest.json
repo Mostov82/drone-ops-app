@@ -1,0 +1,22 @@
+{
+ "layerKey": "cvfr-lanes",
+ "title": "CVFR low transport routes (נתיבי תובלה נמוכים) — one Zone per segment, option-A altitude envelope",
+ "sourceFiles": [
+  {
+   "path": "data-sources/gis/CVFR_caai.zip",
+   "sha256": "6334788f9635508d22ada16ccc99a6898f830ea815317c36105f7259ad64ca02"
+  }
+ ],
+ "aipUpdateStamp": "CVFR_ROUTES2023 / CVFR_POINTS2023 (CAAI GIS layer); governing publication פמ\"ת ב'-03",
+ "extractedAt": "2026-07-10",
+ "extractionTools": [
+  "pyogrio 0.13.0 (GDAL 3.12.4)",
+  "pyproj 3.7.2",
+  "PyMuPDF 1.28.0",
+  "server/src/zones builders (DO-013)"
+ ],
+ "featureCount": 265,
+ "importable": true,
+ "verified": false,
+ "notes": "Trigger 6 resolved — option A (decision log 2026-07-11): floorAmslFt/ceilingAmslFt = min/max of every published directional altitude number (N_A/S_A/W_Alt/E_Alt; dual values contribute both numbers). Raw directional strings preserved verbatim in properties and on Zone.notes. Segments with no published altitude keep a null band (never guessed)."
+}

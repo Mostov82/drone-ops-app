@@ -56,6 +56,26 @@ with their metadata in the database. Allowed types: PDF, PNG, JPG; size limit 25
 Files and metadata are created and deleted together — never move or delete files in
 `app-data/documents/` by hand.
 
+## Airspace zone data (DO-013)
+
+Zone datasets (AIP prohibited/restricted/danger areas, drone-specific LLU
+closures, OSM airport buffer anchors) are generated from the read-only source
+snapshots in `data-sources/aip/` + `data-sources/gis/` and committed under
+`data-sources/zones/` with per-dataset provenance manifests and reconciliation
+reports. Load them into the local database with:
+
+```
+npm run zones:import -w server
+```
+
+Re-importing a dataset replaces its layer cleanly. Airport buffer radii are
+read from the Regulations Ruleset at import time (edit the rule → re-import to
+regenerate). **All imported layers are `verified=false`** until visually
+verified against the official charts (release blocker, GB-06 Gate 3) — the
+data is operator-maintained information, not an authoritative airspace source.
+See `server/docs/zones-api.md` (consumer contract + regeneration steps) and
+`data-sources/zones/README.md` (dataset inventory).
+
 ## Offline map & elevation data (one-time setup)
 
 The Airspace map (DO-012) runs **fully offline** from two user-installed packages under
