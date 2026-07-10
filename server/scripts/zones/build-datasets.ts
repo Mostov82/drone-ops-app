@@ -159,21 +159,21 @@ _Everything ships \`verified=false\` until Jonathan's visual check against the �
   });
 }
 
-// ── 3. CVFR lanes (converted; import BLOCKED pending trigger 6) ──────────────
+// ── 3. CVFR lanes (option A envelope per decision log 2026-07-11) ────────────
 {
   const result = buildCvfr(cvfrRoutes, cvfrPoints);
   const manifest: DatasetManifest = {
     layerKey: "cvfr-lanes",
-    title: "CVFR low transport routes (נתיבי תובלה נמוכים) — CONVERTED, import pending directional-altitude decision (trigger 6)",
+    title: "CVFR low transport routes (נתיבי תובלה נמוכים) — one Zone per segment, option-A altitude envelope",
     sourceFiles: [sha256("data-sources/gis/CVFR_caai.zip")],
     aipUpdateStamp: "CVFR_ROUTES2023 / CVFR_POINTS2023 (CAAI GIS layer); governing publication פמ\"ת ב'-03",
     extractedAt,
     extractionTools: TOOLS,
     featureCount: result.stats.segments,
-    importable: false,
+    importable: true,
     verified: false,
     notes:
-      "TRIGGER 6: lanes have per-direction altitudes (N_A/S_A/W_Alt/E_Alt incl. 'X', blanks and dual values) but Zone has one floor/ceiling pair. All published values carried verbatim in properties. Import deliberately blocked until the modeling decision (see reconciliation.md + session log DO-013_2026-07-10).",
+      "Trigger 6 resolved — option A (decision log 2026-07-11): floorAmslFt/ceilingAmslFt = min/max of every published directional altitude number (N_A/S_A/W_Alt/E_Alt; dual values contribute both numbers). Raw directional strings preserved verbatim in properties and on Zone.notes. Segments with no published altitude keep a null band (never guessed).",
   };
   const altitudeTable = Object.entries(result.stats.altitudeValues)
     .map(
@@ -192,7 +192,17 @@ _Everything ships \`verified=false\` until Jonathan's visual check against the �
 
 - route segments converted: **${result.stats.segments}** (expected 265 — ${result.stats.segments === 265 ? "MATCH" : "MISMATCH"})
 - waypoints converted: **${result.stats.waypoints}** (expected 201 — ${result.stats.waypoints === 201 ? "MATCH" : "MISMATCH"})
-- altitude strings that are not a single integer (raw carried, parsed null): **${result.stats.unparseableAltitudes}**
+- altitude strings that are not a single integer (raw carried, per-direction parsed null): **${result.stats.unparseableAltitudes}**
+- segments whose option-A envelope used a dual/multi-number string: **${result.stats.envelopeFromMultiValue}**
+- segments with NO published altitude — null band, never guessed: **${result.stats.nullBandSegments}**
+
+## Option-A altitude modeling (trigger 6 resolved 2026-07-11)
+
+One Zone row per segment; \`floorAmslFt\` = minimum and \`ceilingAmslFt\` = maximum of every
+published directional altitude number on the segment (dual values like \`2000/1000\` contribute
+both numbers — the conservative envelope). Raw directional strings are preserved verbatim in the
+feature properties and carried onto \`Zone.notes\`. Partially published segments (one direction
+\`<Null>\`) take the envelope of what IS published. See \`work/decision-log.md\`, DECISION 2026-07-11.
 
 ## Directional altitude value inventory (trigger 6 evidence)
 
@@ -201,7 +211,7 @@ ${altitudeTable}
 ## Issues
 
 ${renderIssueTable(result.issues)}
-**IMPORT BLOCKED (trigger 6):** how lanes map onto Zone's single floor/ceiling pair is a human decision. Options are surfaced in the DO-013 session log / PR. Once decided, set \`importable: true\` logic accordingly and re-run the import.
+_In-session ב'-03 spot-checks: \`spot-checks_2026-07-10.md\` beside this file. Everything ships \`verified=false\` until Jonathan's visual check (GB-06 Gate 3)._
 `;
   writeDataset("cvfr-lanes", {
     "zones.geojson": stableJson(result.lanes),

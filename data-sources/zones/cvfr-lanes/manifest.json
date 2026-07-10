@@ -1,6 +1,6 @@
 {
  "layerKey": "cvfr-lanes",
- "title": "CVFR low transport routes (נתיבי תובלה נמוכים) — CONVERTED, import pending directional-altitude decision (trigger 6)",
+ "title": "CVFR low transport routes (נתיבי תובלה נמוכים) — one Zone per segment, option-A altitude envelope",
  "sourceFiles": [
   {
    "path": "data-sources/gis/CVFR_caai.zip",
@@ -16,7 +16,7 @@
   "server/src/zones builders (DO-013)"
  ],
  "featureCount": 265,
- "importable": false,
+ "importable": true,
  "verified": false,
- "notes": "TRIGGER 6: lanes have per-direction altitudes (N_A/S_A/W_Alt/E_Alt incl. 'X', blanks and dual values) but Zone has one floor/ceiling pair. All published values carried verbatim in properties. Import deliberately blocked until the modeling decision (see reconciliation.md + session log DO-013_2026-07-10)."
+ "notes": "Trigger 6 resolved — option A (decision log 2026-07-11): floorAmslFt/ceilingAmslFt = min/max of every published directional altitude number (N_A/S_A/W_Alt/E_Alt; dual values contribute both numbers). Raw directional strings preserved verbatim in properties and on Zone.notes. Segments with no published altitude keep a null band (never guessed)."
 }

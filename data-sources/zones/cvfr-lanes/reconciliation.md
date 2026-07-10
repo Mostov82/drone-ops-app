@@ -6,7 +6,17 @@
 
 - route segments converted: **265** (expected 265 — MATCH)
 - waypoints converted: **201** (expected 201 — MATCH)
-- altitude strings that are not a single integer (raw carried, parsed null): **10**
+- altitude strings that are not a single integer (raw carried, per-direction parsed null): **10**
+- segments whose option-A envelope used a dual/multi-number string: **9**
+- segments with NO published altitude — null band, never guessed: **0**
+
+## Option-A altitude modeling (trigger 6 resolved 2026-07-11)
+
+One Zone row per segment; `floorAmslFt` = minimum and `ceilingAmslFt` = maximum of every
+published directional altitude number on the segment (dual values like `2000/1000` contribute
+both numbers — the conservative envelope). Raw directional strings are preserved verbatim in the
+feature properties and carried onto `Zone.notes`. Partially published segments (one direction
+`<Null>`) take the envelope of what IS published. See `work/decision-log.md`, DECISION 2026-07-11.
 
 ## Directional altitude value inventory (trigger 6 evidence)
 
@@ -19,15 +29,15 @@
 
 | Code | Kind | Detail |
 |---|---|---|
-| LLHAGALIM | altitude-unparseable | W_Alt = "2000/1000" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| NSHRMLLBG | altitude-unparseable | N_A = "1200, 2000" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| MMORRARRAD | altitude-unparseable | E_Alt = "<Null>" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| DAROMGALIM | altitude-unparseable | S_A = "2000/1000" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| HOTRMDAROM | altitude-unparseable | S_A = "1000/2000" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| SOVALMINGV | altitude-unparseable | S_A = "2000/2500" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| ALUMTDESHE | altitude-unparseable | N_A = "2500/3500" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| HOVAVLLNV | altitude-unparseable | E_Alt = "3000/2500" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| YRIHOMIHMS | altitude-unparseable | N_A = "4000/5000" — not a single integer; carried raw, parsed value null (trigger 6 material) |
-| MINGVNASIH | altitude-unparseable | S_A = "2000/2500" — not a single integer; carried raw, parsed value null (trigger 6 material) |
+| LLHAGALIM | altitude-multi-value | W_Alt = "2000/1000" — not a single integer; all published numbers (2000, 1000) enter the option-A envelope; raw carried, per-direction parsed value null |
+| NSHRMLLBG | altitude-multi-value | N_A = "1200, 2000" — not a single integer; all published numbers (1200, 2000) enter the option-A envelope; raw carried, per-direction parsed value null |
+| MMORRARRAD | altitude-not-published | E_Alt = "<Null>" — no published number; excluded from the envelope; raw carried |
+| DAROMGALIM | altitude-multi-value | S_A = "2000/1000" — not a single integer; all published numbers (2000, 1000) enter the option-A envelope; raw carried, per-direction parsed value null |
+| HOTRMDAROM | altitude-multi-value | S_A = "1000/2000" — not a single integer; all published numbers (1000, 2000) enter the option-A envelope; raw carried, per-direction parsed value null |
+| SOVALMINGV | altitude-multi-value | S_A = "2000/2500" — not a single integer; all published numbers (2000, 2500) enter the option-A envelope; raw carried, per-direction parsed value null |
+| ALUMTDESHE | altitude-multi-value | N_A = "2500/3500" — not a single integer; all published numbers (2500, 3500) enter the option-A envelope; raw carried, per-direction parsed value null |
+| HOVAVLLNV | altitude-multi-value | E_Alt = "3000/2500" — not a single integer; all published numbers (3000, 2500) enter the option-A envelope; raw carried, per-direction parsed value null |
+| YRIHOMIHMS | altitude-multi-value | N_A = "4000/5000" — not a single integer; all published numbers (4000, 5000) enter the option-A envelope; raw carried, per-direction parsed value null |
+| MINGVNASIH | altitude-multi-value | S_A = "2000/2500" — not a single integer; all published numbers (2000, 2500) enter the option-A envelope; raw carried, per-direction parsed value null |
 
-**IMPORT BLOCKED (trigger 6):** how lanes map onto Zone's single floor/ceiling pair is a human decision. Options are surfaced in the DO-013 session log / PR. Once decided, set `importable: true` logic accordingly and re-run the import.
+_In-session ב'-03 spot-checks: `spot-checks_2026-07-10.md` beside this file. Everything ships `verified=false` until Jonathan's visual check (GB-06 Gate 3)._
