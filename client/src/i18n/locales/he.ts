@@ -66,9 +66,9 @@ const he = {
   "restore.error": "השחזור נכשל.",
 
   // Regulations Ruleset editor (DO-010, FR-A5)
-  // Rule labels carry regulatory terminology not yet human-reviewed → "[HE?] "
-  // prefix per the standing convention above; listed for review in the
-  // DO-010 session log.
+  // Rule labels human-reviewed by Jonathan 2026-07-10 (see decision log) —
+  // "[HE?]" prefixes removed. Register choices: מינימלי/מקסימלי over
+  // מזערי/מרבי; VLOS grounded in AIP א'-17 appendix ג' (קשר־עין).
   "ruleset.entry.title": "מאגר כללי רגולציה",
   "ruleset.entry.description":
     "מגבלות רגולטוריות, היסטוריית שינויים ותאריכי אימות. כל המודולים קוראים את המגבלות מכאן.",
@@ -100,17 +100,17 @@ const he = {
   "ruleset.category.LICENSING": "רישוי",
   "ruleset.category.PERMITS": "היתרים",
   "ruleset.category.WEIGHT": "משקל",
-  "ruleset.rule.max_altitude_agl_m": "[HE?] גובה טיסה מרבי מעל פני הקרקע",
-  "ruleset.rule.min_distance_people_structures_m": "[HE?] מרחק מזערי מאנשים וממבנים",
-  "ruleset.rule.airport_buffer_km": "[HE?] רדיוס חיץ סביב שדות תעופה",
-  "ruleset.rule.vlos_required": "[HE?] נדרש קשר עין רציף עם הכלי",
-  "ruleset.rule.daylight_only": "[HE?] טיסה באור יום בלבד",
-  "ruleset.rule.min_registration_age_years": "[HE?] גיל מזערי לרישום",
-  "ruleset.rule.moc_frequency_license_required": "[HE?] נדרש רישיון תדר ממשרד התקשורת",
-  "ruleset.rule.permit_fee_recreational_nis": "[HE?] אגרת היתר טיסת פנאי",
-  "ruleset.rule.permit_turnaround_hours_min": "[HE?] זמן טיפול בהיתר (מזערי)",
-  "ruleset.rule.permit_turnaround_hours_max": "[HE?] זמן טיפול בהיתר (מרבי)",
-  "ruleset.rule.registration_weight_threshold_g": "[HE?] סף משקל לחובת רישום",
+  "ruleset.rule.max_altitude_agl_m": "גובה טיסה מרבי מעל פני הקרקע (AGL)",
+  "ruleset.rule.min_distance_people_structures_m": "מרחק מינימלי מאנשים וממבנים",
+  "ruleset.rule.airport_buffer_km": "רדיוס חיץ סביב שדות תעופה",
+  "ruleset.rule.vlos_required": "נדרש קשר עין רציף עם כלי הטיס (VLOS)",
+  "ruleset.rule.daylight_only": "טיסה בשעות האור בלבד",
+  "ruleset.rule.min_registration_age_years": "גיל מינימלי לרישום",
+  "ruleset.rule.moc_frequency_license_required": "נדרש רישיון להקצאת תדר ממשרד התקשורת",
+  "ruleset.rule.permit_fee_recreational_nis": "אגרת היתר טיסת פנאי",
+  "ruleset.rule.permit_turnaround_hours_min": "זמן טיפול בהיתר (מינימלי)",
+  "ruleset.rule.permit_turnaround_hours_max": "זמן טיפול בהיתר (מקסימלי)",
+  "ruleset.rule.registration_weight_threshold_g": "סף משקל המראה לחובת רישום",
 
   // PIN login (DO-005)
   "auth.setupTitle": "בחירת קוד PIN",
