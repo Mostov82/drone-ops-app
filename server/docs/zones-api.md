@@ -26,9 +26,10 @@ npm run zones:import -w server -- <dir>     # one dataset directory
   and the new ones inserted in one transaction; layer identity (id) is stable;
   no orphan zones (FR-C4).
 - Datasets with `importable: false` in the manifest are **refused** — they are
-  conversions awaiting a human decision (currently `cvfr-lanes` pending the
-  trigger-6 directional-altitude decision, and `aip-a17-inpa-closures`
-  pending a geometry source).
+  conversions awaiting a human decision. Currently none: `cvfr-lanes` became
+  importable with the trigger-6 Option A resolution (Session 2, 2026-07-11)
+  and `aip-a17-inpa-closures` with the RATAG geometry pairing (Session 3,
+  2026-07-11); all five datasets import.
 
 ## Zone rows
 
@@ -55,6 +56,12 @@ npm run zones:import -w server -- <dir>     # one dataset directory
   heights) are NOT in the AMSL columns — they ride in `notes`
   (`aglCeilingFt=N`) until a modeling decision. Converting them to AMSL
   requires the DO-012 elevation service and a human decision on rounding.
+- **CVFR lanes use the Option A envelope** (trigger 6 resolution, decision
+  log 2026-07-11): `floorAmslFt`/`ceilingAmslFt` = min/max of **every**
+  published directional altitude (dual values contribute both numbers); the
+  raw directional strings are preserved in `notes` for display. A lane with
+  a blank published band has `null`/`null` and **makes no vertical claim** —
+  never infer "probably low".
 - Every value is **unverified** until the layer's `verified` flag is set by
   the human visual check; badge accordingly (same discipline as the Ruleset).
 
@@ -84,8 +91,13 @@ the manifest's `extractedAt` date (the one documented timestamp).
 ## What DO-013 did NOT build (by design)
 
 - No HTTP routes (DO-012 owns `app.ts`; DO-014/015 add read routes).
-- No lane→Zone import (trigger 6 surfaced — see `data-sources/zones/cvfr-lanes/reconciliation.md`).
-- No INPA geometry (RATAG_kmz.zip outstanding; OSM name-matching rejected as
-  unsafe without a reference geometry — see that dataset's reconciliation).
-- No border-zone gap-filler (trigger 4: the Ruleset catalog has no
-  border-buffer rule; Gate/catalog question surfaced in the session log).
+- No border-zone gap-filler — **resolved as won't-build** (trigger 4 closed,
+  decision log 2026-07-11): the imported AIP P/R/D polygons are the
+  border-closure source; no border-buffer rule was added to the catalog.
+  Reopens only if the ב'-08 visual verification shows a coverage gap.
+- No AGL→AMSL conversion for the ceilings riding in `notes` (see altitude
+  semantics above) — awaits a modeling decision.
+
+*(Two items originally listed here were delivered by later DO-013 sessions:
+lane→Zone import — Session 2, trigger-6 Option A; INPA geometry — Session 3,
+RATAG pairing, 542/544. See the dataset reconciliation reports.)*
