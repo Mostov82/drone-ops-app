@@ -16,8 +16,8 @@ Each dataset directory contains:
 | `aip-a17-llp-llr-danger` | `ZONE_gdb.zip` (geometry) ⊕ א'-17 appendix ב' (governs: presence/names/altitudes) | 113 (103 gdb + 10 built from text — zones newer than the gdb) | yes |
 | `aip-a17-llu-drone` | א'-17 appendix ג' (drone-specific LLU closures, MTOW < 25 kg) | 73 (71 circles + LLU22/LLU55 polygons) | yes |
 | `osm-airport-buffers` | committed Overpass snapshot (aerodromes); **buffer radius from the Ruleset at import** | 53 anchor points | yes |
-| `cvfr-lanes` | `CVFR_caai.zip` (265 segments + 201 waypoints) vs ב'-03 | 265 + 201 | **no — trigger 6** (directional-altitude modeling decision pending) |
-| `aip-a17-inpa-closures` | א'-17 appendix ה' (INPA codes/names/types/AGL ceilings) | 544 entries (207 LLP1xxx + 337 LLP2xxx), no geometry | **no — geometry source outstanding** (`RATAG_kmz.zip`) |
+| `cvfr-lanes` | `CVFR_caai.zip` (265 segments + 201 waypoints) vs ב'-03 | 265 + 201 | yes — option-A envelope (trigger 6 resolved 2026-07-11) |
+| `aip-a17-inpa-closures` | א'-17 appendix ה' (governs) ⊕ `RATAG_kmz.zip` geometry, exact-code-paired (session 3, 2026-07-11) | 542 paired (2 appendix-only excluded — post-2020, no geometry; `entries.json` keeps all 544) | yes — **KMZ vintage 07-09-2020**, text governs |
 
 Import: `npm run zones:import -w server` (see `server/docs/zones-api.md`).
 Regeneration from the snapshots (offline, deterministic): see the same doc.

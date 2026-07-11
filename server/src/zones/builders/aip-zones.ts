@@ -35,6 +35,8 @@ export interface ReconIssue {
     | "vertex-mismatch"
     | "vertex-issue"
     | "parse-failure"
+    | "no-geometry"
+    | "kmz-only"
     | "note";
   detail: string;
 }

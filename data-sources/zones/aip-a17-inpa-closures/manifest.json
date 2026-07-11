@@ -1,22 +1,26 @@
 {
  "layerKey": "aip-a17-inpa-closures",
- "title": "AIP א'-17 appendix ה' — INPA closures (parks/reserves/nesting sites) — attributes only, geometry source outstanding",
+ "title": "AIP א'-17 appendix ה' — INPA closures (parks/reserves/nesting sites) — geometry from INPA RATAG KMZ, code-paired",
  "sourceFiles": [
   {
    "path": "data-sources/aip/aip_a-17_prohibited-restricted-danger-areas.pdf",
    "sha256": "e4acb5e7ed014b44b671a35ef8a5554af20344e1f09ea674d2453b063248952c"
+  },
+  {
+   "path": "data-sources/gis/RATAG_kmz.zip",
+   "sha256": "539840f396a3a74e1807778c6a6d0b787528beaec0ddfdb5b720b9ffbd981804"
   }
  ],
- "aipUpdateStamp": "עדכון 2/25 (02 Oct 2025); appendix pages stamped עדכון 1/25 (15 May 2025)",
- "extractedAt": "2026-07-10",
+ "aipUpdateStamp": "עדכון 2/25 (02 Oct 2025); appendix pages stamped עדכון 1/25 (15 May 2025); KMZ geometry stamped 07-09-2020 (inner RATAG_kmz_07092020/RATAG_kmz_07092020.kmz)",
+ "extractedAt": "2026-07-11",
  "extractionTools": [
   "pyogrio 0.13.0 (GDAL 3.12.4)",
   "pyproj 3.7.2",
   "PyMuPDF 1.28.0",
   "server/src/zones builders (DO-013)"
  ],
- "featureCount": 544,
- "importable": false,
+ "featureCount": 542,
+ "importable": true,
  "verified": false,
- "notes": "Appendix ה' publishes code/name/type/max-height(ft AGL) but NO coordinates. Geometry requires RATAG_kmz.zip (download manifest item 7 — outstanding, optional) or an OSM gap-filler match (blocked this session — see reconciliation.md). Max heights are AGL and stay out of the AMSL columns."
+ "notes": "Pairing is EXACT appendix-ה'-code ↔ KMZ-Code match; appendix text governs names and AGL ceilings; KMZ values cross-checked and mismatches reported. AGL ceilings live in properties.aglCeilingFt — never in the AMSL columns (ratified 2026-07-11). Appendix entries with no KMZ geometry are EXCLUDED (listed in the report), never fuzzy-matched. KMZ vintage 07-09-2020 — currency caveat like the ZONE gdb; text governs."
 }

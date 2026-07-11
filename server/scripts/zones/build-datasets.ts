@@ -18,7 +18,7 @@ import * as path from "node:path";
 import { parseA17, type A17Dump } from "../../src/zones/a17.js";
 import { buildAipZones } from "../../src/zones/builders/aip-zones.js";
 import { buildCvfr } from "../../src/zones/builders/cvfr.js";
-import { buildInpa } from "../../src/zones/builders/inpa.js";
+import { buildInpa, buildInpaGeo, type RatagDump } from "../../src/zones/builders/inpa.js";
 import { buildLlu } from "../../src/zones/builders/llu.js";
 import { buildOsmAirports } from "../../src/zones/builders/osm-airports.js";
 import { stableJson, type DatasetManifest } from "../../src/zones/dataset.js";
@@ -221,52 +221,86 @@ _In-session ב'-03 spot-checks: \`spot-checks_2026-07-10.md\` beside this file. 
   });
 }
 
-// ── 4. INPA closures (appendix ה' — attributes only; geometry blocked) ───────
+// ── 4. INPA closures (appendix ה' ⊕ RATAG KMZ geometry — session 3) ──────────
 {
   const result = buildInpa(a17);
-  const manifest: DatasetManifest = {
-    layerKey: "aip-a17-inpa-closures",
-    title: "AIP א'-17 appendix ה' — INPA closures (parks/reserves/nesting sites) — attributes only, geometry source outstanding",
-    sourceFiles: [sha256(A17_PDF)],
-    aipUpdateStamp: A17_STAMP,
-    extractedAt,
-    extractionTools: TOOLS,
-    featureCount: result.entries.length,
-    importable: false,
-    verified: false,
-    notes:
-      "Appendix ה' publishes code/name/type/max-height(ft AGL) but NO coordinates. Geometry requires RATAG_kmz.zip (download manifest item 7 — outstanding, optional) or an OSM gap-filler match (blocked this session — see reconciliation.md). Max heights are AGL and stay out of the AMSL columns.",
-  };
-  const report = `# Reconciliation — aip-a17-inpa-closures — ${extractedAt}
+  const ratagPath = path.join(dumpsDir, "ratag.json");
+  if (!fs.existsSync(ratagPath)) {
+    // Pre-session-3 behavior kept for regeneration without the KMZ dump.
+    console.warn("aip-a17-inpa-closures: ratag.json dump missing — attributes-only dataset (importable: false)");
+    const manifest: DatasetManifest = {
+      layerKey: "aip-a17-inpa-closures",
+      title: "AIP א'-17 appendix ה' — INPA closures (parks/reserves/nesting sites) — attributes only, geometry source outstanding",
+      sourceFiles: [sha256(A17_PDF)],
+      aipUpdateStamp: A17_STAMP,
+      extractedAt,
+      extractionTools: TOOLS,
+      featureCount: result.entries.length,
+      importable: false,
+      verified: false,
+      notes:
+        "Appendix ה' publishes code/name/type/max-height(ft AGL) but NO coordinates. Geometry requires RATAG_kmz.zip (run scripts/zones/dump_ratag.py and rebuild). Max heights are AGL and stay out of the AMSL columns.",
+    };
+    const report = `# Reconciliation — aip-a17-inpa-closures — ${extractedAt}
 
-**Source:** א'-17 appendix ה' tables (pages 30–49).
-
-## Counts
-
-- raw table rows parsed: **${result.stats.rawRows}**
-- unique codes: **${result.stats.unique}** (duplicates merged/dropped: ${result.stats.duplicatesDropped})
-- גן לאומי / nesting (LLP1xxx): **${result.stats.parks}** · שמורת טבע (LLP2xxx): **${result.stats.reserves}**
-- entries with no AGL ceiling extracted: **${result.stats.missingAgl}** · with no name: **${result.stats.missingName}**
-
-## Geometry status — BLOCKED THREAD
-
-No geometry is published in the appendix. Options, in provenance order:
-1. **INPA \`RATAG_kmz.zip\`** — download manifest item 7 (\`https://www.gov.il/BlobFolder/guide/aip/he/RATAG_kmz.zip\`), still outstanding. Preferred: CAAI-hosted, code-matched.
-2. **OSM gap-filler** — requires network fetch (Overpass) + fuzzy Hebrew-name matching of ~${result.stats.unique} entries; a wrong match places a no-fly polygon in the wrong place, so any non-exact match must be excluded. Not attempted without geometry to verify against (see session log escalations).
-
-## Issue summary
-
-${issueCounts(result.issues)}
+**Source:** א'-17 appendix ה' tables (pages 30–49). Geometry dump absent — see the session-3 build for the paired dataset.
 
 ## Issues
 
 ${renderIssueTable(result.issues)}
 `;
-  writeDataset("aip-a17-inpa-closures", {
-    "entries.json": stableJson(result.entries),
-    "manifest.json": stableJson(manifest),
-    "reconciliation.md": report,
-  });
+    writeDataset("aip-a17-inpa-closures", {
+      "entries.json": stableJson(result.entries),
+      "manifest.json": stableJson(manifest),
+      "reconciliation.md": report,
+    });
+  } else {
+    const ratag = readDump<RatagDump>("ratag.json");
+    const geo = buildInpaGeo(result, ratag);
+    const manifest: DatasetManifest = {
+      layerKey: "aip-a17-inpa-closures",
+      title: "AIP א'-17 appendix ה' — INPA closures (parks/reserves/nesting sites) — geometry from INPA RATAG KMZ, code-paired",
+      sourceFiles: [sha256(A17_PDF), sha256("data-sources/gis/RATAG_kmz.zip")],
+      aipUpdateStamp: `${A17_STAMP}; KMZ geometry stamped 07-09-2020 (inner ${ratag.innerKmz})`,
+      extractedAt,
+      extractionTools: TOOLS,
+      featureCount: geo.collection.features.length,
+      importable: true,
+      verified: false,
+      notes:
+        "Pairing is EXACT appendix-ה'-code ↔ KMZ-Code match; appendix text governs names and AGL ceilings; KMZ values cross-checked and mismatches reported. AGL ceilings live in properties.aglCeilingFt — never in the AMSL columns (ratified 2026-07-11). Appendix entries with no KMZ geometry are EXCLUDED (listed in the report), never fuzzy-matched. KMZ vintage 07-09-2020 — currency caveat like the ZONE gdb; text governs.",
+    };
+    const report = `# Reconciliation — aip-a17-inpa-closures — ${extractedAt}
+
+**Sources:** א'-17 appendix ה' tables (pages 30–49) — **governs** — ⊕ INPA \`RATAG_kmz.zip\` (inner \`${ratag.innerKmz}\`, stamped 07-09-2020) for geometry, paired by exact code.
+
+## Counts
+
+- appendix ה' entries (governing list): **${geo.stats.appendixEntries}** (raw rows ${result.stats.rawRows}, duplicates merged/dropped ${result.stats.duplicatesDropped})
+- KMZ placemarks: **${geo.stats.kmzPlacemarks}** (duplicate codes dropped: ${geo.stats.kmzDuplicatesDropped})
+- **paired & imported: ${geo.stats.paired}**
+- appendix-only — NO geometry, NOT imported: **${geo.stats.appendixOnlyExcluded}** (post-2020 additions; need a newer INPA layer or manual geometry)
+- KMZ-only — no governing appendix row, NOT imported: **${geo.stats.kmzOnlyIgnored}**
+- AGL-ceiling cross-check: **${geo.stats.altitudeMismatches}** mismatches (appendix kept) · **${geo.stats.kmzAltitudeWhereAppendixNull}** KMZ-only values (noted, not adopted)
+- site-name cross-check mismatches (code-paired regardless): **${geo.stats.nameMismatches}**
+- entries with no AGL ceiling published: **${result.stats.missingAgl}** · with no name: **${result.stats.missingName}**
+
+## Issue summary
+
+${issueCounts([...result.issues, ...geo.issues])}
+
+## Issues (text governs — nothing averaged, fuzzy-matched, or guessed)
+
+${renderIssueTable([...result.issues, ...geo.issues])}
+_Everything ships \`verified=false\` until Jonathan's visual check (GB-06 Gate 3). The KMZ's 2020 vintage makes the ב'-08 / official-map cross-look especially relevant for this layer._
+`;
+    writeDataset("aip-a17-inpa-closures", {
+      "zones.geojson": stableJson(geo.collection),
+      "entries.json": stableJson(result.entries),
+      "manifest.json": stableJson(manifest),
+      "reconciliation.md": report,
+    });
+  }
 }
 
 // ── 5. OSM airport gap-filler (points; buffers from the Ruleset at import) ──
