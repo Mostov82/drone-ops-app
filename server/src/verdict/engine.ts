@@ -15,12 +15,16 @@
 //     approximate elevation, import dates). A verdict is NEVER authoritative
 //     (PRD §10) — consumers badge at point of use.
 //
-// LANES (escalation trigger 1, fired this session — see the DO-015 session
-// log): CVFR lanes are zero-width centerlines; a horizontal corridor width is
-// a regulatory value the Ruleset/imported data does not provide, so lanes do
-// NOT trigger the verdict. The engine reports the nearest lane's centerline
-// distance, Option A envelope, and vertical finding — facts without a
-// containment claim — pending Jonathan's decision.
+// LANES (escalation 1 RESOLVED — option (a), decision log 2026-07-11):
+// CVFR lanes are centerlines; the corridor width lives in the Ruleset as
+// `cvfr_lane_half_width_m`, seeded from the governing ב'-03 text (§2.ב:
+// route width 2 km, 1 km each side of the centerline, unless stated
+// otherwise — per-lane exceptions are NOT modeled; the ב'-03 visual check
+// covers them). A point within the half-width of a lane centerline is
+// horizontally contained: the lane's Gate 3 verdict mapping participates in
+// worst-of. The rule is read fail-closed at check time whenever lane zones
+// exist — never a constant. Distance flooring WIDENS containment, never
+// narrows it (see corridorContains).
 //
 // Contract doc: server/docs/verdict-api.md (written for DO-017's reuse).
 
@@ -40,6 +44,18 @@ const VERDICT_SEVERITY: Record<VerdictValue, number> = { RESTRICTED: 2, NEEDS_PE
 
 export const AIRPORT_ZONE_TYPE = "AIRPORT";
 export const AIRPORT_BUFFER_RULE_KEY = "airport_buffer_km";
+/** Seeded from AIP ב'-03 §2.ב (decision log 2026-07-11, DO-015 escalation 1 → option a). */
+export const LANE_HALF_WIDTH_RULE_KEY = "cvfr_lane_half_width_m";
+
+/**
+ * Corridor containment under the conservative rounding discipline: the
+ * measured centerline distance is FLOORED before comparing, so rounding can
+ * only pull a point INTO the corridor, never push it out (widens containment
+ * — the horizontal sibling of the vertical ±4 m widening rule).
+ */
+export function corridorContains(rawDistanceM: number, halfWidthM: number): boolean {
+  return Math.floor(rawDistanceM) <= halfWidthM;
+}
 
 /**
  * Standard limits echoed on every verdict (Gate 3: a CLEAR still shows the
@@ -75,7 +91,9 @@ export type ReasonKind =
   /** The point is horizontally inside the zone's imported geometry (boundary inclusive). */
   | "POINT_IN_ZONE"
   /** The point is within the LIVE Ruleset airport buffer of the nearest airport (NFR-5). */
-  | "WITHIN_AIRPORT_BUFFER_RULE";
+  | "WITHIN_AIRPORT_BUFFER_RULE"
+  /** The point is within the LIVE Ruleset corridor half-width of a lane centerline. */
+  | "WITHIN_LANE_CORRIDOR";
 
 export interface VerdictReason {
   kind: ReasonKind;
@@ -83,9 +101,13 @@ export interface VerdictReason {
   verdict: VerdictValue;
   zone: ZoneRef;
   layer: LayerRef | null;
-  /** WITHIN_AIRPORT_BUFFER_RULE only: distance to the airport reference point, m (rounded down). */
+  /**
+   * WITHIN_AIRPORT_BUFFER_RULE: distance to the airport reference point.
+   * WITHIN_LANE_CORRIDOR: distance to the lane centerline.
+   * Meters, rounded down.
+   */
   distanceM?: number;
-  /** WITHIN_AIRPORT_BUFFER_RULE only: the rule value the check used. */
+  /** WITHIN_AIRPORT_BUFFER_RULE / WITHIN_LANE_CORRIDOR: the rule value the check used. */
   rule?: EchoedNumberRule;
   /** Present when a planned altitude was given; null = zone not vertically evaluated. */
   vertical: VerticalFinding | null;
@@ -123,15 +145,20 @@ export interface BufferWarning {
   ruleLastVerifiedAt: string | null;
 }
 
+export interface LaneCorridorInfo {
+  ruleKey: string;
+  /** The live Ruleset corridor half-width, meters. */
+  halfWidthM: number;
+  ruleLastVerifiedAt: string | null;
+}
+
 export interface NearestLane {
   zoneId: string;
   name: string;
-  /**
-   * Distance to the lane CENTERLINE, m, rounded down. NOT a containment
-   * claim: the lane's corridor width is not in the project's data
-   * (escalation pending — see verdict-api.md).
-   */
+  /** Distance to the lane CENTERLINE, m, rounded down (flooring widens containment). */
   horizontalDistanceM: number;
+  /** floor(distance) <= live Ruleset half-width (decision log 2026-07-11). */
+  withinCorridor: boolean;
   floorAmslFt: number | null;
   ceilingAmslFt: number | null;
   /** Raw directional altitude strings ride here verbatim (Option A audit trail). */
@@ -174,6 +201,8 @@ export interface VerdictResult {
   lanes: {
     nearest: NearestLane | null;
     laneCount: number;
+    /** The live corridor rule the check used; null when no lane zones are imported. */
+    corridor: LaneCorridorInfo | null;
   };
   /** Null when no planned altitude was requested. */
   vertical: VerticalReport | null;
@@ -358,22 +387,55 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
         }
       }
 
-      // FR-C6 — nearest lane: centerline distance + Option A envelope +
-      // vertical finding. Facts only; no containment claim (see module header).
+      // FR-C6 — lanes. The corridor half-width is read from the Ruleset
+      // FAIL-CLOSED whenever lane zones exist (decision log 2026-07-11,
+      // escalation 1 → option a); a point within the half-width of a
+      // centerline is horizontally contained and the lane's mapped verdict
+      // participates in worst-of. Flooring the distance widens containment.
       let nearestLane: NearestLane | null = null;
-      for (const lane of laneZones) {
-        const distanceM = Math.floor(distanceToLineM(lane.geometryJson, lane.name, lat, lng));
-        if (nearestLane === null || distanceM < nearestLane.horizontalDistanceM) {
-          nearestLane = {
-            zoneId: lane.id,
-            name: lane.name,
-            horizontalDistanceM: distanceM,
-            floorAmslFt: lane.floorAmslFt,
-            ceilingAmslFt: lane.ceilingAmslFt,
-            notes: lane.notes,
-            layer: layerRef(layers, lane),
-            vertical: env ? evaluateBand(lane.zoneTypeCode, lane.floorAmslFt, lane.ceilingAmslFt, env) : null,
-          };
+      let corridor: LaneCorridorInfo | null = null;
+      if (laneZones.length > 0) {
+        const laneRule = await deps.rulesetReader.getNumberRule(LANE_HALF_WIDTH_RULE_KEY); // fail-closed
+        const halfWidthM = bufferRadiusM(laneRule); // km/m only, never guessed
+        corridor = {
+          ruleKey: laneRule.key,
+          halfWidthM,
+          ruleLastVerifiedAt: laneRule.lastVerifiedAt ? laneRule.lastVerifiedAt.toISOString() : null,
+        };
+        for (const lane of laneZones) {
+          const rawDistanceM = distanceToLineM(lane.geometryJson, lane.name, lat, lng);
+          const distanceM = Math.floor(rawDistanceM);
+          const withinCorridor = corridorContains(rawDistanceM, halfWidthM);
+          const vertical = env
+            ? evaluateBand(lane.zoneTypeCode, lane.floorAmslFt, lane.ceilingAmslFt, env)
+            : null;
+          if (withinCorridor) {
+            // Horizontal containment: the lane triggers per the Gate 3
+            // mapping. A blank band still makes no VERTICAL claim — the two
+            // ratified rules compose (vertical stays NO_CLAIM).
+            reasons.push({
+              kind: "WITHIN_LANE_CORRIDOR",
+              verdict: requireVerdict(lane),
+              zone: zoneRef(lane),
+              layer: layerRef(layers, lane),
+              distanceM,
+              rule: echoNumber(laneRule),
+              vertical,
+            });
+          }
+          if (nearestLane === null || distanceM < nearestLane.horizontalDistanceM) {
+            nearestLane = {
+              zoneId: lane.id,
+              name: lane.name,
+              horizontalDistanceM: distanceM,
+              withinCorridor,
+              floorAmslFt: lane.floorAmslFt,
+              ceilingAmslFt: lane.ceilingAmslFt,
+              notes: lane.notes,
+              layer: layerRef(layers, lane),
+              vertical,
+            };
+          }
         }
       }
 
@@ -404,6 +466,7 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
       const unverifiedRuleKeys = [
         ...numberLimits.filter((r) => r.lastVerifiedAt === null).map((r) => r.key),
         ...booleanLimits.filter((r) => r.lastVerifiedAt === null).map((r) => r.key),
+        ...(corridor && corridor.ruleLastVerifiedAt === null ? [corridor.ruleKey] : []),
       ];
 
       return {
@@ -411,7 +474,7 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
         point: { lat, lng },
         reasons,
         distance: { nearestAirport: airport, bufferWarning },
-        lanes: { nearest: nearestLane, laneCount: laneZones.length },
+        lanes: { nearest: nearestLane, laneCount: laneZones.length, corridor },
         vertical:
           env && elevation
             ? {

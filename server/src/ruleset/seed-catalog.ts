@@ -50,6 +50,19 @@ export const RULESET_SEED: RuleSeed[] = [
     description: "No-fly buffer around airports and airfields.",
   },
   {
+    // DO-015 escalation 1 → option (a), decision log 2026-07-11: the CVFR
+    // lane corridor width is editable Ruleset data sourced from the governing
+    // ב'-03 text — never a constant in code. Seeds unverified like everything.
+    key: "cvfr_lane_half_width_m",
+    category: "DISTANCE",
+    label: "CVFR lane corridor half-width",
+    valueType: "NUMBER",
+    numberValue: 1000,
+    unit: "m",
+    description:
+      'Half-width of a CVFR low-transport-route corridor, measured from the published centerline. Source (governing text): AIP פמ"ת ב\'-03 §2.ב (page ב-03-2, עדכון 2/25 · 02 Oct 2025): "רוחב הנתיבים הינו 2 ק"מ (1 ק"מ מכל צד של מרכז הנתיב) אלא אם מצוין אחרת" — route width 2 km, 1 km each side of the centerline, unless stated otherwise. Per-lane exceptions ("unless stated otherwise") are NOT modeled; verify against the ב\'-03 chart sheets (GB-06 Gate 3). Added per decision log 2026-07-11 (DO-015 escalation 1, option a).',
+  },
+  {
     key: "vlos_required",
     category: "OPERATIONAL",
     label: "Visual line of sight required",
