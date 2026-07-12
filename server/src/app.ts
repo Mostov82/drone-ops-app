@@ -13,6 +13,7 @@ import { createDocumentsRouter } from "./routes/documents.js";
 import { createMapRouter, type MapRouterDeps } from "./map/routes.js";
 import { createRulesetRouter } from "./ruleset/routes.js";
 import { createZonesRouter, type ZonesReadStore } from "./zones/routes.js";
+import { createVerdictRouter, type VerdictRouterDeps } from "./verdict/routes.js";
 import { createPrismaRulesetStore, type RulesetStore } from "./ruleset/service.js";
 import {
   createPrismaDocumentMetaStore,
@@ -31,6 +32,7 @@ export interface AppDeps {
   rulesetStore?: RulesetStore;
   map?: MapRouterDeps;
   zonesStore?: ZonesReadStore;
+  verdict?: VerdictRouterDeps;
 }
 
 export function createApp(deps: AppDeps = {}) {
@@ -56,6 +58,7 @@ export function createApp(deps: AppDeps = {}) {
   app.use("/api/ruleset", createRulesetRouter(deps.rulesetStore ?? createPrismaRulesetStore()));
   app.use("/api/map", createMapRouter(deps.map)); // DO-012; behind the PIN middleware above
   app.use("/api/zones", createZonesRouter(deps.zonesStore)); // DO-014; read-only zone layers
+  app.use("/api/verdict", createVerdictRouter(deps.verdict)); // DO-015; location-check verdict engine
   app.use(createBackupRouter(prisma)); // DO-004; behind the PIN middleware above
 
   app.get("/api/hello", (_req, res) => {

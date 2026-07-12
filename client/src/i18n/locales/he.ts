@@ -187,6 +187,62 @@ const he = {
   "map.zones.band.notPublished": "לא פורסם",
   "map.zones.band.noVerticalClaim": "[HE?] לא פורסמה רצועת גובה",
 
+  // Location-check verdict panel (DO-015, FR-C2/C3/C5/C6).
+  // "[HE?]"-prefixed terms are aeronautical/regulatory coinage awaiting
+  // Jonathan's review (buffer/corridor/AMSL/AGL/vertical-separation language),
+  // matching the DO-012/DO-014 convention. Plain UI chrome is translated
+  // directly. Verdict-tier and altitude-band names are reused from above.
+  "map.check.title": "בדיקת מיקום",
+  "map.check.prompt": "יש להציב סיכה על המפה או להזין קואורדינטות, ואז לבדוק אם מותר לטוס שם.",
+  "map.check.altitude.label": "גובה טיסה מתוכנן (לא חובה)",
+  "map.check.altitude.placeholder": "לדוגמה: 50",
+  "map.check.altitude.hint": "מטרים מעל פני הקרקע. יש להשאיר ריק לבדיקה אופקית בלבד.",
+  "map.check.altitude.error": "יש להזין גובה מתוכנן כמספר מטרים לא-שלילי.",
+  "map.check.run": "בדיקת מיקום",
+  "map.check.running": "בודק…",
+  "map.check.checkedAt": "נבדק {{date}}",
+  "map.check.error.title": "לא ניתן היה להשלים את בדיקת המיקום",
+  "map.check.error.generic": "הבדיקה נכשלה. שום דבר כאן אינו קביעה — יש לנסות שוב.",
+  "map.check.clear.body":
+    "אף אזור אינו מכיל נקודה זו. המגבלות הרגולטוריות הרגילות שלהלן עדיין חלות.",
+  "map.check.units.m": "מ׳",
+  "map.check.reasons.title": "סיבה",
+  "map.check.reasonKind.POINT_IN_ZONE": "הנקודה נמצאת בתוך אזור זה",
+  "map.check.reasonKind.WITHIN_AIRPORT_BUFFER_RULE": "[HE?] בתוך רדיוס החיץ סביב שדה תעופה / מנחת",
+  "map.check.reasonKind.WITHIN_LANE_CORRIDOR": "[HE?] בתוך מסדרון נתיב הטיסה",
+  "map.check.vertical.label": "[HE?] אנכי",
+  "map.check.vertical.status.CONFLICT": "[HE?] הגובה המתוכנן מתנגש עם רצועת הגובה של האזור",
+  "map.check.vertical.status.BELOW_FLOOR": "[HE?] הגובה המתוכנן נמוך מרצפת הרצועה",
+  "map.check.vertical.status.ABOVE_CEILING": "[HE?] הגובה המתוכנן גבוה מתקרת הרצועה",
+  "map.check.vertical.status.NO_CLAIM": "[HE?] לא פורסמה רצועת גובה — אין קביעה אנכית",
+  "map.check.vertical.clearance": "[HE?] מרווח {{ft}} רגל",
+  "map.check.vertical.groundReaching": "[HE?] מגיע לפני הקרקע",
+  "map.check.vertical.unbounded": "[HE?] ללא הגבלת גובה (UNL)",
+  "map.check.vertical.title": "[HE?] הפרדה אנכית",
+  "map.check.vertical.plannedLabel": "גובה מתוכנן",
+  "map.check.vertical.aglUnit": "[HE?] מ׳ מעל פני הקרקע (AGL)",
+  "map.check.vertical.interval": "[HE?] מושווה כ־",
+  "map.check.vertical.ftAmsl": "[HE?] רגל מעל פני הים (AMSL)",
+  "map.check.vertical.conservativeNote":
+    "[HE?] גובה פני הקרקע משוער, ולכן הגובה המושווה מורחב בטווח אי-הוודאות — התנגשויות לעולם אינן מצומצמות.",
+  "map.check.vertical.noAltitude": "יש להזין גובה מתוכנן למעלה כדי לבדוק הפרדה אנכית.",
+  "map.check.distance.title": "מרחקים",
+  "map.check.distance.nearestAirport": "שדה תעופה / מנחת קרוב",
+  "map.check.distance.bufferWarning": "[HE?] בתוך רדיוס החיץ של {{name}} (רדיוס {{m}} מ׳).",
+  "map.check.distance.insideImportedBuffer": "[HE?] בתוך מצולע חיץ שדה התעופה המיובא.",
+  "map.check.lanes.title": "[HE?] נתיבי טיסה (CVFR)",
+  "map.check.lanes.nearest": "[HE?] הנתיב הקרוב",
+  "map.check.lanes.centerlineDistance": "[HE?] מרחק מקו המרכז",
+  "map.check.lanes.withinCorridor": "[HE?] בתוך מסדרון הנתיב",
+  "map.check.context.title": "המגבלות הרגילות עדיין חלות",
+  "map.check.context.imported": "הערכים נקראו {{date}}.",
+  "map.check.dq.notAuthoritative":
+    "[HE?] מידע המתוחזק בידי המפעיל — אינו ייעוץ משפטי או אישור פיקוח טיסה. יש לאמת מול המפות הרשמיות וה-NOTAM לפני טיסה.",
+  "map.check.dq.unverifiedLayers": "[HE?] שכבות אזורים לא מאומתות: {{layers}}.",
+  "map.check.dq.unverifiedRules": "[HE?] ערכים רגולטוריים לא מאומתים: {{rules}}.",
+  "map.check.dq.elevationApproximate":
+    "[HE?] גובה פני הקרקע משוער (כ-±4 מ׳); הממצאים האנכיים מורחבים באופן שמרני.",
+
   // PIN login (DO-005)
   "auth.setupTitle": "בחירת קוד PIN",
   "auth.setupDescription": "קוד ה-PIN נועל את האפליקציה במחשב זה. יש להשתמש ב-4 עד 12 ספרות.",

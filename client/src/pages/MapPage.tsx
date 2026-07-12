@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import CoordinateEntry from "@/components/map/CoordinateEntry";
+import LocationCheckPanel from "@/components/map/LocationCheckPanel";
 import PinPanel from "@/components/map/PinPanel";
 import TilesMissingNotice from "@/components/map/TilesMissingNotice";
 import ZoneLayersPanel, {
@@ -282,6 +283,9 @@ export default function MapPage() {
             <CoordinateEntry onSubmit={handleEntry} />
             <div className="rounded-lg border border-border p-4">
               <PinPanel pin={pin} />
+            </div>
+            <div className="rounded-lg border border-border p-4">
+              <LocationCheckPanel pin={pin} />
             </div>
             <div className="rounded-lg border border-border p-4">
               <ZoneLayersPanel
