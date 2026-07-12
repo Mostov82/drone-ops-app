@@ -182,6 +182,64 @@ const en = {
   "map.zones.band.notPublished": "Not published",
   "map.zones.band.noVerticalClaim": "No published altitude band",
 
+  // Location-check verdict panel (DO-015, FR-C2/C3/C5/C6).
+  // The card renders what the engine returns (server/docs/verdict-api.md) —
+  // no regulatory value is hard-coded here. Reuses the zones verdict-tier,
+  // altitude-band, rule-label and unverified/approximate strings above.
+  "map.check.title": "Location check",
+  "map.check.prompt":
+    "Drop a pin on the map or enter coordinates, then check whether you can fly there.",
+  "map.check.altitude.label": "Planned altitude (optional)",
+  "map.check.altitude.placeholder": "e.g. 50",
+  "map.check.altitude.hint":
+    "Metres above ground level. Leave blank for a horizontal-only check.",
+  "map.check.altitude.error": "Enter a planned altitude as a non-negative number of metres.",
+  "map.check.run": "Check location",
+  "map.check.running": "Checking…",
+  "map.check.checkedAt": "Checked {{date}}",
+  "map.check.error.title": "Location check could not be completed",
+  "map.check.error.generic": "The check failed. Nothing here is a verdict — try again.",
+  "map.check.clear.body":
+    "No zone contains this point. The standard regulatory limits below still apply.",
+  "map.check.units.m": "m",
+  "map.check.reasons.title": "Why",
+  "map.check.reasonKind.POINT_IN_ZONE": "The point is inside this zone",
+  "map.check.reasonKind.WITHIN_AIRPORT_BUFFER_RULE": "Within the airport / airfield buffer",
+  "map.check.reasonKind.WITHIN_LANE_CORRIDOR": "Within the flight-lane corridor",
+  "map.check.vertical.label": "Vertical",
+  "map.check.vertical.status.CONFLICT":
+    "Planned altitude conflicts with the zone's altitude band",
+  "map.check.vertical.status.BELOW_FLOOR": "Planned altitude is below the band floor",
+  "map.check.vertical.status.ABOVE_CEILING": "Planned altitude is above the band ceiling",
+  "map.check.vertical.status.NO_CLAIM": "No published altitude band — no vertical statement",
+  "map.check.vertical.clearance": "clearance {{ft}} ft",
+  "map.check.vertical.groundReaching": "ground-reaching",
+  "map.check.vertical.unbounded": "unbounded above (UNL)",
+  "map.check.vertical.title": "Vertical separation",
+  "map.check.vertical.plannedLabel": "Planned altitude",
+  "map.check.vertical.aglUnit": "m AGL",
+  "map.check.vertical.interval": "Compared as",
+  "map.check.vertical.ftAmsl": "ft AMSL",
+  "map.check.vertical.conservativeNote":
+    "Elevation is approximate, so the compared altitude is widened by the uncertainty — conflicts are never narrowed away.",
+  "map.check.vertical.noAltitude": "Enter a planned altitude above to check vertical separation.",
+  "map.check.distance.title": "Distances",
+  "map.check.distance.nearestAirport": "Nearest airport / airfield",
+  "map.check.distance.bufferWarning": "Inside the airport buffer of {{name}} ({{m}} m radius).",
+  "map.check.distance.insideImportedBuffer": "Inside the imported airport buffer polygon.",
+  "map.check.lanes.title": "CVFR flight lanes",
+  "map.check.lanes.nearest": "Nearest lane",
+  "map.check.lanes.centerlineDistance": "Distance to centerline",
+  "map.check.lanes.withinCorridor": "inside the lane corridor",
+  "map.check.context.title": "Standard limits still apply",
+  "map.check.context.imported": "Values read {{date}}.",
+  "map.check.dq.notAuthoritative":
+    "Operator-maintained information — not legal advice or an ATC clearance. Verify against the official charts and NOTAMs before flying.",
+  "map.check.dq.unverifiedLayers": "Unverified zone layers: {{layers}}.",
+  "map.check.dq.unverifiedRules": "Unverified regulatory values: {{rules}}.",
+  "map.check.dq.elevationApproximate":
+    "Terrain elevation is approximate (~±4 m); vertical findings are widened conservatively.",
+
   // PIN login (DO-005)
   "auth.setupTitle": "Choose a PIN",
   "auth.setupDescription": "The PIN locks this app on this computer. Use 4–12 digits.",
