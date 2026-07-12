@@ -4,16 +4,41 @@
 // GB-03 Gate 2) — every tile request goes to our own Express route, so the
 // page is fully functional with zero connectivity. With no package installed
 // it renders the instructive empty state instead (never a crash).
-// DO-014 draws zone overlays on this map; DO-015 consumes the elevation API.
-import { useCallback, useEffect, useRef, useState } from "react";
+// DO-014 draws the imported zone overlays on this map: verdict-driven styling
+// (the editable Gate 3 mapping, read from the server per request), legend,
+// per-layer toggles with client-side persistence, provenance/staleness/
+// unverified surfaces, and zone popups. Canvas renderer per DO-014 Amendment 1
+// (1,046 zones incl. 542 full-resolution INPA polygons; simplification is
+// forbidden — precision is safety-critical). DO-015 consumes the elevation API.
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import CoordinateEntry from "@/components/map/CoordinateEntry";
 import PinPanel from "@/components/map/PinPanel";
 import TilesMissingNotice from "@/components/map/TilesMissingNotice";
+import ZoneLayersPanel, {
+  type LegendFacts,
+  type ZoneLayersState,
+} from "@/components/map/ZoneLayersPanel";
+import i18n from "@/i18n";
 import type { LatLng } from "@/lib/coords";
 import { getMapStatus, TILE_URL_TEMPLATE, type MapStatus } from "@/lib/map-api";
+import {
+  isLayerVisible,
+  laneStyle,
+  loadLayerVisibility,
+  saveLayerVisibility,
+  verdictStyle,
+  type LayerVisibility,
+} from "@/lib/zone-display";
+import { buildZonePopupHtml } from "@/lib/zone-popup";
+import {
+  getLayerGeoJson,
+  getZoneLayers,
+  type LayerGeoJsonResponse,
+  type ZoneFeatureProperties,
+} from "@/lib/zones-api";
 
 // Initial framing of Israel (geographic constants, not regulatory values).
 const ISRAEL_CENTER: [number, number] = [31.5, 35.0];
@@ -36,13 +61,32 @@ const PIN_ICON = L.divIcon({
 
 type StatusState = { kind: "loading" } | { kind: "error" } | { kind: "ok"; status: MapStatus };
 
+type LoadedZoneData = { kind: "loading" } | { kind: "error" } | { kind: "ok"; layers: LayerGeoJsonResponse[] };
+
+const LINE_GEOMETRY_TYPES = new Set(["LineString", "MultiLineString"]);
+
+/** Verdict legend order: known tiers first, then anything unexpected, raw. */
+const VERDICT_LEGEND_ORDER = ["RESTRICTED", "NEEDS_PERMIT", "CLEAR"];
+
+function sortVerdicts(verdicts: Iterable<string>): string[] {
+  return [...new Set(verdicts)].sort((a, b) => {
+    const ia = VERDICT_LEGEND_ORDER.indexOf(a);
+    const ib = VERDICT_LEGEND_ORDER.indexOf(b);
+    return (ia === -1 ? VERDICT_LEGEND_ORDER.length : ia) - (ib === -1 ? VERDICT_LEGEND_ORDER.length : ib);
+  });
+}
+
 export default function MapPage() {
   const { t } = useTranslation();
   const [statusState, setStatusState] = useState<StatusState>({ kind: "loading" });
   const [pin, setPin] = useState<LatLng | null>(null);
+  const [zoneData, setZoneData] = useState<LoadedZoneData>({ kind: "loading" });
+  const [visibility, setVisibility] = useState<LayerVisibility>(() => loadLayerVisibility());
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
+  /** Leaflet overlay per zone layer, keyed by layer NAME (the stable layerKey). */
+  const zoneOverlaysRef = useRef<Map<string, L.GeoJSON>>(new Map());
 
   const loadStatus = useCallback(() => {
     setStatusState({ kind: "loading" });
@@ -51,9 +95,18 @@ export default function MapPage() {
       .catch(() => setStatusState({ kind: "error" }));
   }, []);
 
+  const loadZones = useCallback(() => {
+    setZoneData({ kind: "loading" });
+    getZoneLayers()
+      .then((layers) => Promise.all(layers.map((layer) => getLayerGeoJson(layer.id))))
+      .then((layers) => setZoneData({ kind: "ok", layers }))
+      .catch(() => setZoneData({ kind: "error" }));
+  }, []);
+
   useEffect(() => {
     loadStatus();
-  }, [loadStatus]);
+    loadZones();
+  }, [loadStatus, loadZones]);
 
   const tiles = statusState.kind === "ok" ? statusState.status.tiles : null;
   const tilesAvailable = tiles?.available === true;
@@ -66,6 +119,13 @@ export default function MapPage() {
       zoom: ISRAEL_INITIAL_ZOOM,
       minZoom: tiles?.minzoom ?? 0,
       maxZoom: Math.min(tiles?.maxzoom ?? MAX_ZOOM, MAX_ZOOM),
+      // DO-014 Amendment 1 (pre-authorized): canvas renderer for the full
+      // 1,046-zone load incl. the unsimplified INPA polygons (NFR-6).
+      // Explicit renderer so lane LINES are clickable: the canvas default
+      // tolerance is ~weight/2 px, which made popups on 2.5px dashed lanes
+      // practically unhittable (found in DO-014 browser verification).
+      preferCanvas: true,
+      renderer: L.canvas({ tolerance: 8 }),
     });
     L.tileLayer(TILE_URL_TEMPLATE, {
       // OSM data attribution (ODbL) — the package's own string wins if set.
@@ -80,10 +140,66 @@ export default function MapPage() {
       map.remove();
       mapRef.current = null;
       markerRef.current = null;
+      zoneOverlaysRef.current = new Map();
     };
     // Deliberately keyed on availability alone — the map initializes once per
     // installed package; metadata/labels don't change under a live map.
   }, [tilesAvailable]);
+
+  // Build the zone overlays whenever the map or the fetched data changes.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || zoneData.kind !== "ok") return;
+
+    const overlays = new Map<string, L.GeoJSON>();
+    for (const { layer, geojson } of zoneData.layers) {
+      const overlay = L.geoJSON(geojson, {
+        // Styling is driven by the verdict VALUE served per request (editable
+        // Gate 3 data) — never by zone-type constants. Lanes (line geometry)
+        // render dashed with no fill; polygons filled.
+        style: (feature) => {
+          const props = feature?.properties as ZoneFeatureProperties | undefined;
+          const verdict = props?.verdict ?? "";
+          const isLine = feature ? LINE_GEOMETRY_TYPES.has(feature.geometry.type) : false;
+          return isLine ? laneStyle(verdict) : verdictStyle(verdict);
+        },
+        onEachFeature: (feature, featureLayer) => {
+          const props = feature.properties as ZoneFeatureProperties;
+          // Bound lazily so the popup renders in the CURRENT UI language.
+          featureLayer.bindPopup(
+            () =>
+              buildZonePopupHtml(props, layer, {
+                t: (key, options) => i18n.t(key, options ?? {}) as string,
+                language: i18n.language,
+                dir: i18n.dir(),
+              }),
+            { maxWidth: 280 },
+          );
+        },
+      });
+      overlays.set(layer.name, overlay);
+    }
+
+    zoneOverlaysRef.current = overlays;
+    return () => {
+      for (const overlay of overlays.values()) overlay.remove();
+      zoneOverlaysRef.current = new Map();
+    };
+    // tilesAvailable re-runs this after map (re)creation.
+  }, [zoneData, tilesAvailable]);
+
+  // Keep overlay presence on the map in sync with the visibility toggles.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    for (const [layerName, overlay] of zoneOverlaysRef.current) {
+      if (isLayerVisible(visibility, layerName)) {
+        if (!map.hasLayer(overlay)) overlay.addTo(map);
+      } else if (map.hasLayer(overlay)) {
+        overlay.remove();
+      }
+    }
+  }, [visibility, zoneData, tilesAvailable]);
 
   // Keep the marker in sync with the pin.
   useEffect(() => {
@@ -101,6 +217,34 @@ export default function MapPage() {
     const map = mapRef.current;
     if (map) map.setView([point.lat, point.lng], Math.max(map.getZoom(), 12));
   }
+
+  function handleToggle(layerName: string, visible: boolean) {
+    setVisibility((previous) => {
+      const next = { ...previous, [layerName]: visible };
+      saveLayerVisibility(next);
+      return next;
+    });
+  }
+
+  const zoneLayersState: ZoneLayersState = useMemo(() => {
+    if (zoneData.kind === "ok") return { kind: "ok", layers: zoneData.layers.map((l) => l.layer) };
+    return zoneData.kind === "loading" ? { kind: "loading" } : { kind: "error" };
+  }, [zoneData]);
+
+  // An honest legend: only the verdict styles actually present in loaded data.
+  const legend: LegendFacts = useMemo(() => {
+    if (zoneData.kind !== "ok") return { polygonVerdicts: [], laneVerdicts: [] };
+    const polygonVerdicts: string[] = [];
+    const laneVerdicts: string[] = [];
+    for (const { geojson } of zoneData.layers) {
+      for (const feature of geojson.features) {
+        (LINE_GEOMETRY_TYPES.has(feature.geometry.type) ? laneVerdicts : polygonVerdicts).push(
+          feature.properties.verdict,
+        );
+      }
+    }
+    return { polygonVerdicts: sortVerdicts(polygonVerdicts), laneVerdicts: sortVerdicts(laneVerdicts) };
+  }, [zoneData]);
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-4">
@@ -138,6 +282,15 @@ export default function MapPage() {
             <CoordinateEntry onSubmit={handleEntry} />
             <div className="rounded-lg border border-border p-4">
               <PinPanel pin={pin} />
+            </div>
+            <div className="rounded-lg border border-border p-4">
+              <ZoneLayersPanel
+                state={zoneLayersState}
+                visibility={visibility}
+                onToggle={handleToggle}
+                legend={legend}
+                onRecheck={loadZones}
+              />
             </div>
             {statusState.status.dem.available === false && (
               <p className="text-xs text-amber-800">{t("map.elevation.missing")}</p>

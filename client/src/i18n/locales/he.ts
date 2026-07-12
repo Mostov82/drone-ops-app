@@ -152,6 +152,41 @@ const he = {
   // OSM data attribution (ODbL) — kept in Latin script in both locales.
   "map.attributionFallback": "© OpenStreetMap contributors",
 
+  // Zone overlays, legend, layer toggles (DO-014, FR-C1/FR-C4).
+  // "[HE?]"-prefixed terms are new regulatory-adjacent coinage awaiting
+  // Jonathan's review (verdict tier names, AIP altitude terminology — these
+  // feed DO-015's verdict language too). Full list in the DO-014 session log.
+  "map.zones.title": "שכבות אזורים",
+  "map.zones.loading": "טוען שכבות אזורים…",
+  "map.zones.error": "לא ניתן לטעון את שכבות האזורים מהשרת המקומי.",
+  "map.zones.empty.title": "לא יובאו נתוני אזורים",
+  "map.zones.empty.body":
+    "שכבות האזורים מגיעות ממערכי נתונים המיובאים פעם אחת במחשב זה. יש להריץ את פקודת הייבוא שלהלן (מתועדת ב-README) ואז לבדוק שוב.",
+  "map.zones.layerZoneCount": "{{n}} אזורים",
+  "map.zones.imported": "יובא בתאריך {{date}}",
+  "map.zones.unverifiedNote":
+    "[HE?] נתוני האזורים טרם אומתו חזותית מול המפות הרשמיות — יש להתייחס לכל שכבה כאל לא מאומתת.",
+  "map.zones.legend.title": "מקרא",
+  "map.zones.legend.lane": "[HE?] נתיב טיסה (CVFR)",
+  "map.zones.legend.clearContext":
+    "[HE?] נקודה ללא אזור = פנויה — המגבלות הרגולטוריות הרגילות עדיין חלות.",
+  "map.zones.verdict.RESTRICTED": "[HE?] אסור לטיסה",
+  "map.zones.verdict.NEEDS_PERMIT": "[HE?] נדרש היתר",
+  "map.zones.verdict.CLEAR": "[HE?] פנוי",
+  "map.zones.popup.band": "[HE?] רצועת גובה",
+  "map.zones.popup.directional": "[HE?] גבהים לפי כיוון (כפי שפורסמו)",
+  "map.zones.popup.envelopeNote":
+    "[HE?] הרצועה המוצגת היא מעטפת מינימום/מקסימום של הגבהים הכיווניים שפורסמו.",
+  "map.zones.popup.source": "מקור",
+  // Altitude-band value texts — semantics per server/docs/zones-api.md.
+  "map.zones.band.range": "{{floor}} – {{ceiling}}",
+  "map.zones.band.ground": "[HE?] פני הקרקע (GND)",
+  "map.zones.band.unbounded": "[HE?] ללא הגבלת גובה (UNL)",
+  "map.zones.band.amsl": "[HE?] {{ft}} רגל מעל פני הים (AMSL)",
+  "map.zones.band.agl": "[HE?] {{ft}} רגל מעל פני הקרקע (AGL) — כפי שפורסם",
+  "map.zones.band.notPublished": "לא פורסם",
+  "map.zones.band.noVerticalClaim": "[HE?] לא פורסמה רצועת גובה",
+
   // PIN login (DO-005)
   "auth.setupTitle": "בחירת קוד PIN",
   "auth.setupDescription": "קוד ה-PIN נועל את האפליקציה במחשב זה. יש להשתמש ב-4 עד 12 ספרות.",

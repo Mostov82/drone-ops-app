@@ -150,6 +150,38 @@ const en = {
   // OSM data attribution (ODbL) — kept in Latin script in both locales.
   "map.attributionFallback": "© OpenStreetMap contributors",
 
+  // Zone overlays, legend, layer toggles (DO-014, FR-C1/FR-C4)
+  "map.zones.title": "Zone layers",
+  "map.zones.loading": "Loading zone layers…",
+  "map.zones.error": "Could not load zone layers from the local server.",
+  "map.zones.empty.title": "No zone data imported",
+  "map.zones.empty.body":
+    "Zone overlays come from datasets imported once on this computer. Run the import command below (documented in the README), then check again.",
+  "map.zones.layerZoneCount": "{{n}} zones",
+  "map.zones.imported": "Imported {{date}}",
+  "map.zones.unverifiedNote":
+    "Zone data has not yet been visually verified against the official charts — treat every overlay as unverified.",
+  "map.zones.legend.title": "Legend",
+  "map.zones.legend.lane": "CVFR flight lane",
+  "map.zones.legend.clearContext":
+    "No zone at a point = clear — the standard regulatory limits still apply.",
+  "map.zones.verdict.RESTRICTED": "Restricted (no-fly)",
+  "map.zones.verdict.NEEDS_PERMIT": "Needs permit",
+  "map.zones.verdict.CLEAR": "Clear",
+  "map.zones.popup.band": "Altitude band",
+  "map.zones.popup.directional": "Directional altitudes (as published)",
+  "map.zones.popup.envelopeNote":
+    "Band shown is the min/max envelope of the published directional altitudes.",
+  "map.zones.popup.source": "Source",
+  // Altitude-band value texts — semantics per server/docs/zones-api.md.
+  "map.zones.band.range": "{{floor}} – {{ceiling}}",
+  "map.zones.band.ground": "GND (surface)",
+  "map.zones.band.unbounded": "Unbounded (UNL)",
+  "map.zones.band.amsl": "{{ft}} ft AMSL",
+  "map.zones.band.agl": "{{ft}} ft AGL (as published)",
+  "map.zones.band.notPublished": "Not published",
+  "map.zones.band.noVerticalClaim": "No published altitude band",
+
   // PIN login (DO-005)
   "auth.setupTitle": "Choose a PIN",
   "auth.setupDescription": "The PIN locks this app on this computer. Use 4–12 digits.",

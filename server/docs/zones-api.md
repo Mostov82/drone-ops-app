@@ -1,5 +1,9 @@
 # Zone datasets & import pipeline — service contract (DO-013)
 
+> **Addition 2026-07-11 (DO-014):** the read-only HTTP surface this document
+> anticipated now exists — see [Read API](#read-api-do-014--read-only) below.
+> The import pipeline remains the only writer.
+
 **Consumers:** DO-014 (map overlays/legend), DO-015 (verdict engine, vertical separation), GB-04 mission compliance (via DO-015's API).
 
 Zone data is imported from the generated, provenance-tagged datasets under
@@ -87,6 +91,65 @@ Requires Python ≥3.14 with `pyogrio` (vendors GDAL), `pyproj`, `shapely`,
 `pymupdf` (all user-level pip wheels; see the DO-013 session log tooling
 decision). Deterministic: identical inputs → byte-identical datasets, except
 the manifest's `extractedAt` date (the one documented timestamp).
+
+## Read API (DO-014 — read-only)
+
+Additive read-only routes in `server/src/zones/routes.ts`, mounted at
+`/api/zones` behind the PIN middleware like every `/api` route. They expose
+DO-013's models to the map UI (and any later consumer) **without any write
+surface** — imports stay the only writer (DO-014 escalation trigger 3).
+
+### `GET /api/zones/layers`
+
+Layer catalog for toggles and the provenance/staleness/unverified UI.
+
+```json
+{ "layers": [ {
+    "id": "…", "name": "aip-a17-llp-llr-danger",
+    "importedAt": "2026-07-11T18:43:12.000Z",
+    "verified": false,
+    "zoneCount": 113,
+    "provenance": { "title": "…", "sourceFiles": [ { "path": "…", "sha256": "…" } ],
+                    "aipUpdateStamp": "…", "extractedAt": "2026-07-10",
+                    "extractionTools": ["…"] }
+} ] }
+```
+
+- `provenance` is the parsed `MapLayer.source` blob the importer wrote; a
+  non-JSON legacy value degrades to `{ "title": "<raw>" }`.
+- Zero imported layers → `{ "layers": [] }` (HTTP 200) — the client renders
+  the instructive empty state, never an error.
+
+### `GET /api/zones/layers/:id/geojson`
+
+One layer's zones as a GeoJSON FeatureCollection, plus the layer object above.
+
+```json
+{ "layer": { … }, "geojson": { "type": "FeatureCollection", "features": [ {
+    "type": "Feature",
+    "properties": { "id": "…", "name": "LLP15 — דימונה",
+                    "zoneTypeCode": "AIP_PROHIBITED",
+                    "zoneTypeName": "AIP prohibited area (LLP)",
+                    "verdict": "RESTRICTED",
+                    "floorAmslFt": 0, "ceilingAmslFt": null,
+                    "notes": "…" },
+    "geometry": { … }
+} ] } }
+```
+
+**Consumer obligations:**
+
+1. **`verdict` is read from `ZoneType.defaultVerdict` at request time** — the
+   editable Gate 3 mapping. Style/behave off this value, never off zone-type
+   constants; a DB verdict edit must change the next fetch's rendering with no
+   code change (FR-C1 acceptance criterion, verified in DO-014).
+2. **Geometry passes through exactly as imported** — no simplification
+   (precision is safety-critical; decision-logged 2026-07-11).
+3. Altitude columns follow the [altitude semantics](#altitude-semantics--read-this-before-writing-verdict-logic-do-015)
+   above; `notes` carries the lane directional strings and `aglCeilingFt=N`
+   AGL ceilings the UI must surface.
+4. Unknown layer id → 404 `ZONES_LAYER_NOT_FOUND` (structured, bilingual);
+   internal failures → 500 `ZONES_INTERNAL`.
 
 ## What DO-013 did NOT build (by design)
 
