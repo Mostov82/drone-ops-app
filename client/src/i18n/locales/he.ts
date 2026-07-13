@@ -128,6 +128,15 @@ const he = {
   "map.missing.vectorBody":
     "חבילת האריחים המותקנת מכילה אריחים וקטוריים שהאפליקציה אינה יכולה להציג. יש לבנות אותה מחדש כאריחי תמונה (PNG) לפי השלבים ב-README ואז לבדוק שוב.",
   "map.missing.recheck": "בדיקה חוזרת",
+  "map.status.offline": "[HE?] חבילת מפות לא מקוונת",
+  "map.status.online": "[HE?] מחובר — דורש חיבור אינטרנט",
+  "map.status.noSource": "[HE?] אין מקור מפה",
+  "map.unavailable.title": "[HE?] מפה לא זמינה",
+  "map.unavailable.body": "[HE?] אין נתוני מפה לא מקוונים במכשיר זה ואין חיבור רשת. המפה תיטען באופן אוטומטי כאשר החיבור יתחדש.",
+  "map.settings.overrideLabel": "[HE?] מקור מפה",
+  "map.settings.mode.auto": "[HE?] אוטומטי (העדף לא מקוון)",
+  "map.settings.mode.offline": "[HE?] לא מקוון בלבד",
+  "map.settings.mode.online": "[HE?] מקוון בלבד",
   "map.entry.label": "קואורדינטות (עשרוני או DMS)",
   // Example coordinates are LTR data — identical in both locales.
   "map.entry.placeholder": `31.771959, 35.217018 or 31° 46' 19.05" N, 35° 13' 1.26" E`,

@@ -13,7 +13,7 @@ npm run zones:import -w server    # load all 5 zone layers (1,046 zones) from da
 
 Optional but worth it for a full demo — the two user-downloaded packages (see README for the step-by-step):
 
-- **Map tiles** (`app-data/map/` MBTiles) — without them the map shows a bilingual "package missing" state; overlays and verdicts still work over blank tiles.
+- **Map tiles** (`app-data/map/` MBTiles) — if missing, the map automatically falls back to online OpenTopoMap topographic tiles (if an internet connection is available). If offline, it shows a clean "Map unavailable" status state.
 - **DEM** (GLO-30 GeoTIFFs) — without it, altitude checks return a deliberate `DEM_NOT_AVAILABLE` error (fail-closed by design); horizontal verdicts still work.
 
 ## 2. Start
@@ -52,5 +52,4 @@ Two processes start: server on `http://127.0.0.1:3001` (local only), client on t
 ## Known demo caveats
 
 - All zone layers are **unverified** (pending the ב'-08 visual check) — the badges say so honestly.
-- Lane corridors/vertical downgrade per the 2026-07-13 decision land in the DO-015 follow-up session — until it merges, lanes report as nearest-lane facts + envelope bands.
 - `[HE?]`-prefixed Hebrew terms are awaiting terminology review.

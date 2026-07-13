@@ -76,13 +76,13 @@ data is operator-maintained information, not an authoritative airspace source.
 See `server/docs/zones-api.md` (consumer contract + regeneration steps) and
 `data-sources/zones/README.md` (dataset inventory).
 
-## Offline map & elevation data (one-time setup)
+## Offline map & elevation data (optional setup / field mode)
 
-The Airspace map (DO-012) runs **fully offline** from two user-installed packages under
-`app-data/map/` (gitignored, like all app data). The app re-checks for them on every request —
-drop the files in place and press "Check again" on the Map page; no restart needed. To **replace
-or remove** an already-installed package, stop the app first (Windows keeps the files locked
-while they are in use).
+The Airspace map runs in two modes:
+1. **Online mode (default fallback):** If an internet connection is available, the map automatically loads OpenTopoMap topographic tiles (free, keyless).
+2. **Offline mode (recommended for field use):** For reliability in areas with no internet connection, you can install the offline map tile package. When the offline package is present, the app always uses it automatically.
+
+Install the offline packages under `app-data/map/` (gitignored, like all app data). The app re-checks for them on every request — drop the files in place and the map will automatically load them (or press "Check again" on the Map page); no restart needed. To **replace or remove** an already-installed package, stop the app first (Windows keeps the files locked while they are in use).
 
 | File | What it is |
 |---|---|
