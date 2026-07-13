@@ -18,11 +18,13 @@ import CoordinateEntry from "@/components/map/CoordinateEntry";
 import LocationCheckPanel from "@/components/map/LocationCheckPanel";
 import PinPanel from "@/components/map/PinPanel";
 import TilesMissingNotice from "@/components/map/TilesMissingNotice";
+import MapUnavailableStatus from "@/components/map/MapUnavailableStatus";
 import ZoneLayersPanel, {
   type LegendFacts,
   type ZoneLayersState,
 } from "@/components/map/ZoneLayersPanel";
 import i18n from "@/i18n";
+import { resolveMapMode, type MapModeOverride } from "@/lib/map-mode";
 import type { LatLng } from "@/lib/coords";
 import { getMapStatus, TILE_URL_TEMPLATE, type MapStatus } from "@/lib/map-api";
 import {
@@ -83,6 +85,32 @@ export default function MapPage() {
   const [pin, setPin] = useState<LatLng | null>(null);
   const [zoneData, setZoneData] = useState<LoadedZoneData>({ kind: "loading" });
   const [visibility, setVisibility] = useState<LayerVisibility>(() => loadLayerVisibility());
+  const [isOnline, setIsOnline] = useState(() => navigator.onLine);
+  const [overrideMode, setOverrideMode] = useState<MapModeOverride>(() => {
+    const saved = localStorage.getItem("drone-ops-map-mode-override");
+    return (saved as MapModeOverride) || "auto";
+  });
+
+  useEffect(() => {
+    const goOnline = () => setIsOnline(true);
+    const goOffline = () => setIsOnline(false);
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+    return () => {
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
+    };
+  }, []);
+
+  const handleModeChange = useCallback((mode: MapModeOverride) => {
+    setOverrideMode(mode);
+    localStorage.setItem("drone-ops-map-mode-override", mode);
+  }, []);
+
+  const resolvedMode = useMemo(() => {
+    const localAvailable = statusState.kind === "ok" && statusState.status.tiles.available;
+    return resolveMapMode(overrideMode, localAvailable, isOnline);
+  }, [statusState, overrideMode, isOnline]);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
@@ -110,29 +138,44 @@ export default function MapPage() {
   }, [loadStatus, loadZones]);
 
   const tiles = statusState.kind === "ok" ? statusState.status.tiles : null;
-  const tilesAvailable = tiles?.available === true;
 
-  // Create/destroy the Leaflet map when the tile package is available.
+  // Create/destroy the Leaflet map when resolvedMode or tiles changes.
   useEffect(() => {
-    if (!tilesAvailable || !containerRef.current || mapRef.current) return;
+    const hasMapSource = resolvedMode === "offline" || resolvedMode === "online";
+    if (!hasMapSource || !containerRef.current || mapRef.current) return;
+
+    let tileUrl = TILE_URL_TEMPLATE;
+    let attribution = tiles?.attribution ?? t("map.attributionFallback");
+    let maxZoom = Math.min(tiles?.maxzoom ?? MAX_ZOOM, MAX_ZOOM);
+
+    if (resolvedMode === "online") {
+      tileUrl = "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png";
+      attribution = 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)';
+      maxZoom = 17; // allow deeper zoom for OpenTopoMap
+    }
+
     const map = L.map(containerRef.current, {
       center: ISRAEL_CENTER,
       zoom: ISRAEL_INITIAL_ZOOM,
-      minZoom: tiles?.minzoom ?? 0,
-      maxZoom: Math.min(tiles?.maxzoom ?? MAX_ZOOM, MAX_ZOOM),
-      // DO-014 Amendment 1 (pre-authorized): canvas renderer for the full
-      // 1,046-zone load incl. the unsimplified INPA polygons (NFR-6).
-      // Explicit renderer so lane LINES are clickable: the canvas default
-      // tolerance is ~weight/2 px, which made popups on 2.5px dashed lanes
-      // practically unhittable (found in DO-014 browser verification).
+      minZoom: resolvedMode === "offline" ? (tiles?.minzoom ?? 0) : 0,
+      maxZoom,
       preferCanvas: true,
       renderer: L.canvas({ tolerance: 8 }),
     });
-    L.tileLayer(TILE_URL_TEMPLATE, {
-      // OSM data attribution (ODbL) — the package's own string wins if set.
-      attribution: tiles?.attribution ?? t("map.attributionFallback"),
-      maxZoom: Math.min(tiles?.maxzoom ?? MAX_ZOOM, MAX_ZOOM),
+
+    const tileLayer = L.tileLayer(tileUrl, {
+      attribution,
+      maxZoom,
     }).addTo(map);
+
+    if (resolvedMode === "online") {
+      tileLayer.on("tileerror", () => {
+        if (!navigator.onLine) {
+          setIsOnline(false);
+        }
+      });
+    }
+
     map.on("click", (event: L.LeafletMouseEvent) => {
       setPin({ lat: event.latlng.lat, lng: event.latlng.lng });
     });
@@ -143,9 +186,7 @@ export default function MapPage() {
       markerRef.current = null;
       zoneOverlaysRef.current = new Map();
     };
-    // Deliberately keyed on availability alone — the map initializes once per
-    // installed package; metadata/labels don't change under a live map.
-  }, [tilesAvailable]);
+  }, [resolvedMode, tiles]);
 
   // Build the zone overlays whenever the map or the fetched data changes.
   useEffect(() => {
@@ -176,6 +217,10 @@ export default function MapPage() {
               }),
             { maxWidth: 280 },
           );
+          // DO-032 Amendment 2: clicking the zone overlay places the pin
+          featureLayer.on("click", (event: L.LeafletMouseEvent) => {
+            setPin({ lat: event.latlng.lat, lng: event.latlng.lng });
+          });
         },
       });
       overlays.set(layer.name, overlay);
@@ -186,8 +231,7 @@ export default function MapPage() {
       for (const overlay of overlays.values()) overlay.remove();
       zoneOverlaysRef.current = new Map();
     };
-    // tilesAvailable re-runs this after map (re)creation.
-  }, [zoneData, tilesAvailable]);
+  }, [zoneData, resolvedMode]);
 
   // Keep overlay presence on the map in sync with the visibility toggles.
   useEffect(() => {
@@ -200,7 +244,7 @@ export default function MapPage() {
         overlay.remove();
       }
     }
-  }, [visibility, zoneData, tilesAvailable]);
+  }, [visibility, zoneData, resolvedMode]);
 
   // Keep the marker in sync with the pin.
   useEffect(() => {
@@ -263,22 +307,39 @@ export default function MapPage() {
         </p>
       )}
 
-      {statusState.kind === "ok" && !tilesAvailable && (
-        <TilesMissingNotice
-          reason={tiles?.reason ?? "PACKAGE_MISSING"}
-          onRecheck={loadStatus}
-        />
+      {statusState.kind === "ok" && resolvedMode === "missing" && (
+        overrideMode === "offline-only" ? (
+          <TilesMissingNotice
+            reason={statusState.status.tiles.reason ?? "PACKAGE_MISSING"}
+            onRecheck={loadStatus}
+          />
+        ) : (
+          <MapUnavailableStatus onRecheck={loadStatus} />
+        )
       )}
 
-      {statusState.kind === "ok" && tilesAvailable && (
+      {statusState.kind === "ok" && resolvedMode !== "missing" && (
         <div className="flex min-h-0 flex-1 flex-col gap-4 xl:flex-row">
-          <div
-            ref={containerRef}
-            // Leaflet renders LTR map internals; the surrounding layout stays RTL-aware.
-            dir="ltr"
-            className="z-0 h-[55vh] min-h-72 w-full overflow-hidden rounded-lg border border-border xl:h-auto xl:flex-1"
-            data-testid="leaflet-container"
-          />
+          <div className="relative h-[55vh] min-h-72 w-full xl:h-auto xl:flex-1">
+            <div
+              ref={containerRef}
+              // Leaflet renders LTR map internals; the surrounding layout stays RTL-aware.
+              dir="ltr"
+              className="z-0 h-full w-full overflow-hidden rounded-lg border border-border"
+              data-testid="leaflet-container"
+            />
+            {/* The absolute-positioned source indicator! */}
+            <div className="absolute right-3 top-3 z-[1000] flex items-center gap-2 rounded-md border border-border bg-background/80 px-2.5 py-1.5 text-xs font-medium shadow-sm backdrop-blur-sm select-none" dir="auto">
+              <span className={`h-2.5 w-2.5 rounded-full ${
+                resolvedMode === "offline" ? "bg-green-500" : "bg-amber-500"
+              }`} />
+              <span>
+                {resolvedMode === "offline"
+                  ? t("map.status.offline")
+                  : t("map.status.online")}
+              </span>
+            </div>
+          </div>
           <aside className="flex w-full flex-col gap-4 xl:max-w-sm">
             <CoordinateEntry onSubmit={handleEntry} />
             <div className="rounded-lg border border-border p-4">
@@ -286,6 +347,20 @@ export default function MapPage() {
             </div>
             <div className="rounded-lg border border-border p-4">
               <LocationCheckPanel pin={pin} />
+            </div>
+            <div className="rounded-lg border border-border p-4 flex flex-col gap-2">
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("map.settings.overrideLabel")}
+              </label>
+              <select
+                className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                value={overrideMode}
+                onChange={(e) => handleModeChange(e.target.value as MapModeOverride)}
+              >
+                <option value="auto">{t("map.settings.mode.auto")}</option>
+                <option value="offline-only">{t("map.settings.mode.offline")}</option>
+                <option value="online-only">{t("map.settings.mode.online")}</option>
+              </select>
             </div>
             <div className="rounded-lg border border-border p-4">
               <ZoneLayersPanel
