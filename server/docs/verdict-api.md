@@ -85,7 +85,7 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
       "layer": { "name": "aip-zones", "importedAt": "2026-07-11T…", "verified": false },
       "vertical": { /* VerticalFinding, only when aglM was given — see below */ }
       // WITHIN_AIRPORT_BUFFER_RULE and WITHIN_LANE_CORRIDOR reasons additionally carry:
-      //   "distanceM": 2832, "rule": { "key": "airport_buffer_km" /* or cvfr_lane_half_width_m */, "value": 5, "unit": "km", "lastVerifiedAt": null }
+      //   "distanceM": 2832, "rule": { "key": "airport_buffer_km" /* or cvfr_lane_halfwidth_km */, "value": 1, "unit": "km", "lastVerifiedAt": null }
     }
   ],
 
@@ -113,11 +113,11 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
       "floorAmslFt": 1000, "ceilingAmslFt": 3500,   // Option A min/max envelope
       "notes": "CVFR lane; directional altitudes ft AMSL as published: N 1000 / S 3500 | …",
       "layer": { "name": "cvfr-lanes", "importedAt": "…", "verified": false },
-      "vertical": { "status": "BELOW_FLOOR", "clearanceFt": 494, … }  // when aglM given
+      "vertical": { "status": "BELOW_FLOOR", "clearanceFt": 494, … }  // when aglM given (downgrades verdict contribution to NEEDS_PERMIT)
     },
     "laneCount": 265,
     "corridor": {                       // null when no lane zones are imported
-      "ruleKey": "cvfr_lane_half_width_m", "halfWidthM": 1000, "ruleLastVerifiedAt": null
+      "ruleKey": "cvfr_lane_halfwidth_km", "halfWidthM": 1000, "ruleLastVerifiedAt": null
     }
   },
 
@@ -172,10 +172,14 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
 - A planned altitude **never downgrades** a horizontally triggered zone: a
   zone whose floor is above the planned altitude still yields its mapped
   verdict, with the clearance visible in `reasons[].vertical`
-  (`BELOW_FLOOR`, `clearanceFt`). **Ratified** — decision log 2026-07-11
+  (`BELOW_FLOOR`, `clearanceFt`). **Ratified** — decision log 2026-07-13
   (DO-015 escalation 2 resolution): over-strict is the accepted failure
   direction; a permissive under-floor interpretation is a regulatory
   judgment nobody has authority to make here.
+  **Exception (Amendment 1 — 2026-07-13):** For `CVFR_LANE` zones, proven clearance
+  below the floor (status `BELOW_FLOOR` after applying the ±4 m vertical uncertainty)
+  **does downgrade** its contribution from its mapped default verdict (usually `RESTRICTED`)
+  to a warning-level finding (`NEEDS_PERMIT`). P/R/D and INPA zones never downgrade.
 
 ### Distance helpers (FR-C3)
 
@@ -245,8 +249,8 @@ Consumers must present it as such.
 ### Lanes (FR-C6) — corridor containment (ratified)
 
 CVFR lanes are centerlines in the imported data; the corridor width is the
-**editable Ruleset value `cvfr_lane_half_width_m`** (decision log 2026-07-11,
-DO-015 escalation 1 → option a), seeded from the governing ב'-03 text —
+**editable Ruleset value `cvfr_lane_halfwidth_km`** (decision log 2026-07-13,
+DO-015 escalation 1 resolution / Amendment 1), seeded from the governing ב'-03 text —
 §2.ב (page ב-03-2, עדכון 2/25): *"רוחב הנתיבים הינו 2 ק"מ (1 ק"מ מכל צד
 של מרכז הנתיב) אלא אם מצוין אחרת"* — route width 2 km, **1 km each side of
 the centerline**, unless stated otherwise.
@@ -286,7 +290,7 @@ Errors from the Ruleset and DEM contracts propagate unchanged.
 | 503 | `VERDICT_NO_AIRPORT_DATA` | No AIRPORT-type zones imported — FR-C3 cannot be answered |
 | 409 | `VERDICT_UNMAPPED_ZONE_TYPE` | A triggered zone type's verdict mapping is not RESTRICTED/NEEDS_PERMIT/CLEAR (intent trigger 2 — no default assumed) |
 | 409 | `VERDICT_GEOMETRY_UNSUPPORTED` | A zone geometry the engine cannot evaluate (it could hide a restriction — the check aborts rather than skip it) |
-| 409 | `VERDICT_BAD_RULE_UNIT` | `airport_buffer_km` / `cvfr_lane_half_width_m` in a unit other than km/m — no conversion is guessed |
+| 409 | `VERDICT_BAD_RULE_UNIT` | `airport_buffer_km` / `cvfr_lane_halfwidth_km` in a unit other than km/m — no conversion is guessed |
 | 404/409/400 | `RULE_NOT_FOUND` / `RULE_VALUE_UNSET` / `RULE_TYPE_MISMATCH` | Propagated from the fail-closed Ruleset read (`ruleset-api.md`) — includes the rules echoed in `context` |
 | 503/404 | `DEM_NOT_AVAILABLE` / `DEM_OUT_OF_COVERAGE` | Propagated from the elevation service when `aglM` was requested (`map-api.md`). **The whole check aborts** — there is never a horizontal-only verdict when an altitude was asked. Retry without `aglM` for a horizontal-only check. |
 | 500 | `VERDICT_INTERNAL` | Anything unexpected (router-level catch) |

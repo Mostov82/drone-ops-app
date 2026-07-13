@@ -44,8 +44,8 @@ const VERDICT_SEVERITY: Record<VerdictValue, number> = { RESTRICTED: 2, NEEDS_PE
 
 export const AIRPORT_ZONE_TYPE = "AIRPORT";
 export const AIRPORT_BUFFER_RULE_KEY = "airport_buffer_km";
-/** Seeded from AIP ב'-03 §2.ב (decision log 2026-07-11, DO-015 escalation 1 → option a). */
-export const LANE_HALF_WIDTH_RULE_KEY = "cvfr_lane_half_width_m";
+/** Seeded from AIP ב'-03 §2.ב (decision log 2026-07-11, DO-015 escalation 1 → option a; updated 2026-07-13). */
+export const LANE_HALF_WIDTH_RULE_KEY = "cvfr_lane_halfwidth_km";
 
 /**
  * Corridor containment under the conservative rounding discipline: the
@@ -410,12 +410,20 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
             ? evaluateBand(lane.zoneTypeCode, lane.floorAmslFt, lane.ceilingAmslFt, env)
             : null;
           if (withinCorridor) {
+            let reasonVerdict = requireVerdict(lane);
+            if (vertical?.status === "BELOW_FLOOR") {
+              // Downgrade RESTRICTED to NEEDS_PERMIT (warning-level finding) per Amendment 1
+              if (reasonVerdict === "RESTRICTED") {
+                reasonVerdict = "NEEDS_PERMIT";
+              }
+            }
+
             // Horizontal containment: the lane triggers per the Gate 3
             // mapping. A blank band still makes no VERTICAL claim — the two
             // ratified rules compose (vertical stays NO_CLAIM).
             reasons.push({
               kind: "WITHIN_LANE_CORRIDOR",
-              verdict: requireVerdict(lane),
+              verdict: reasonVerdict,
               zone: zoneRef(lane),
               layer: layerRef(layers, lane),
               distanceM,
