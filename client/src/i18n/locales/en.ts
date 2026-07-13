@@ -207,6 +207,7 @@ const en = {
   "map.check.reasonKind.POINT_IN_ZONE": "The point is inside this zone",
   "map.check.reasonKind.WITHIN_AIRPORT_BUFFER_RULE": "Within the airport / airfield buffer",
   "map.check.reasonKind.WITHIN_LANE_CORRIDOR": "Within the flight-lane corridor",
+  "map.check.reasonKind.CVFR_OVERHEAD": "CVFR flight lane overhead",
   "map.check.vertical.label": "Vertical",
   "map.check.vertical.status.CONFLICT":
     "Planned altitude conflicts with the zone's altitude band",
@@ -223,8 +224,7 @@ const en = {
   "map.check.vertical.ftAmsl": "ft AMSL",
   "map.check.vertical.conservativeNote":
     "Elevation is approximate, so the compared altitude is widened by the uncertainty — conflicts are never narrowed away.",
-  "map.check.vertical.downgradedLane": "Verdict downgraded to Needs Permit: planned flight is below the lane floor.",
-  "map.check.vertical.downgradedLaneCaveat": "Warning: terrain elevation is approximate (from surface model).",
+  "map.check.vertical.allowedHeightAdvisory": "CVFR lane overhead — allowed height up to {{height}} m AGL (approximate)",
   "map.check.vertical.noAltitude": "Enter a planned altitude above to check vertical separation.",
   "map.check.distance.title": "Distances",
   "map.check.distance.nearestAirport": "Nearest airport / airfield",

@@ -211,6 +211,7 @@ const he = {
   "map.check.reasonKind.POINT_IN_ZONE": "הנקודה נמצאת בתוך אזור זה",
   "map.check.reasonKind.WITHIN_AIRPORT_BUFFER_RULE": "[HE?] בתוך רדיוס החיץ סביב שדה תעופה / מנחת",
   "map.check.reasonKind.WITHIN_LANE_CORRIDOR": "[HE?] בתוך מסדרון נתיב הטיסה",
+  "map.check.reasonKind.CVFR_OVERHEAD": "[HE?] נתיב טיסה (CVFR) ממעל",
   "map.check.vertical.label": "[HE?] אנכי",
   "map.check.vertical.status.CONFLICT": "[HE?] הגובה המתוכנן מתנגש עם רצועת הגובה של האזור",
   "map.check.vertical.status.BELOW_FLOOR": "[HE?] הגובה המתוכנן נמוך מרצפת הרצועה",
@@ -226,8 +227,7 @@ const he = {
   "map.check.vertical.ftAmsl": "[HE?] רגל מעל פני הים (AMSL)",
   "map.check.vertical.conservativeNote":
     "[HE?] גובה פני הקרקע משוער, ולכן הגובה המושווה מורחב בטווח אי-הוודאות — התנגשויות לעולם אינן מצומצמות.",
-  "map.check.vertical.downgradedLane": "[HE?] הקלה בדרגת החומרה לנדרש היתר: הטיסה מתוכננת מתחת לרצפת הנתיב.",
-  "map.check.vertical.downgradedLaneCaveat": "[HE?] אזהרה: גובה פני הקרקע הוא משוער (על בסיס מודל פני שטח).",
+  "map.check.vertical.allowedHeightAdvisory": "[HE?] נתיב טיסה (CVFR) ממעל — גובה מותר עד {{height}} מ׳ מעל פני השטח (מקורב)",
   "map.check.vertical.noAltitude": "יש להזין גובה מתוכנן למעלה כדי לבדוק הפרדה אנכית.",
   "map.check.distance.title": "מרחקים",
   "map.check.distance.nearestAirport": "שדה תעופה / מנחת קרוב",

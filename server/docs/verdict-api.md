@@ -86,6 +86,8 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
       "vertical": { /* VerticalFinding, only when aglM was given — see below */ }
       // WITHIN_AIRPORT_BUFFER_RULE and WITHIN_LANE_CORRIDOR reasons additionally carry:
       //   "distanceM": 2832, "rule": { "key": "airport_buffer_km" /* or cvfr_lane_halfwidth_km */, "value": 1, "unit": "km", "lastVerifiedAt": null }
+      // CVFR_OVERHEAD reasons additionally carry:
+      //   "allowedAglM": 48.4 (meters, rounded/clamped, null = no height claim)
     }
   ],
 
@@ -113,7 +115,8 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
       "floorAmslFt": 1000, "ceilingAmslFt": 3500,   // Option A min/max envelope
       "notes": "CVFR lane; directional altitudes ft AMSL as published: N 1000 / S 3500 | …",
       "layer": { "name": "cvfr-lanes", "importedAt": "…", "verified": false },
-      "vertical": { "status": "BELOW_FLOOR", "clearanceFt": 494, … }  // when aglM given (downgrades verdict contribution to NEEDS_PERMIT)
+      "vertical": { "status": "BELOW_FLOOR", "clearanceFt": 494, … }, // when aglM given
+      "allowedAglM": 48.4                                            // when within corridor, has published floor and no conflict
     },
     "laneCount": 265,
     "corridor": {                       // null when no lane zones are imported
@@ -176,10 +179,13 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
   (DO-015 escalation 2 resolution): over-strict is the accepted failure
   direction; a permissive under-floor interpretation is a regulatory
   judgment nobody has authority to make here.
-  **Exception (Amendment 1 — 2026-07-13):** For `CVFR_LANE` zones, proven clearance
-  below the floor (status `BELOW_FLOOR` after applying the ±4 m vertical uncertainty)
-  **does downgrade** its contribution from its mapped default verdict (usually `RESTRICTED`)
-  to a warning-level finding (`NEEDS_PERMIT`). P/R/D and INPA zones never downgrade.
+  **Exception (Amendment 2 — 2026-07-13; supersedes Amendment 1):** For `CVFR_LANE` zones,
+  proven clearance below the floor (status `BELOW_FLOOR` after applying the ±4 m vertical uncertainty)
+  or a horizontal-only check **does not trigger a restriction** — instead, it yields a
+  warning-free `"CLEAR"` overall verdict (if no other restrictions trigger) accompanied by
+  the `"CVFR_OVERHEAD"` reason kind carrying the computed `allowedAglM` headroom cap.
+  Planned flight at or above the floor remains `RESTRICTED` w/ reason `WITHIN_LANE_CORRIDOR`.
+  P/R/D and INPA zones never trigger overhead/allowed-height findings and never downgrade.
 
 ### Distance helpers (FR-C3)
 
@@ -265,11 +271,15 @@ the centerline**, unless stated otherwise.
   vertical widening rule; touching the edge counts as inside).
 - A contained lane **triggers its Gate 3 mapped verdict** (reason kind
   `WITHIN_LANE_CORRIDOR`, carrying `distanceM` and the `rule` used) and
-  participates in worst-of. Editing the width rule flips verdicts with no
-  code change (NFR-5, tested).
-- Vertical findings are unchanged: Option A envelope; a **blank published
-  band still makes NO vertical claim** (`NO_CLAIM`) even when the lane
-  triggers horizontally — the two ratified rules compose.
+  participates in worst-of if it conflicts vertically (planned flight at/above floor)
+  or lacks a published floor.
+- **Overhead lanes (Amendment 2):** containing lanes with a published floor and proven clearance
+  (flight planned below floor or horizontal-only check) trigger `"CVFR_OVERHEAD"` (verdict: `"CLEAR"`)
+  and carry `allowedAglM` (min over overlapping lanes of: floor AMSL - elevation - 4 m margin, clamped
+  to 0 and capped by ruleset `max_altitude_agl_m`, fail-closed read).
+- Vertical findings: Option A envelope; a **blank published band still makes NO vertical claim** (`NO_CLAIM`)
+  even when the lane triggers horizontally — the two ratified rules compose (vertical stays NO_CLAIM,
+  verdict remains `RESTRICTED` under `WITHIN_LANE_CORRIDOR`).
 - **Not modeled (badge-relevant):** the source text's "אלא אם מצוין אחרת"
   ("unless stated otherwise") — per-lane width exceptions on the chart
   sheets are not captured; the seeded value is the published default. This

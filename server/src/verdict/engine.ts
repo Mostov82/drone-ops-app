@@ -93,7 +93,9 @@ export type ReasonKind =
   /** The point is within the LIVE Ruleset airport buffer of the nearest airport (NFR-5). */
   | "WITHIN_AIRPORT_BUFFER_RULE"
   /** The point is within the LIVE Ruleset corridor half-width of a lane centerline. */
-  | "WITHIN_LANE_CORRIDOR";
+  | "WITHIN_LANE_CORRIDOR"
+  /** The point is within the corridor but under the published floor (advisory overhead airspace). */
+  | "CVFR_OVERHEAD";
 
 export interface VerdictReason {
   kind: ReasonKind;
@@ -111,6 +113,7 @@ export interface VerdictReason {
   rule?: EchoedNumberRule;
   /** Present when a planned altitude was given; null = zone not vertically evaluated. */
   vertical: VerticalFinding | null;
+  allowedAglM?: number | null;
 }
 
 export interface EchoedNumberRule {
@@ -166,6 +169,7 @@ export interface NearestLane {
   layer: LayerRef | null;
   /** Present when a planned altitude was given. */
   vertical: VerticalFinding | null;
+  allowedAglM?: number | null;
 }
 
 export interface VerticalReport {
@@ -307,15 +311,6 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
       if (layerRows.length === 0 || zones.length === 0) throw verdictNoZoneData();
       const layers = new Map(layerRows.map((l) => [l.id, l]));
 
-      // Elevation FIRST when an altitude was asked — a missing DEM must abort
-      // the whole check (fail-closed), not yield a horizontal-only verdict.
-      let env: PlannedAmslEnvelope | null = null;
-      let elevation: ElevationResult | null = null;
-      if (plannedAltitudeAglM !== undefined) {
-        elevation = await deps.demService.lookup(lat, lng); // DEM errors propagate
-        env = plannedAmslEnvelope(elevation.elevationM, plannedAltitudeAglM);
-      }
-
       // Horizontal containment (point-in-polygon, boundary inclusive) over
       // every area zone; lanes and other line geometries collected separately.
       const containing: VerdictZone[] = [];
@@ -330,6 +325,22 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
         }
         // Non-lane line geometries have zero area: they can never contain the
         // point and carry no defined proximity semantics — not evaluated.
+      }
+
+      // Elevation lookup. If altitude is requested, missing DEM aborts check.
+      // If no altitude is requested but lane zones exist, try to lookup elevation
+      // for CVFR_OVERHEAD allowed height calculations but ignore failures.
+      let env: PlannedAmslEnvelope | null = null;
+      let elevation: ElevationResult | null = null;
+      if (plannedAltitudeAglM !== undefined) {
+        elevation = await deps.demService.lookup(lat, lng); // DEM errors propagate
+        env = plannedAmslEnvelope(elevation.elevationM, plannedAltitudeAglM);
+      } else if (laneZones.length > 0) {
+        try {
+          elevation = await deps.demService.lookup(lat, lng);
+        } catch {
+          elevation = null;
+        }
       }
 
       const reasons: VerdictReason[] = containing.map((zone) => ({
@@ -402,35 +413,98 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
           halfWidthM,
           ruleLastVerifiedAt: laneRule.lastVerifiedAt ? laneRule.lastVerifiedAt.toISOString() : null,
         };
+
+        // 1. Calculate minAllowedAglM over all corridor-contained lanes w/ published floors that don't conflict
+        let minAllowedAglM: number | null = null;
+        if (elevation !== null) {
+          let maxAltRuleValue: number | null = null;
+          for (const lane of laneZones) {
+            if (lane.floorAmslFt !== null) {
+              const rawDistanceM = distanceToLineM(lane.geometryJson, lane.name, lat, lng);
+              const distanceM = Math.floor(rawDistanceM);
+              const withinCorridor = corridorContains(rawDistanceM, halfWidthM);
+              if (withinCorridor) {
+                let hasConflict = false;
+                if (plannedAltitudeAglM !== undefined) {
+                  const env = plannedAmslEnvelope(elevation.elevationM, plannedAltitudeAglM);
+                  const vertical = evaluateBand(lane.zoneTypeCode, lane.floorAmslFt, lane.ceilingAmslFt, env);
+                  if (vertical.status === "CONFLICT" || vertical.status === "ABOVE_CEILING") {
+                    hasConflict = true;
+                  }
+                }
+                if (!hasConflict) {
+                  if (maxAltRuleValue === null) {
+                    const maxAltRule = await deps.rulesetReader.getNumberRule("max_altitude_agl_m");
+                    maxAltRuleValue = maxAltRule.value;
+                  }
+                  const floorM = lane.floorAmslFt * 0.3048;
+                  const allowed = floorM - elevation.elevationM - 4;
+                  const allowedAglM = Math.min(Math.max(0, allowed), maxAltRuleValue);
+                  if (minAllowedAglM === null || allowedAglM < minAllowedAglM) {
+                    minAllowedAglM = allowedAglM;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // 2. Add reasons and track nearest lane
         for (const lane of laneZones) {
           const rawDistanceM = distanceToLineM(lane.geometryJson, lane.name, lat, lng);
           const distanceM = Math.floor(rawDistanceM);
           const withinCorridor = corridorContains(rawDistanceM, halfWidthM);
-          const vertical = env
-            ? evaluateBand(lane.zoneTypeCode, lane.floorAmslFt, lane.ceilingAmslFt, env)
-            : null;
-          if (withinCorridor) {
-            let reasonVerdict = requireVerdict(lane);
-            if (vertical?.status === "BELOW_FLOOR") {
-              // Downgrade RESTRICTED to NEEDS_PERMIT (warning-level finding) per Amendment 1
-              if (reasonVerdict === "RESTRICTED") {
-                reasonVerdict = "NEEDS_PERMIT";
-              }
-            }
+          const hasPublishedFloor = lane.floorAmslFt !== null;
+          let hasConflict = false;
+          let vertical: VerticalFinding | null = null;
 
-            // Horizontal containment: the lane triggers per the Gate 3
-            // mapping. A blank band still makes no VERTICAL claim — the two
-            // ratified rules compose (vertical stays NO_CLAIM).
-            reasons.push({
-              kind: "WITHIN_LANE_CORRIDOR",
-              verdict: reasonVerdict,
-              zone: zoneRef(lane),
-              layer: layerRef(layers, lane),
-              distanceM,
-              rule: echoNumber(laneRule),
-              vertical,
-            });
+          if (plannedAltitudeAglM !== undefined && elevation !== null) {
+            const env = plannedAmslEnvelope(elevation.elevationM, plannedAltitudeAglM);
+            vertical = evaluateBand(lane.zoneTypeCode, lane.floorAmslFt, lane.ceilingAmslFt, env);
+            if (vertical.status === "CONFLICT" || vertical.status === "ABOVE_CEILING") {
+              hasConflict = true;
+            }
           }
+
+          if (withinCorridor) {
+            if (hasPublishedFloor && elevation !== null && !hasConflict) {
+              // CVFR_OVERHEAD reason
+              reasons.push({
+                kind: "CVFR_OVERHEAD",
+                verdict: "CLEAR",
+                zone: zoneRef(lane),
+                layer: layerRef(layers, lane),
+                distanceM,
+                rule: echoNumber(laneRule),
+                vertical: vertical || {
+                  status: "BELOW_FLOOR",
+                  clearanceFt: null,
+                  groundReaching: false,
+                  unboundedCeiling: false,
+                  assumptions: [],
+                },
+                allowedAglM: minAllowedAglM !== null ? Math.round(minAllowedAglM * 100) / 100 : null,
+              });
+            } else {
+              // Mapped restriction reason (WITHIN_LANE_CORRIDOR)
+              reasons.push({
+                kind: "WITHIN_LANE_CORRIDOR",
+                verdict: requireVerdict(lane), // RESTRICTED
+                zone: zoneRef(lane),
+                layer: layerRef(layers, lane),
+                distanceM,
+                rule: echoNumber(laneRule),
+                vertical: vertical || (hasPublishedFloor ? null : {
+                  status: "NO_CLAIM",
+                  clearanceFt: null,
+                  groundReaching: false,
+                  unboundedCeiling: false,
+                  assumptions: [],
+                }),
+              });
+            }
+          }
+
           if (nearestLane === null || distanceM < nearestLane.horizontalDistanceM) {
             nearestLane = {
               zoneId: lane.id,
@@ -441,8 +515,30 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
               ceilingAmslFt: lane.ceilingAmslFt,
               notes: lane.notes,
               layer: layerRef(layers, lane),
-              vertical,
+              vertical: vertical || (hasPublishedFloor && withinCorridor && !hasConflict ? {
+                status: "BELOW_FLOOR",
+                clearanceFt: null,
+                groundReaching: false,
+                unboundedCeiling: false,
+                assumptions: [],
+              } : null),
+              allowedAglM: null,
             };
+          }
+        }
+
+        // Set allowedAglM on nearestLane if it qualifies
+        if (nearestLane && nearestLane.withinCorridor && nearestLane.floorAmslFt !== null && elevation !== null) {
+          let hasConflict = false;
+          if (plannedAltitudeAglM !== undefined) {
+            const env = plannedAmslEnvelope(elevation.elevationM, plannedAltitudeAglM);
+            const vertical = evaluateBand("CVFR_LANE", nearestLane.floorAmslFt, nearestLane.ceilingAmslFt, env);
+            if (vertical.status === "CONFLICT" || vertical.status === "ABOVE_CEILING") {
+              hasConflict = true;
+            }
+          }
+          if (!hasConflict && minAllowedAglM !== null) {
+            nearestLane.allowedAglM = Math.round(minAllowedAglM * 100) / 100;
           }
         }
       }
@@ -496,7 +592,7 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
         dataQuality: {
           layers: layerRefs,
           unverifiedLayers: layerRefs.filter((l) => !l.verified).map((l) => l.name),
-          elevationApproximate: elevation !== null,
+          elevationApproximate: plannedAltitudeAglM !== undefined || reasons.some((r) => r.kind === "CVFR_OVERHEAD"),
           unverifiedRuleKeys,
         },
         checkedAt: now().toISOString(),
