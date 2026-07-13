@@ -421,7 +421,6 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
           for (const lane of laneZones) {
             if (lane.floorAmslFt !== null) {
               const rawDistanceM = distanceToLineM(lane.geometryJson, lane.name, lat, lng);
-              const distanceM = Math.floor(rawDistanceM);
               const withinCorridor = corridorContains(rawDistanceM, halfWidthM);
               if (withinCorridor) {
                 let hasConflict = false;
