@@ -309,23 +309,74 @@ describe("verdict engine — vertical separation (FR-C5/C6)", () => {
     expect(result.lanes.nearest!.withinCorridor).toBe(true);
     expect(result.lanes.nearest!.vertical!.status).toBe("BELOW_FLOOR");
     expect(result.lanes.nearest!.vertical!.clearanceFt).toBe(494); // elev 100, agl 50, floor 1000
-    // Corridor containment triggers the lane's mapped verdict; under Amendment 1,
-    // the vertical clearance BELOW_FLOOR downgrades it from RESTRICTED to NEEDS_PERMIT.
-    const reason = result.reasons.find((r) => r.kind === "WITHIN_LANE_CORRIDOR");
+    // Under Amendment 2, proven clearance below the floor triggers CVFR_OVERHEAD (verdict CLEAR).
+    const reason = result.reasons.find((r) => r.kind === "CVFR_OVERHEAD");
     expect(reason).toBeDefined();
     expect(reason!.zone.id).toBe("Z-lane");
     expect(reason!.rule!.key).toBe("cvfr_lane_halfwidth_km");
-    expect(reason!.verdict).toBe("NEEDS_PERMIT");
-    expect(result.verdict).toBe("NEEDS_PERMIT");
+    expect(reason!.verdict).toBe("CLEAR");
+    expect(reason!.allowedAglM).toBe(50); // capped by max_altitude_agl_m
+    expect(result.verdict).toBe("CLEAR");
   });
 
-  it("vertical refinement: planned altitude with certain clearance downgrades the lane verdict", async () => {
+  it("vertical refinement: planned altitude with certain clearance yields CLEAR + advisory", async () => {
     const { deps } = setup();
     const result = await createVerdictEngine(deps).check({ lat: 32.45, lng: 35.44, plannedAltitudeAglM: 50 });
-    expect(result.verdict).toBe("NEEDS_PERMIT");
+    expect(result.verdict).toBe("CLEAR");
     const reason = result.reasons.find((r) => r.zone.id === "Z-lane")!;
-    expect(reason.verdict).toBe("NEEDS_PERMIT");
+    expect(reason.verdict).toBe("CLEAR");
+    expect(reason.kind).toBe("CVFR_OVERHEAD");
     expect(reason.vertical!.status).toBe("BELOW_FLOOR");
+    expect(reason.allowedAglM).toBe(50);
+  });
+
+  it("allowed height: min over overlapping lanes, margin subtraction, zero-clamp", async () => {
+    const zones = baseZones();
+    zones.push(
+      zone({
+        id: "Z-lane-low",
+        name: "ROUTE-LOW",
+        zoneTypeCode: "CVFR_LANE",
+        defaultVerdict: "RESTRICTED",
+        geometryJson: JSON.stringify({ type: "LineString", coordinates: [[35.4, 32.4], [35.5, 32.5]] }),
+        floorAmslFt: 600, // 600 * 0.3048 = 182.88 m
+        ceilingAmslFt: 1500,
+        mapLayerId: "L-lane",
+      }),
+    );
+    const { deps } = setup({ zones, elevationM: 100 });
+    const engine = createVerdictEngine(deps);
+
+    // 1. Capped by Ruleset (max_altitude_agl_m is 50).
+    const result1 = await engine.check({ lat: 32.45, lng: 35.44, plannedAltitudeAglM: 20 });
+    expect(result1.verdict).toBe("CLEAR");
+    expect(result1.reasons.find((r) => r.zone.id === "Z-lane-low")!.allowedAglM).toBe(50);
+
+    // 2. Headroom binds (ruleset max is 100).
+    const { deps: deps2, rulesetStore } = setup({ zones, elevationM: 100 });
+    await updateRuleValue(rulesetStore, "max_altitude_agl_m", 100, "test edit");
+    const result2 = await createVerdictEngine(deps2).check({ lat: 32.45, lng: 35.44, plannedAltitudeAglM: 20 });
+    expect(result2.verdict).toBe("CLEAR");
+    expect(result2.reasons.find((r) => r.zone.id === "Z-lane-low")!.allowedAglM).toBe(78.88);
+
+    // 3. Zero-clamp: headroom is negative.
+    const zonesNegative = baseZones();
+    zonesNegative.push(
+      zone({
+        id: "Z-lane-negative",
+        name: "ROUTE-NEG",
+        zoneTypeCode: "CVFR_LANE",
+        defaultVerdict: "RESTRICTED",
+        geometryJson: JSON.stringify({ type: "LineString", coordinates: [[35.4, 32.4], [35.5, 32.5]] }),
+        floorAmslFt: 300, // 300 * 0.3048 = 91.44
+        ceilingAmslFt: 1500,
+        mapLayerId: "L-lane",
+      }),
+    );
+    const { deps: depsNeg } = setup({ zones: zonesNegative, elevationM: 100 });
+    const resultNegHoriz = await createVerdictEngine(depsNeg).check({ lat: 32.45, lng: 35.44 });
+    expect(resultNegHoriz.verdict).toBe("CLEAR");
+    expect(resultNegHoriz.reasons.find((r) => r.zone.id === "Z-lane-negative")!.allowedAglM).toBe(0);
   });
 
   it("vertical refinement boundary: planned altitude overlap with floor (due to ±4m margin) does NOT downgrade", async () => {
@@ -416,8 +467,10 @@ describe("verdict engine — lane corridor containment", () => {
     const point = { lat: 32.45, lng: 35.44 }; // a few hundred meters from Z-lane's centerline
 
     const before = await engine.check(point);
-    // Since plannedAltitudeAglM is not provided, Z-lane triggers horizontally and remains RESTRICTED.
-    expect(before.verdict).toBe("RESTRICTED");
+    // Since plannedAltitudeAglM is not provided, Z-lane triggers horizontally as a CVFR_OVERHEAD (verdict CLEAR).
+    expect(before.verdict).toBe("CLEAR");
+    expect(before.reasons).toHaveLength(1);
+    expect(before.reasons[0].kind).toBe("CVFR_OVERHEAD");
     expect(before.lanes.nearest!.withinCorridor).toBe(true);
 
     // The normal editor path — narrow the corridor below the point's distance.

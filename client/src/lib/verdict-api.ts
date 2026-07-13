@@ -59,7 +59,7 @@ export interface ReasonZone {
 }
 
 export interface VerdictReason {
-  kind: "POINT_IN_ZONE" | "WITHIN_AIRPORT_BUFFER_RULE" | "WITHIN_LANE_CORRIDOR" | string;
+  kind: "POINT_IN_ZONE" | "WITHIN_AIRPORT_BUFFER_RULE" | "WITHIN_LANE_CORRIDOR" | "CVFR_OVERHEAD" | string;
   verdict: Verdict;
   zone: ReasonZone;
   layer: LayerInfo;
@@ -67,6 +67,7 @@ export interface VerdictReason {
   /** WITHIN_AIRPORT_BUFFER_RULE / WITHIN_LANE_CORRIDOR carry these. */
   distanceM?: number;
   rule?: RuleRef;
+  allowedAglM?: number | null;
 }
 
 export interface NearestAirport {
@@ -100,6 +101,7 @@ export interface NearestLane {
   notes: string | null;
   layer: LayerInfo;
   vertical?: VerticalFinding | null;
+  allowedAglM?: number | null;
 }
 
 export interface LaneCorridorRule {

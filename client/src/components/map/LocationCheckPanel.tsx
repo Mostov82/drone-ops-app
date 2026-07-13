@@ -285,10 +285,6 @@ function ReasonRow({
   formatImported: (iso: string) => string;
 }) {
   const band = altitudeBandTextParts(describeAltitudeBand(reason.zone), t);
-  const isDowngradedLane =
-    reason.zone.zoneTypeCode === "CVFR_LANE" &&
-    reason.vertical?.status === "BELOW_FLOOR";
-
   return (
     <div className="rounded-md border border-border bg-background/60 p-2">
       <div className="flex flex-wrap items-center gap-2">
@@ -314,10 +310,11 @@ function ReasonRow({
         <span dir="auto">{band}</span>
       </div>
       {reason.vertical && <VerticalFindingLine vertical={reason.vertical} t={t} />}
-      {isDowngradedLane && (
+      {reason.kind === "CVFR_OVERHEAD" && reason.allowedAglM !== undefined && reason.allowedAglM !== null && (
         <div className="mt-2 rounded border border-amber-200 bg-amber-50/50 p-2 text-xs text-amber-900" dir="auto">
-          <p className="font-medium">{t("map.check.vertical.downgradedLane")}</p>
-          <p className="mt-0.5 text-amber-800">{t("map.check.vertical.downgradedLaneCaveat")}</p>
+          <p className="font-medium">
+            {t("map.check.vertical.allowedHeightAdvisory", { height: reason.allowedAglM })}
+          </p>
         </div>
       )}
       <div className="mt-1 text-xs text-muted-foreground" dir="auto">
@@ -420,10 +417,11 @@ function LaneRow({
         <span dir="auto">{band}</span>
       </div>
       {lane.vertical && <VerticalFindingLine vertical={lane.vertical} t={t} />}
-      {lane.withinCorridor && lane.vertical?.status === "BELOW_FLOOR" && (
+      {lane.withinCorridor && lane.allowedAglM !== undefined && lane.allowedAglM !== null && (
         <div className="mt-1.5 rounded border border-amber-200 bg-amber-50/50 p-2 text-[11px] text-amber-900" dir="auto">
-          <p className="font-medium">{t("map.check.vertical.downgradedLane")}</p>
-          <p className="mt-0.5 text-amber-800">{t("map.check.vertical.downgradedLaneCaveat")}</p>
+          <p className="font-medium">
+            {t("map.check.vertical.allowedHeightAdvisory", { height: lane.allowedAglM })}
+          </p>
         </div>
       )}
     </div>
