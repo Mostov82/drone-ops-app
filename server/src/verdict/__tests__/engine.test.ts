@@ -117,7 +117,7 @@ function baseZones(): VerdictZone[] {
 function baseRules(): RuleRecord[] {
   return [
     ruleFixture({ key: "airport_buffer_km", numberValue: 2, unit: "km" }),
-    ruleFixture({ key: "cvfr_lane_half_width_m", numberValue: 1000, unit: "m" }),
+    ruleFixture({ key: "cvfr_lane_halfwidth_km", numberValue: 1, unit: "km" }),
     ruleFixture({ key: "max_altitude_agl_m", numberValue: 50, unit: "m" }),
     ruleFixture({ key: "min_distance_people_structures_m", numberValue: 250, unit: "m" }),
     ruleFixture({ key: "vlos_required", valueType: "BOOLEAN", boolValue: true }),
@@ -309,14 +309,55 @@ describe("verdict engine — vertical separation (FR-C5/C6)", () => {
     expect(result.lanes.nearest!.withinCorridor).toBe(true);
     expect(result.lanes.nearest!.vertical!.status).toBe("BELOW_FLOOR");
     expect(result.lanes.nearest!.vertical!.clearanceFt).toBe(494); // elev 100, agl 50, floor 1000
-    // Corridor containment triggers the lane's mapped verdict (decision log
-    // 2026-07-11, escalation 1 → option a); the vertical clearance does NOT
-    // downgrade it (escalation 2, no-downgrade ratified).
+    // Corridor containment triggers the lane's mapped verdict; under Amendment 1,
+    // the vertical clearance BELOW_FLOOR downgrades it from RESTRICTED to NEEDS_PERMIT.
     const reason = result.reasons.find((r) => r.kind === "WITHIN_LANE_CORRIDOR");
     expect(reason).toBeDefined();
     expect(reason!.zone.id).toBe("Z-lane");
-    expect(reason!.rule!.key).toBe("cvfr_lane_half_width_m");
+    expect(reason!.rule!.key).toBe("cvfr_lane_halfwidth_km");
+    expect(reason!.verdict).toBe("NEEDS_PERMIT");
+    expect(result.verdict).toBe("NEEDS_PERMIT");
+  });
+
+  it("vertical refinement: planned altitude with certain clearance downgrades the lane verdict", async () => {
+    const { deps } = setup();
+    const result = await createVerdictEngine(deps).check({ lat: 32.45, lng: 35.44, plannedAltitudeAglM: 50 });
+    expect(result.verdict).toBe("NEEDS_PERMIT");
+    const reason = result.reasons.find((r) => r.zone.id === "Z-lane")!;
+    expect(reason.verdict).toBe("NEEDS_PERMIT");
+    expect(reason.vertical!.status).toBe("BELOW_FLOOR");
+  });
+
+  it("vertical refinement boundary: planned altitude overlap with floor (due to ±4m margin) does NOT downgrade", async () => {
+    const { deps } = setup();
+    // Z-lane floor is 1000 ft AMSL. At 100 m elevation, planned altitude of 201 m (659 ft)
+    // results in [minFt: 974, maxFt: 1001], which overlaps floor 1000 ft (CONFLICT).
+    // The verdict remains RESTRICTED.
+    const result = await createVerdictEngine(deps).check({ lat: 32.45, lng: 35.44, plannedAltitudeAglM: 201 });
     expect(result.verdict).toBe("RESTRICTED");
+    const reason = result.reasons.find((r) => r.zone.id === "Z-lane")!;
+    expect(reason.verdict).toBe("RESTRICTED");
+    expect(reason.vertical!.status).toBe("CONFLICT");
+  });
+
+  it("vertical refinement: P/R/D and INPA zones NEVER downgrade vertically", async () => {
+    const zones = baseZones();
+    const prohibitedZone = zones.find((z) => z.id === "Z-p")!;
+    prohibitedZone.floorAmslFt = 1000;
+    const reserveZone = zones.find((z) => z.id === "Z-r")!;
+    reserveZone.floorAmslFt = 1000;
+
+    const { deps } = setup({ zones });
+
+    const resP = await createVerdictEngine(deps).check({ ...IN_PROHIBITED, plannedAltitudeAglM: 50 });
+    const reasonP = resP.reasons.find((r) => r.zone.id === "Z-p")!;
+    expect(reasonP.vertical!.status).toBe("BELOW_FLOOR");
+    expect(reasonP.verdict).toBe("RESTRICTED"); // remains RESTRICTED
+
+    const resR = await createVerdictEngine(deps).check({ ...IN_RESERVE, plannedAltitudeAglM: 50 });
+    const reasonR = resR.reasons.find((r) => r.zone.id === "Z-r")!;
+    expect(reasonR.vertical!.status).toBe("BELOW_FLOOR");
+    expect(reasonR.verdict).toBe("NEEDS_PERMIT"); // remains NEEDS_PERMIT
   });
 
   it("inside a lane band within the corridor → CONFLICT + the lane's mapped verdict", async () => {
@@ -363,7 +404,7 @@ describe("verdict engine — lane corridor containment", () => {
   it("outside the corridor: lane reported as facts only, no verdict participation", async () => {
     const { deps } = setup();
     const result = await createVerdictEngine(deps).check(IN_RESERVE); // far from both lanes
-    expect(result.lanes.corridor).toMatchObject({ ruleKey: "cvfr_lane_half_width_m", halfWidthM: 1000 });
+    expect(result.lanes.corridor).toMatchObject({ ruleKey: "cvfr_lane_halfwidth_km", halfWidthM: 1000 });
     expect(result.lanes.nearest!.withinCorridor).toBe(false);
     expect(result.reasons.find((r) => r.kind === "WITHIN_LANE_CORRIDOR")).toBeUndefined();
     expect(result.verdict).toBe("NEEDS_PERMIT"); // the reserve only
@@ -375,11 +416,12 @@ describe("verdict engine — lane corridor containment", () => {
     const point = { lat: 32.45, lng: 35.44 }; // a few hundred meters from Z-lane's centerline
 
     const before = await engine.check(point);
+    // Since plannedAltitudeAglM is not provided, Z-lane triggers horizontally and remains RESTRICTED.
     expect(before.verdict).toBe("RESTRICTED");
     expect(before.lanes.nearest!.withinCorridor).toBe(true);
 
     // The normal editor path — narrow the corridor below the point's distance.
-    await updateRuleValue(rulesetStore, "cvfr_lane_half_width_m", 300, "test edit");
+    await updateRuleValue(rulesetStore, "cvfr_lane_halfwidth_km", 0.3, "test edit");
 
     const after = await engine.check(point);
     expect(after.verdict).toBe("CLEAR");
@@ -389,15 +431,15 @@ describe("verdict engine — lane corridor containment", () => {
   });
 
   it("lanes imported + width rule missing → RULE_NOT_FOUND (fail closed, never a constant)", async () => {
-    const { deps } = setup({ rules: baseRules().filter((r) => r.key !== "cvfr_lane_half_width_m") });
+    const { deps } = setup({ rules: baseRules().filter((r) => r.key !== "cvfr_lane_halfwidth_km") });
     await expect(createVerdictEngine(deps).check(OPEN_AREA)).rejects.toMatchObject({
       code: "RULE_NOT_FOUND",
-      ruleKey: "cvfr_lane_half_width_m",
+      ruleKey: "cvfr_lane_halfwidth_km",
     });
   });
 
   it("lanes imported + width rule unset → RULE_VALUE_UNSET", async () => {
-    const rules = baseRules().map((r) => (r.key === "cvfr_lane_half_width_m" ? { ...r, numberValue: null } : r));
+    const rules = baseRules().map((r) => (r.key === "cvfr_lane_halfwidth_km" ? { ...r, numberValue: null } : r));
     const { deps } = setup({ rules });
     await expect(createVerdictEngine(deps).check(OPEN_AREA)).rejects.toMatchObject({
       code: "RULE_VALUE_UNSET",
@@ -405,7 +447,7 @@ describe("verdict engine — lane corridor containment", () => {
   });
 
   it("width rule in an unexpected unit → VERDICT_BAD_RULE_UNIT (no guessed conversion)", async () => {
-    const rules = baseRules().map((r) => (r.key === "cvfr_lane_half_width_m" ? { ...r, unit: "ft" } : r));
+    const rules = baseRules().map((r) => (r.key === "cvfr_lane_halfwidth_km" ? { ...r, unit: "ft" } : r));
     const { deps } = setup({ rules });
     await expect(createVerdictEngine(deps).check(OPEN_AREA)).rejects.toMatchObject({
       code: "VERDICT_BAD_RULE_UNIT",
@@ -414,7 +456,7 @@ describe("verdict engine — lane corridor containment", () => {
 
   it("no lane zones imported → the width rule is not required and corridor is null", async () => {
     const zones = baseZones().filter((z) => z.zoneTypeCode !== "CVFR_LANE");
-    const rules = baseRules().filter((r) => r.key !== "cvfr_lane_half_width_m");
+    const rules = baseRules().filter((r) => r.key !== "cvfr_lane_halfwidth_km");
     const { deps } = setup({ zones, rules });
     const result = await createVerdictEngine(deps).check(OPEN_AREA);
     expect(result.verdict).toBe("CLEAR");
@@ -550,7 +592,7 @@ describe("verdict engine — data-quality flags (never authoritative)", () => {
     // lane corridor width, read because lane zones are imported).
     expect(result.dataQuality.unverifiedRuleKeys.sort()).toEqual([
       "airport_buffer_km",
-      "cvfr_lane_half_width_m",
+      "cvfr_lane_halfwidth_km",
       "daylight_only",
       "max_altitude_agl_m",
       "min_distance_people_structures_m",

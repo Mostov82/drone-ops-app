@@ -50,17 +50,19 @@ export const RULESET_SEED: RuleSeed[] = [
     description: "No-fly buffer around airports and airfields.",
   },
   {
-    // DO-015 escalation 1 → option (a), decision log 2026-07-11: the CVFR
-    // lane corridor width is editable Ruleset data sourced from the governing
-    // ב'-03 text — never a constant in code. Seeds unverified like everything.
-    key: "cvfr_lane_half_width_m",
+    // DO-015 escalation 1 resolution, decision log 2026-07-13 (DO-015
+    // Amendment 1): the CVFR lane corridor width is editable Ruleset data
+    // sourced from the governing ב'-03 text — never a constant in code.
+    // Seeds unverified like everything. (Citation date corrected in
+    // supervisor verification 2026-07-13.)
+    key: "cvfr_lane_halfwidth_km",
     category: "DISTANCE",
     label: "CVFR lane corridor half-width",
     valueType: "NUMBER",
-    numberValue: 1000,
-    unit: "m",
+    numberValue: 1,
+    unit: "km",
     description:
-      'Half-width of a CVFR low-transport-route corridor, measured from the published centerline. Source (governing text): AIP פמ"ת ב\'-03 §2.ב (page ב-03-2, עדכון 2/25 · 02 Oct 2025): "רוחב הנתיבים הינו 2 ק"מ (1 ק"מ מכל צד של מרכז הנתיב) אלא אם מצוין אחרת" — route width 2 km, 1 km each side of the centerline, unless stated otherwise. Per-lane exceptions ("unless stated otherwise") are NOT modeled; verify against the ב\'-03 chart sheets (GB-06 Gate 3). Added per decision log 2026-07-11 (DO-015 escalation 1, option a).',
+      'Half-width of a CVFR low-transport-route corridor, measured from the published centerline. Source (governing text): AIP פמ"ת ב\'-03 §2.ב (page ב-03-2, עדכון 2/25 · 02 Oct 2025): "רוחב הנתיבים הינו 2 ק"מ (1 ק"מ מכל צד של מרכז הנתיב) אלא אם מצוין אחרת" — route width 2 km, 1 km each side of the centerline, unless stated otherwise. Per-lane exceptions ("unless stated otherwise") are NOT modeled; verify against the ב\'-03 chart sheets (GB-06 Gate 3). Added per decision log 2026-07-13 (DO-015 escalation 1 resolution / Amendment 1).',
   },
   {
     key: "vlos_required",
@@ -139,6 +141,9 @@ export const RULESET_SEED: RuleSeed[] = [
  * duplicates rules and never clobbers values later edited through the app.
  */
 export async function seedRuleset(prisma: PrismaClient): Promise<void> {
+  // Clean up old cvfr_lane_half_width_m if it exists to prevent duplicates.
+  await prisma.regulationRule.deleteMany({ where: { key: "cvfr_lane_half_width_m" } });
+
   for (const rule of RULESET_SEED) {
     await prisma.regulationRule.upsert({
       where: { key: rule.key },

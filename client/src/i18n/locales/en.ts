@@ -112,6 +112,7 @@ const en = {
   "ruleset.rule.permit_turnaround_hours_min": "Permit turnaround (minimum)",
   "ruleset.rule.permit_turnaround_hours_max": "Permit turnaround (maximum)",
   "ruleset.rule.registration_weight_threshold_g": "Registration weight threshold",
+  "ruleset.rule.cvfr_lane_halfwidth_km": "CVFR lane corridor half-width",
 
   // Offline map & elevation (DO-012, FR-C1/C2/C5)
   "nav.map": "Map",
@@ -222,6 +223,8 @@ const en = {
   "map.check.vertical.ftAmsl": "ft AMSL",
   "map.check.vertical.conservativeNote":
     "Elevation is approximate, so the compared altitude is widened by the uncertainty — conflicts are never narrowed away.",
+  "map.check.vertical.downgradedLane": "Verdict downgraded to Needs Permit: planned flight is below the lane floor.",
+  "map.check.vertical.downgradedLaneCaveat": "Warning: terrain elevation is approximate (from surface model).",
   "map.check.vertical.noAltitude": "Enter a planned altitude above to check vertical separation.",
   "map.check.distance.title": "Distances",
   "map.check.distance.nearestAirport": "Nearest airport / airfield",

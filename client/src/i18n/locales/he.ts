@@ -111,6 +111,7 @@ const he = {
   "ruleset.rule.permit_turnaround_hours_min": "זמן טיפול בהיתר (מינימלי)",
   "ruleset.rule.permit_turnaround_hours_max": "זמן טיפול בהיתר (מקסימלי)",
   "ruleset.rule.registration_weight_threshold_g": "סף משקל המראה לחובת רישום",
+  "ruleset.rule.cvfr_lane_halfwidth_km": "[HE?] חצי רוחב מסדרון נתיב טיסה (CVFR)",
 
   // Offline map & elevation (DO-012, FR-C1/C2/C5).
   // "[HE?]"-prefixed terms are new regulatory-adjacent coinage awaiting
@@ -225,6 +226,8 @@ const he = {
   "map.check.vertical.ftAmsl": "[HE?] רגל מעל פני הים (AMSL)",
   "map.check.vertical.conservativeNote":
     "[HE?] גובה פני הקרקע משוער, ולכן הגובה המושווה מורחב בטווח אי-הוודאות — התנגשויות לעולם אינן מצומצמות.",
+  "map.check.vertical.downgradedLane": "[HE?] הקלה בדרגת החומרה לנדרש היתר: הטיסה מתוכננת מתחת לרצפת הנתיב.",
+  "map.check.vertical.downgradedLaneCaveat": "[HE?] אזהרה: גובה פני הקרקע הוא משוער (על בסיס מודל פני שטח).",
   "map.check.vertical.noAltitude": "יש להזין גובה מתוכנן למעלה כדי לבדוק הפרדה אנכית.",
   "map.check.distance.title": "מרחקים",
   "map.check.distance.nearestAirport": "שדה תעופה / מנחת קרוב",
