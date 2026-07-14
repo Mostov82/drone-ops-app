@@ -122,9 +122,9 @@ const en = {
   "map.statusError": "Could not reach the local server for map status.",
   "map.missing.title": "Offline map package not installed",
   "map.missing.body":
-    "The map works fully offline from a tile package built once on this computer. Follow the one-time steps in the README, then check again.",
+    "An offline map tile package is not installed. You can build it for offline field use per the README instructions. In the meantime, the app runs using online tiles when connected.",
   "map.missing.vectorBody":
-    "The installed tile package holds vector tiles, which this app cannot display. Rebuild it as raster (PNG) tiles per the README's one-time steps, then check again.",
+    "The installed tile package holds vector tiles, which this app cannot display. Rebuild it as raster (PNG) tiles per the README instructions to use it offline.",
   "map.missing.recheck": "Check again",
   "map.status.offline": "Offline package",
   "map.status.online": "Online — requires connection",
@@ -150,7 +150,13 @@ const en = {
   "map.elevation.approximateNote":
     "From a ~30 m surface model (typically ±4 m). Never precise; planning must round conservatively.",
   "map.elevation.missing":
-    "No offline elevation data installed — see the README's one-time DEM download.",
+    "Elevation data is not available offline. It will be downloaded automatically when connected.",
+  "map.elevation.downloading":
+    "Downloading elevation data: {{downloaded}}/{{total}} tiles ({{progress}}%)...",
+  "map.elevation.downloadFailed": "Elevation download failed: {{error}}",
+  "map.elevation.downloadRetry": "Retry download",
+  "map.elevation.downloadOffline":
+    "Elevation download will complete automatically when connected.",
   "map.elevation.outOfCoverage": "Outside the installed elevation tiles.",
   "map.elevation.error": "Elevation lookup failed.",
   "map.crosscheck.run": "Cross-check online",
@@ -159,14 +165,14 @@ const en = {
     "Optional online sanity check via Open Topo Data (SRTM 30 m). Runs only when you press the button.",
   // OSM data attribution (ODbL) — kept in Latin script in both locales.
   "map.attributionFallback": "© OpenStreetMap contributors",
-
+ 
   // Zone overlays, legend, layer toggles (DO-014, FR-C1/FR-C4)
   "map.zones.title": "Zone layers",
   "map.zones.loading": "Loading zone layers…",
   "map.zones.error": "Could not load zone layers from the local server.",
   "map.zones.empty.title": "No zone data imported",
   "map.zones.empty.body":
-    "Zone overlays come from datasets imported once on this computer. Run the import command below (documented in the README), then check again.",
+    "Zone layers are missing or currently importing. They will automatically import on boot when available.",
   "map.zones.layerZoneCount": "{{n}} zones",
   "map.zones.imported": "Imported {{date}}",
   "map.zones.unverifiedNote":

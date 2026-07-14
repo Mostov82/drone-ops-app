@@ -72,9 +72,6 @@ function EmptyState({ onRecheck }: { onRecheck: () => void }) {
         {t("map.zones.empty.title", { lng: otherLanguage })}
       </p>
       <p className="mt-3 text-xs">{t("map.zones.empty.body")}</p>
-      <p className="mt-2 text-xs font-medium" dir="ltr">
-        <code>npm run zones:import -w server</code> · README → “Zone datasets”
-      </p>
       <Button type="button" variant="outline" size="sm" className="mt-3" onClick={onRecheck}>
         {t("map.missing.recheck")}
       </Button>

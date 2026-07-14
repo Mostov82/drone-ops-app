@@ -2,19 +2,16 @@
 
 Quick-start for showing the app end to end (Ruleset editor → offline map → zone overlays → location-check verdicts). Windows, from the repo root.
 
-## 1. One-time setup (skip what you've already done)
+## 1. Setup
 
 ```bash
 npm install
-npm run db:migrate -w server      # create/upgrade app-data/drone-ops.db
-npm run db:seed -w server         # Ruleset catalog + zone-type verdicts (idempotent)
-npm run zones:import -w server    # load all 5 zone layers (1,046 zones) from data-sources/zones/
 ```
 
-Optional but worth it for a full demo — the two user-downloaded packages (see README for the step-by-step):
+On first run, database migrations, Ruleset seeding, and zone layers will provision themselves automatically. The Copernicus GLO-30 DEM elevation data downloads in the background when connected to the internet.
 
-- **Map tiles** (`app-data/map/` MBTiles) — if missing, the map automatically falls back to online OpenTopoMap topographic tiles (if an internet connection is available). If offline, it shows a clean "Map unavailable" status state.
-- **DEM** (GLO-30 GeoTIFFs) — without it, altitude checks return a deliberate `DEM_NOT_AVAILABLE` error (fail-closed by design); horizontal verdicts still work.
+Optional map tile package:
+- **Map tiles** (`app-data/map/tiles.mbtiles`) — optional offline map tiles. If missing, the map automatically falls back to online OpenTopoMap topographic tiles (when connected). If offline, it surfaces a clean "Map unavailable" status state.
 
 ## 2. Start
 

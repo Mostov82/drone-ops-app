@@ -9,6 +9,7 @@
 //    rule, an unset value, or a type mismatch throws a structured
 //    RulesetError. There are no defaults — the app must never authorize a
 //    flight on missing regulatory data.
+import type { PrismaClient } from "@prisma/client";
 import { ApiError } from "../api-error.js";
 
 export type RuleValueType = "NUMBER" | "BOOLEAN" | "TEXT";
@@ -63,18 +64,18 @@ export interface RulesetStore {
   history(ruleId: string): Promise<RuleChangeRecord[]>;
 }
 
-export function createPrismaRulesetStore(): RulesetStore {
+export function createPrismaRulesetStore(prismaInstance?: PrismaClient): RulesetStore {
   return {
     async list() {
-      const { prisma } = await import("../db.js");
+      const prisma = prismaInstance ?? (await import("../db.js")).prisma;
       return prisma.regulationRule.findMany({ orderBy: [{ category: "asc" }, { key: "asc" }] });
     },
     async getByKey(key) {
-      const { prisma } = await import("../db.js");
+      const prisma = prismaInstance ?? (await import("../db.js")).prisma;
       return prisma.regulationRule.findUnique({ where: { key } });
     },
     async applyValueChange({ ruleId, data, previousValue, newValue, note }) {
-      const { prisma } = await import("../db.js");
+      const prisma = prismaInstance ?? (await import("../db.js")).prisma;
       const [updated] = await prisma.$transaction([
         prisma.regulationRule.update({ where: { id: ruleId }, data }),
         prisma.regulationRuleChange.create({
@@ -84,14 +85,14 @@ export function createPrismaRulesetStore(): RulesetStore {
       return updated;
     },
     async setVerified(ruleId, when) {
-      const { prisma } = await import("../db.js");
+      const prisma = prismaInstance ?? (await import("../db.js")).prisma;
       return prisma.regulationRule.update({
         where: { id: ruleId },
         data: { lastVerifiedAt: when },
       });
     },
     async history(ruleId) {
-      const { prisma } = await import("../db.js");
+      const prisma = prismaInstance ?? (await import("../db.js")).prisma;
       return prisma.regulationRuleChange.findMany({
         where: { ruleId },
         orderBy: { changedAt: "desc" },

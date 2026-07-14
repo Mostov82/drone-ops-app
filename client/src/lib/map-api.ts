@@ -83,3 +83,29 @@ export async function crosscheckElevation(lat: number, lng: number): Promise<Cro
     ),
   );
 }
+
+export interface DemDownloadStatus {
+  status: "idle" | "pending" | "downloading" | "done" | "failed" | "offline-missing";
+  downloaded: number;
+  total: number;
+  progress: number;
+  currentFile: string | null;
+  error: string | null;
+}
+
+export interface ProvisioningStatus {
+  database: { status: string; error: string | null };
+  ruleset: { status: string; error: string | null };
+  zones: { status: string; error: string | null };
+  dem: DemDownloadStatus;
+}
+
+export async function getProvisioningStatus(): Promise<ProvisioningStatus> {
+  return parseOrThrow<ProvisioningStatus>(await fetch("/api/provisioning/status"));
+}
+
+export async function retryDemDownload(): Promise<{ message: string; status: DemDownloadStatus }> {
+  return parseOrThrow<{ message: string; status: DemDownloadStatus }>(
+    await fetch("/api/provisioning/retry-dem", { method: "POST" }),
+  );
+}
