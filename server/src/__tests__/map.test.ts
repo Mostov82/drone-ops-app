@@ -256,3 +256,80 @@ describe("GET /api/map/elevation/crosscheck", () => {
     expect(res.body.elevationM).toBeUndefined();
   });
 });
+
+describe("GET /api/map/search", () => {
+  it("fails with 400 if q parameter is missing or empty", async () => {
+    const { agent } = await makeMapApp();
+    const res1 = await agent.get("/api/map/search");
+    expect(res1.status).toBe(400);
+    expect(res1.body.code).toBe("MAP_BAD_REQUEST");
+
+    const res2 = await agent.get("/api/map/search?q=");
+    expect(res2.status).toBe(400);
+    expect(res2.body.code).toBe("MAP_BAD_REQUEST");
+  });
+
+  it("proxies results on success", async () => {
+    const mockResults = [
+      { place_id: 123, display_name: "Test Place", lat: "32.1", lon: "34.8" },
+    ];
+    const fakeFetch = async () => ({
+      ok: true,
+      json: async () => mockResults,
+    } as unknown as Response);
+
+    const app = makeApp({
+      map: {
+        tileStore: createMbtilesStore(path.join(os.tmpdir(), "none.mbtiles")),
+        demService: createDemService(path.join(os.tmpdir(), "none-dem")),
+        searchFetch: fakeFetch,
+      },
+    });
+    const agent = await authedAgent(app);
+
+    const res = await agent.get("/api/map/search?q=test");
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual(mockResults);
+  });
+
+  it("triggers 429 rate limit if requests are under 1000ms apart", async () => {
+    const fakeFetch = async () => ({
+      ok: true,
+      json: async () => [],
+    } as unknown as Response);
+
+    const app = makeApp({
+      map: {
+        tileStore: createMbtilesStore(path.join(os.tmpdir(), "none.mbtiles")),
+        demService: createDemService(path.join(os.tmpdir(), "none-dem")),
+        searchFetch: fakeFetch,
+      },
+    });
+    const agent = await authedAgent(app);
+
+    const res1 = await agent.get("/api/map/search?q=test1");
+    expect(res1.status).toBe(200);
+
+    const res2 = await agent.get("/api/map/search?q=test2");
+    expect(res2.status).toBe(429);
+    expect(res2.body.code).toBe("SEARCH_RATE_LIMIT");
+  });
+
+  it("fails with 503 SEARCH_OFFLINE when network is down", async () => {
+    const offlineFetch = async () => {
+      throw new TypeError("Failed to fetch");
+    };
+
+    const app = makeApp({
+      map: {
+        tileStore: createMbtilesStore(path.join(os.tmpdir(), "none.mbtiles")),
+        demService: createDemService(path.join(os.tmpdir(), "none-dem")),
+        searchFetch: offlineFetch,
+      },
+    });
+    const agent = await authedAgent(app);
+    const res = await agent.get("/api/map/search?q=test");
+    expect(res.status).toBe(503);
+    expect(res.body.code).toBe("SEARCH_OFFLINE");
+  });
+});

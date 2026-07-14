@@ -59,3 +59,36 @@ Explicit-user-action only; the app never calls it automatically (offline-first, 
 ```
 
 Failure (offline, timeout ≤ 8 s, provider error): 502 `CROSSCHECK_FAILED`, structured — the offline lookup remains authoritative and the app remains fully functional without this route.
+
+## `GET /api/map/search?q=…` — Nominatim place search proxy
+
+Online-only geocoding search for addresses and place names, proxying OpenStreetMap's Nominatim instance with Israel bias. Enforces a strict server-side rate limit of 1 request/second to comply with the usage policy.
+
+### Parameters
+- `q`: string (required) - address or place name to search.
+
+### Response
+Returns an array of search results from Nominatim. E.g.:
+```json
+[
+  {
+    "place_id": 282245369,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+    "osm_type": "node",
+    "osm_id": 2743290264,
+    "boundingbox": ["32.7766579", "32.7767579", "35.4137255", "35.4138255"],
+    "lat": "32.7767079",
+    "lon": "35.4137755",
+    "display_name": "Golani Junction, Road 65, Kfar Tavor Local Council, Northern District, Israel",
+    "class": "highway",
+    "type": "junction",
+    "importance": 0.36001
+  }
+]
+```
+
+### Errors
+- `429` `SEARCH_RATE_LIMIT`: if queries are sent faster than 1 request/second.
+- `503` `SEARCH_OFFLINE`: if the server is offline or cannot connect to Nominatim.
+- `502` `SEARCH_SERVICE_ERROR`: if Nominatim returns an error status.
+- `400` `MAP_BAD_REQUEST`: if the query parameter `q` is missing or empty.

@@ -12,6 +12,7 @@ export interface MapRouterDeps {
   tileStore?: TileStore;
   demService?: DemService;
   crosscheckFetch?: FetchLike;
+  searchFetch?: FetchLike;
 }
 
 function tilePackageMissingApiError(): ApiError {
@@ -117,6 +118,70 @@ export function createMapRouter(deps: MapRouterDeps = {}) {
     try {
       const { lat, lng } = parseLatLng(req.query as Record<string, unknown>);
       res.json(await crosscheckElevation(lat, lng, deps.crosscheckFetch));
+    } catch (err) {
+      handleError(res, err);
+    }
+  });
+
+  let lastSearchTime = 0;
+
+  router.get("/search", async (req, res) => {
+    try {
+      const q = req.query.q;
+      if (typeof q !== "string" || q.trim() === "") {
+        sendApiError(res, badRequest("query parameter q is required"));
+        return;
+      }
+
+      const now = Date.now();
+      const elapsed = now - lastSearchTime;
+      if (elapsed < 1000) {
+        sendApiError(
+          res,
+          new ApiError(429, "SEARCH_RATE_LIMIT", {
+            en: "Search rate limit exceeded. Please wait a second and try again.",
+            he: "חריגה מקצב החיפוש. אנא המתן שנייה ונסה שוב.",
+          }),
+        );
+        return;
+      }
+      lastSearchTime = now;
+
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+        q,
+      )}&format=jsonv2&countrycodes=il&accept-language=he,en&limit=5`;
+
+      const fetchFn = deps.searchFetch ?? fetch;
+
+      try {
+        const response = await fetchFn(url, {
+          headers: {
+            "User-Agent": "Drone-Ops-App/1.0 (contact: jonathan@example.com)",
+          },
+        });
+
+        if (!response.ok) {
+          sendApiError(
+            res,
+            new ApiError(502, "SEARCH_SERVICE_ERROR", {
+              en: "Place search service returned an error.",
+              he: "שירות חיפוש המקומות החזיר שגיאה.",
+            }),
+          );
+          return;
+        }
+
+        const data = await response.json();
+        res.json(data);
+      } catch {
+        sendApiError(
+          res,
+          new ApiError(503, "SEARCH_OFFLINE", {
+            en: "Place search is offline. Check your internet connection.",
+            he: "חיפוש מקומות אינו זמין במצב לא מקוון. בדוק את החיבור לרשת.",
+          }),
+        );
+      }
     } catch (err) {
       handleError(res, err);
     }
