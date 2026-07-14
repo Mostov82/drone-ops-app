@@ -81,7 +81,7 @@ describe("Seeding pipeline", () => {
 
 describe("API endpoints", () => {
   it("GET /api/provisioning/status returns status structure", async () => {
-    const app = makeApp();
+    const app = makeApp({ prisma });
     const agent = await authedAgent(app);
 
     const res = await agent.get("/api/provisioning/status");

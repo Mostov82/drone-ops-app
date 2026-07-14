@@ -1,8 +1,9 @@
 import { Router } from "express";
+import type { PrismaClient } from "@prisma/client";
 import { demDownloader } from "./dem-downloader.js";
-import { prisma } from "../db.js";
+import { prisma as globalPrisma } from "../db.js";
 
-export function createProvisioningRouter() {
+export function createProvisioningRouter(prisma: PrismaClient = globalPrisma) {
   const router = Router();
 
   router.get("/status", async (_req, res) => {
