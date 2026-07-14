@@ -23,9 +23,6 @@ export default function TilesMissingNotice({
         {t("map.missing.title", { lng: otherLanguage })}
       </p>
       <p className="mt-4 text-sm">{t(bodyKey)}</p>
-      <p className="mt-2 text-sm font-medium" dir="ltr">
-        README → “Offline map & elevation data”
-      </p>
       <Button type="button" variant="outline" className="mt-4" onClick={onRecheck}>
         {t("map.missing.recheck")}
       </Button>

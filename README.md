@@ -62,15 +62,18 @@ Zone datasets (AIP prohibited/restricted/danger areas, drone-specific LLU
 closures, OSM airport buffer anchors) are generated from the read-only source
 snapshots in `data-sources/aip/` + `data-sources/gis/` and committed under
 `data-sources/zones/` with per-dataset provenance manifests and reconciliation
-reports. Load them into the local database with:
+reports.
+
+These datasets are loaded and updated in the database **automatically on server boot**
+if they are missing or if the source files are newer than the imported layer.
+Manual re-imports (e.g. for development) can still be run via:
 
 ```
 npm run zones:import -w server
 ```
 
 Re-importing a dataset replaces its layer cleanly. Airport buffer radii are
-read from the Regulations Ruleset at import time (edit the rule → re-import to
-regenerate). **All imported layers are `verified=false`** until visually
+read from the Regulations Ruleset at import time. **All imported layers are `verified=false`** until visually
 verified against the official charts (release blocker, GB-06 Gate 3) — the
 data is operator-maintained information, not an authoritative airspace source.
 See `server/docs/zones-api.md` (consumer contract + regeneration steps) and
@@ -128,7 +131,11 @@ atlas with [MOBAC](https://mobac.sourceforge.io/) (custom XML map source pointin
 ### 2. Elevation data (Copernicus GLO-30 DEM)
 
 Ten 1°×1° GeoTIFF tiles cover Israel (~300 MB total), served from the public AWS Open Data
-bucket — plain HTTPS, no account or key. From PowerShell at the repo root:
+bucket.
+
+These files are **downloaded automatically by the app in the background** on boot if they are missing and internet connectivity is available. Progress and status can be tracked directly in the app.
+
+For offline setup or pre-downloading before first launch, you can run the following PowerShell script from the repo root:
 
 ```powershell
 New-Item -ItemType Directory -Force app-data\map\dem

@@ -19,6 +19,7 @@ import LocationCheckPanel from "@/components/map/LocationCheckPanel";
 import PinPanel from "@/components/map/PinPanel";
 import TilesMissingNotice from "@/components/map/TilesMissingNotice";
 import MapUnavailableStatus from "@/components/map/MapUnavailableStatus";
+import { Button } from "@/components/ui/button";
 import ZoneLayersPanel, {
   type LegendFacts,
   type ZoneLayersState,
@@ -26,7 +27,14 @@ import ZoneLayersPanel, {
 import i18n from "@/i18n";
 import { resolveMapMode, type MapModeOverride } from "@/lib/map-mode";
 import type { LatLng } from "@/lib/coords";
-import { getMapStatus, TILE_URL_TEMPLATE, type MapStatus } from "@/lib/map-api";
+import {
+  getMapStatus,
+  TILE_URL_TEMPLATE,
+  type MapStatus,
+  getProvisioningStatus,
+  retryDemDownload,
+  type ProvisioningStatus,
+} from "@/lib/map-api";
 import {
   isLayerVisible,
   laneStyle,
@@ -123,6 +131,48 @@ export default function MapPage() {
       .then((status) => setStatusState({ kind: "ok", status }))
       .catch(() => setStatusState({ kind: "error" }));
   }, []);
+
+  const [provStatus, setProvStatus] = useState<ProvisioningStatus | null>(null);
+
+  const handleRetryDem = useCallback(async () => {
+    try {
+      await retryDemDownload();
+      const status = await getProvisioningStatus();
+      setProvStatus(status);
+    } catch (err) {
+      console.error("Failed to retry DEM download:", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    let timerId: NodeJS.Timeout | null = null;
+
+    async function checkStatus() {
+      try {
+        const status = await getProvisioningStatus();
+        if (!active) return;
+        setProvStatus((prev) => {
+          if (prev && prev.dem.status !== "done" && status.dem.status === "done") {
+            loadStatus();
+          }
+          return status;
+        });
+        if (status.dem.status === "downloading" || status.dem.status === "pending") {
+          timerId = setTimeout(checkStatus, 2000);
+        }
+      } catch (err) {
+        console.error("Failed to fetch provisioning status:", err);
+      }
+    }
+
+    checkStatus();
+
+    return () => {
+      active = false;
+      if (timerId) clearTimeout(timerId);
+    };
+  }, [loadStatus]);
 
   const loadZones = useCallback(() => {
     setZoneData({ kind: "loading" });
@@ -372,7 +422,59 @@ export default function MapPage() {
               />
             </div>
             {statusState.status.dem.available === false && (
-              <p className="text-xs text-amber-800">{t("map.elevation.missing")}</p>
+              <div className="rounded-lg border border-border bg-amber-500/5 p-4 text-xs flex flex-col gap-2">
+                {!provStatus ? (
+                  <p className="text-amber-800">{t("map.elevation.missing")}</p>
+                ) : provStatus.dem.status === "downloading" ? (
+                  <>
+                    <p className="font-medium text-amber-800">
+                      {t("map.elevation.downloading", {
+                        downloaded: provStatus.dem.downloaded,
+                        total: provStatus.dem.total,
+                        progress: provStatus.dem.progress,
+                      })}
+                    </p>
+                    <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
+                      <div
+                        className="bg-amber-600 h-full transition-all duration-300"
+                        style={{ width: `${provStatus.dem.progress}%` }}
+                      />
+                    </div>
+                  </>
+                ) : provStatus.dem.status === "failed" ? (
+                  <>
+                    <p className="font-medium text-red-800">
+                      {t("map.elevation.downloadFailed", { error: provStatus.dem.error || "" })}
+                    </p>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={handleRetryDem}
+                      className="self-start text-xs h-7 px-2.5"
+                    >
+                      {t("map.elevation.downloadRetry")}
+                    </Button>
+                  </>
+                ) : provStatus.dem.status === "offline-missing" ? (
+                  <>
+                    <p className="font-medium text-amber-800">
+                      {t("map.elevation.downloadOffline")}
+                    </p>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={handleRetryDem}
+                      className="self-start text-xs h-7 px-2.5"
+                    >
+                      {t("map.elevation.downloadRetry")}
+                    </Button>
+                  </>
+                ) : (
+                  <p className="text-amber-800">{t("map.elevation.missing")}</p>
+                )}
+              </div>
             )}
           </aside>
         </div>
