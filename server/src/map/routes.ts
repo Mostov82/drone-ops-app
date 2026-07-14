@@ -156,7 +156,7 @@ export function createMapRouter(deps: MapRouterDeps = {}) {
       try {
         const response = await fetchFn(url, {
           headers: {
-            "User-Agent": "Drone-Ops-App/1.0 (contact: jonathan@example.com)",
+            "User-Agent": "Drone-Ops-App/1.0 (contact: jonathan.mostov@gmail.com)",
           },
         });
 

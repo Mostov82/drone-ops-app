@@ -332,4 +332,36 @@ describe("GET /api/map/search", () => {
     expect(res.status).toBe(503);
     expect(res.body.code).toBe("SEARCH_OFFLINE");
   });
+
+  // Regression (DO-034): Nominatim's usage policy blocks User-Agents carrying a
+  // placeholder contact (e.g. example.com) with a 403, which surfaced as an
+  // opaque 502 SEARCH_SERVICE_ERROR and broke every search. Guard the header we
+  // send so a placeholder contact can never ship again.
+  it("sends a Nominatim-compliant User-Agent with a real contact", async () => {
+    let sentUserAgent: string | undefined;
+    const capturingFetch = async (_url: string, init?: unknown) => {
+      const headers = (init as { headers?: Record<string, string> } | undefined)?.headers;
+      sentUserAgent = headers?.["User-Agent"];
+      return { ok: true, json: async () => [] } as unknown as Response;
+    };
+
+    const app = makeApp({
+      map: {
+        tileStore: createMbtilesStore(path.join(os.tmpdir(), "none.mbtiles")),
+        demService: createDemService(path.join(os.tmpdir(), "none-dem")),
+        searchFetch: capturingFetch,
+      },
+    });
+    const agent = await authedAgent(app);
+
+    const res = await agent.get("/api/map/search?q=tel+aviv");
+    expect(res.status).toBe(200);
+
+    // Policy requires an identifying UA; a placeholder/example contact is rejected.
+    expect(sentUserAgent, "search proxy must send a User-Agent").toBeTruthy();
+    expect(sentUserAgent).not.toMatch(/example\.(com|org|net)/i);
+    expect(sentUserAgent).not.toMatch(/\byour[-_.]?(email|domain|contact)\b/i);
+    // Must carry a concrete contact (a URL or email) so OSM can reach the operator.
+    expect(sentUserAgent).toMatch(/@|https?:\/\//);
+  });
 });
