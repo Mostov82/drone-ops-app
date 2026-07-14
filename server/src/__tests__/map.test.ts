@@ -339,8 +339,9 @@ describe("GET /api/map/search", () => {
   // send so a placeholder contact can never ship again.
   it("sends a Nominatim-compliant User-Agent with a real contact", async () => {
     let sentUserAgent: string | undefined;
-    const capturingFetch = async (_url: string, init?: { headers?: Record<string, string> }) => {
-      sentUserAgent = init?.headers?.["User-Agent"];
+    const capturingFetch = async (_url: string, init?: unknown) => {
+      const headers = (init as { headers?: Record<string, string> } | undefined)?.headers;
+      sentUserAgent = headers?.["User-Agent"];
       return { ok: true, json: async () => [] } as unknown as Response;
     };
 
