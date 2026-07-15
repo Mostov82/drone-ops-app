@@ -1,5 +1,5 @@
 // Regulations Ruleset seed catalog — GB-02 Gate 1 resolution, 2026-07-10
-// (see work/decision-log.md). This module is the ONLY sanctioned place where
+// This module is the ONLY sanctioned place where
 // regulatory values exist outside the database (conventions §4): it provisions
 // them INTO the database. All values seed unverified (lastVerifiedAt null);
 // verification is GB-02 Gate 2 / GB-06 Gate 3.

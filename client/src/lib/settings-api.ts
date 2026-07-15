@@ -12,7 +12,7 @@ export interface AppSettings {
   };
 }
 
-// Alert tier defaults per GB-02 Gate 3 resolution (60/30/7, see work/decision-log.md).
+// Alert tier defaults per GB-02 Gate 3 resolution (60/30/7).
 export const DEFAULT_SETTINGS: AppSettings = {
   language: DEFAULT_LANGUAGE,
   units: "metric",

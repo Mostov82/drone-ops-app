@@ -3,9 +3,6 @@
 A locally run, offline-capable web app for drone operators in Israel: compliance tracking, fleet
 registry, airspace checks, pre-flight checklists, maintenance, and flight logs.
 
-Product contract: `Drone-Ops-App_PRD.md`. Planning/methodology record: `work/`
-(see `work/AGENT_CONVENTIONS.md` before opening any development session).
-
 ## Prerequisites
 
 - **Node.js ≥ 20** (npm included)
@@ -33,7 +30,6 @@ local, single-machine app by design.
 ```
 client/   React + Vite + TypeScript, Tailwind CSS + shadcn/ui
 server/   Node + Express + TypeScript
-work/     Planning docs: goal briefs, intent docs, session logs, decision log
 ```
 
 ## Data & backup
@@ -175,4 +171,4 @@ for lockout recovery (the data was never encrypted with the PIN).
 
 ## Engineering conventions
 
-*(Placeholder — grows with the codebase. Methodology-level conventions live in `work/AGENT_CONVENTIONS.md`.)*
+*(Placeholder — grows with the codebase.)*

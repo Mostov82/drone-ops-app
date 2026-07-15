@@ -1,6 +1,6 @@
 # CAAI AIP (פמ"ת פנים ארצי) — zone data sources
 
-Added 2026-07-10 by Jonathan (see `work/decision-log.md`, GB-03 Gate 1 amendment). Primary source material for DO-013 (zone data model + import).
+Added 2026-07-10 by Jonathan (GB-03 Gate 1 amendment). Primary source material for DO-013 (zone data model + import).
 
 | File | Original name | Content | Update stamp |
 |---|---|---|---|
