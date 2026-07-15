@@ -202,7 +202,7 @@ One Zone row per segment; \`floorAmslFt\` = minimum and \`ceilingAmslFt\` = maxi
 published directional altitude number on the segment (dual values like \`2000/1000\` contribute
 both numbers — the conservative envelope). Raw directional strings are preserved verbatim in the
 feature properties and carried onto \`Zone.notes\`. Partially published segments (one direction
-\`<Null>\`) take the envelope of what IS published. See \`work/decision-log.md\`, DECISION 2026-07-11.
+\`<Null>\`) take the envelope of what IS published. Per DECISION 2026-07-11.
 
 ## Directional altitude value inventory (trigger 6 evidence)
 

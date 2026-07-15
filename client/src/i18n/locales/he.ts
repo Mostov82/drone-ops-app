@@ -1,4 +1,4 @@
-// Hebrew shell strings — reviewed and approved by Jonathan, 2026-07-07 (see work/decision-log.md).
+// Hebrew shell strings — reviewed and approved by Jonathan, 2026-07-07.
 // Flat keys, one per line, mirroring en.ts. `satisfies` below enforces key parity with English.
 // Convention for future strings: terminology an agent cannot assert confidently carries a
 // visible "[HE?] " prefix until human review — never guess regulatory terms.
