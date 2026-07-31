@@ -36,7 +36,7 @@ export function verdictNoAirportData(): ApiError {
 
 /**
  * A triggered zone's type carries a verdict value outside the Gate 3 mapping
- * (RESTRICTED / NEEDS_PERMIT / CLEAR). Intent doc escalation trigger 2:
+ * (RESTRICTED / NEEDS_PERMIT / CLEAR). By design:
  * fail closed and surface — never default to needs-permit or clear.
  */
 export function verdictUnmappedZoneType(zoneTypeCode: string, value: string): ApiError {

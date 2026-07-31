@@ -442,7 +442,7 @@ describe("verdict engine — vertical separation (FR-C5/C6)", () => {
   });
 });
 
-// ───────────────── Lane corridor (escalation 1 → option a, decision log 2026-07-11) ─────────────────
+// ───────────────── Lane corridor (escalation 1 → option a, DECISION 2026-07-11) ─────────────────
 
 describe("verdict engine — lane corridor containment", () => {
   it("corridorContains floors the distance — rounding WIDENS containment, never narrows it", () => {

@@ -1,5 +1,5 @@
 // DO-014 — additive READ-ONLY zone routes (the consumer surface zones-api.md
-// says DO-014/DO-015 add on top of DO-013's models; escalation trigger 3
+// says DO-014/DO-015 add on top of DO-013's models; the design constraint
 // keeps this strictly read-only — the import pipeline stays the only writer).
 // Mounted behind the PIN middleware in app.ts like every /api route.
 //
@@ -151,7 +151,7 @@ export function createZonesRouter(store: ZonesReadStore = createPrismaZonesReadS
   /**
    * One layer's zones as a GeoJSON FeatureCollection. Geometry is passed
    * through EXACTLY as imported (no simplification — precision is
-   * safety-critical, decision-logged); verdict comes from the live ZoneType
+   * safety-critical, ratified); verdict comes from the live ZoneType
    * mapping at request time.
    */
   router.get("/layers/:id/geojson", async (req, res) => {

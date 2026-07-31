@@ -4,7 +4,7 @@
 // Fail-closed like the Ruleset: a missing DEM raises a structured error —
 // never a default elevation (acceptance criterion; mirrors GB-02 Gate 1).
 // Every successful result is flagged approximate — GLO-30 is a ~30 m surface
-// model, ~±4 m vertical (decision log 2026-07-10); DO-015 rounds conservatively.
+// model, ~±4 m vertical (DECISION 2026-07-10); DO-015 rounds conservatively.
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { fromFile, type GeoTIFF, type GeoTIFFImage } from "geotiff";

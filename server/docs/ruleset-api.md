@@ -44,7 +44,7 @@ Every accessor **throws a `RulesetError`** — it never returns a default, `null
 Values live in the database (seeded by `src/ruleset/seed-catalog.ts` via `npm run db:seed -w server`). Keys, by category:
 
 - ALTITUDE: `max_altitude_agl_m`
-- DISTANCE: `min_distance_people_structures_m`, `airport_buffer_km`, `cvfr_lane_halfwidth_km` (CVFR lane corridor half-width from the centerline; ב'-03 §2.ב default, per-lane exceptions unmodeled — DO-015 escalation 1 / decision log 2026-07-11 / updated 2026-07-13; read fail-closed by the verdict engine's lane-corridor check)
+- DISTANCE: `min_distance_people_structures_m`, `airport_buffer_km`, `cvfr_lane_halfwidth_km` (CVFR lane corridor half-width from the centerline; ב'-03 §2.ב default, per-lane exceptions unmodeled — DO-015 escalation 1 / DECISION 2026-07-11 / updated 2026-07-13; read fail-closed by the verdict engine's lane-corridor check)
 - OPERATIONAL: `vlos_required`, `daylight_only`
 - LICENSING: `min_registration_age_years`, `moc_frequency_license_required`
 - PERMITS: `permit_fee_recreational_nis`, `permit_turnaround_hours_min`, `permit_turnaround_hours_max`

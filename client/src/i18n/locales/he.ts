@@ -66,7 +66,7 @@ const he = {
   "restore.error": "השחזור נכשל.",
 
   // Regulations Ruleset editor (DO-010, FR-A5)
-  // Rule labels human-reviewed by Jonathan 2026-07-10 (see decision log) —
+  // Rule labels human-reviewed by Jonathan 2026-07-10 —
   // "[HE?]" prefixes removed. Register choices: מינימלי/מקסימלי over
   // מזערי/מרבי; VLOS grounded in AIP א'-17 appendix ג' (קשר־עין).
   "ruleset.entry.title": "מאגר כללי רגולציה",
@@ -116,7 +116,7 @@ const he = {
   // Offline map & elevation (DO-012, FR-C1/C2/C5).
   // "[HE?]"-prefixed terms are new regulatory-adjacent coinage awaiting
   // Jonathan's review (terrain-elevation terminology feeds DO-015's AGL/AMSL
-  // vertical-separation language). Full list in the DO-012 session log.
+  // vertical-separation language).
   "nav.map": "מפה",
   "map.title": "מפה",
   "map.description": "מפת ישראל ללא חיבור לרשת. לחיצה על המפה או הזנת קואורדינטות מציבה סיכה.",
@@ -180,7 +180,7 @@ const he = {
   // Zone overlays, legend, layer toggles (DO-014, FR-C1/FR-C4).
   // "[HE?]"-prefixed terms are new regulatory-adjacent coinage awaiting
   // Jonathan's review (verdict tier names, AIP altitude terminology — these
-  // feed DO-015's verdict language too). Full list in the DO-014 session log.
+  // feed DO-015's verdict language too).
   "map.zones.title": "שכבות אזורים",
   "map.zones.loading": "טוען שכבות אזורים…",
   "map.zones.error": "לא ניתן לטעון את שכבות האזורים מהשרת המקומי.",

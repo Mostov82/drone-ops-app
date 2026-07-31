@@ -48,7 +48,7 @@ export const ZONE_TYPE_SEEDS: Record<string, { name: string; defaultVerdict: str
   AIP_RESTRICTED: { name: "AIP restricted area (LLR)", defaultVerdict: "RESTRICTED" },
   AIP_DANGER: { name: "AIP danger area (LLD)", defaultVerdict: "RESTRICTED" },
   LLU_DRONE: { name: "AIP drone no-fly zone (LLU, MTOW<25kg)", defaultVerdict: "RESTRICTED" },
-  // Trigger 6 resolved (option A, decision log 2026-07-11) — lanes import as
+  // Trigger 6 resolved (option A, DECISION 2026-07-11) — lanes import as
   // Zone rows with the min/max envelope band. RESTRICTED is the conservative
   // editable default; DO-015's vertical-separation logic refines the verdict
   // using the altitude band.

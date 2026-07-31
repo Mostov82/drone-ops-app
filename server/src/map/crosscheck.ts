@@ -1,7 +1,7 @@
-// DO-012 — optional ONLINE elevation cross-check (FR-C5; decision log
+// DO-012 — optional ONLINE elevation cross-check (FR-C5; DECISION
 // 2026-07-10: hybrid, offline DEM primary). Provider chosen this session:
 // Open Topo Data public instance (https://www.opentopodata.org/) — free,
-// KEYLESS (escalation trigger 5 satisfied), documented limits: 100 locations/
+// KEYLESS (no API key required), documented limits: 100 locations/
 // request, 1 call/sec, 1000 calls/day. Dataset: srtm30m (SRTM 30 m, covers
 // Israel). No keyless public API serves Copernicus GLO-30 itself, so the
 // cross-check compares against an independent 30 m dataset — a sanity check,

@@ -34,4 +34,4 @@ Bonus zone checks on the same chart crop: `LLR804 UNL/GND` and
 Counts (265 segments / 201 waypoints) match the Gate 4 inspection; six
 segments' altitudes and classes match the governing chart; axis semantics are
 structurally clean. Import remains blocked on the trigger-6 modeling decision
-(see `reconciliation.md` and the DO-013 session log escalation).
+(see `reconciliation.md`).

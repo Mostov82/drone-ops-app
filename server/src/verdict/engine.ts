@@ -15,7 +15,7 @@
 //     approximate elevation, import dates). A verdict is NEVER authoritative
 //     (PRD §10) — consumers badge at point of use.
 //
-// LANES (escalation 1 RESOLVED — option (a), decision log 2026-07-11):
+// LANES (escalation 1 RESOLVED — option (a), DECISION 2026-07-11):
 // CVFR lanes are centerlines; the corridor width lives in the Ruleset as
 // `cvfr_lane_half_width_m`, seeded from the governing ב'-03 text (§2.ב:
 // route width 2 km, 1 km each side of the centerline, unless stated
@@ -44,7 +44,7 @@ const VERDICT_SEVERITY: Record<VerdictValue, number> = { RESTRICTED: 2, NEEDS_PE
 
 export const AIRPORT_ZONE_TYPE = "AIRPORT";
 export const AIRPORT_BUFFER_RULE_KEY = "airport_buffer_km";
-/** Seeded from AIP ב'-03 §2.ב (decision log 2026-07-11, DO-015 escalation 1 → option a; updated 2026-07-13). */
+/** Seeded from AIP ב'-03 §2.ב (DECISION 2026-07-11, DO-015 escalation 1 → option a; updated 2026-07-13). */
 export const LANE_HALF_WIDTH_RULE_KEY = "cvfr_lane_halfwidth_km";
 
 /**
@@ -160,7 +160,7 @@ export interface NearestLane {
   name: string;
   /** Distance to the lane CENTERLINE, m, rounded down (flooring widens containment). */
   horizontalDistanceM: number;
-  /** floor(distance) <= live Ruleset half-width (decision log 2026-07-11). */
+  /** floor(distance) <= live Ruleset half-width (DECISION 2026-07-11). */
   withinCorridor: boolean;
   floorAmslFt: number | null;
   ceilingAmslFt: number | null;
@@ -246,7 +246,7 @@ function isVerdictValue(value: string): value is VerdictValue {
 
 function requireVerdict(zone: VerdictZone): VerdictValue {
   if (!isVerdictValue(zone.defaultVerdict)) {
-    // Intent doc escalation trigger 2 — fail closed, never default.
+    // By design — fail closed, never default.
     throw verdictUnmappedZoneType(zone.zoneTypeCode, zone.defaultVerdict);
   }
   return zone.defaultVerdict;
@@ -399,7 +399,7 @@ export function createVerdictEngine(deps: VerdictEngineDeps): VerdictEngine {
       }
 
       // FR-C6 — lanes. The corridor half-width is read from the Ruleset
-      // FAIL-CLOSED whenever lane zones exist (decision log 2026-07-11,
+      // FAIL-CLOSED whenever lane zones exist (DECISION 2026-07-11,
       // escalation 1 → option a); a point within the half-width of a
       // centerline is horizontally contained and the lane's mapped verdict
       // participates in worst-of. Flooring the distance widens containment.

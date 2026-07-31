@@ -159,7 +159,7 @@ _Everything ships \`verified=false\` until Jonathan's visual check against the �
   });
 }
 
-// ── 3. CVFR lanes (option A envelope per decision log 2026-07-11) ────────────
+// ── 3. CVFR lanes (option A envelope per DECISION 2026-07-11) ────────────
 {
   const result = buildCvfr(cvfrRoutes, cvfrPoints);
   const manifest: DatasetManifest = {
@@ -173,7 +173,7 @@ _Everything ships \`verified=false\` until Jonathan's visual check against the �
     importable: true,
     verified: false,
     notes:
-      "Trigger 6 resolved — option A (decision log 2026-07-11): floorAmslFt/ceilingAmslFt = min/max of every published directional altitude number (N_A/S_A/W_Alt/E_Alt; dual values contribute both numbers). Raw directional strings preserved verbatim in properties and on Zone.notes. Segments with no published altitude keep a null band (never guessed).",
+      "Trigger 6 resolved — option A (DECISION 2026-07-11): floorAmslFt/ceilingAmslFt = min/max of every published directional altitude number (N_A/S_A/W_Alt/E_Alt; dual values contribute both numbers). Raw directional strings preserved verbatim in properties and on Zone.notes. Segments with no published altitude keep a null band (never guessed).",
   };
   const altitudeTable = Object.entries(result.stats.altitudeValues)
     .map(
