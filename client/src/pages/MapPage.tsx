@@ -25,6 +25,20 @@ import ZoneLayersPanel, {
   type LegendFacts,
   type ZoneLayersState,
 } from "@/components/map/ZoneLayersPanel";
+import SidebarSection from "@/components/map/SidebarSection";
+import {
+  isSectionOpen,
+  loadMapMuted,
+  loadSidebarSections,
+  MUTED_MAP_CLASS,
+  saveMapMuted,
+  saveSidebarSections,
+  SECTION_LAYERS,
+  SECTION_LOCATION,
+  SECTION_RESULT,
+  type SidebarSectionId,
+  type SidebarSectionState,
+} from "@/lib/map-appearance";
 import i18n from "@/i18n";
 import { resolveMapMode, type MapModeOverride } from "@/lib/map-mode";
 import type { LatLng } from "@/lib/coords";
@@ -99,6 +113,35 @@ export default function MapPage() {
     const saved = localStorage.getItem("drone-ops-map-mode-override");
     return (saved as MapModeOverride) || "auto";
   });
+
+  // DO-035 item 3 — muted base map (persisted like the layer toggles).
+  const [muted, setMuted] = useState<boolean>(() => loadMapMuted());
+  const handleMutedChange = useCallback((next: boolean) => {
+    setMuted(next);
+    saveMapMuted(next);
+  }, []);
+
+  // DO-035 item 1 — sidebar accordion state (persisted; Layers collapsed by default).
+  const [sections, setSections] = useState<SidebarSectionState>(() => loadSidebarSections());
+  const handleSectionToggle = useCallback((id: SidebarSectionId, open: boolean) => {
+    setSections((previous) => {
+      const next = { ...previous, [id]: open };
+      saveSidebarSections(next);
+      return next;
+    });
+  }, []);
+
+  // "Check result panel (opens on pin)" — placing a pin reveals the section that
+  // is about to answer the question. An explicit collapse afterwards persists.
+  useEffect(() => {
+    if (!pin) return;
+    setSections((previous) => {
+      if (previous[SECTION_RESULT] === true) return previous;
+      const next = { ...previous, [SECTION_RESULT]: true };
+      saveSidebarSections(next);
+      return next;
+    });
+  }, [pin]);
 
   useEffect(() => {
     const goOnline = () => setIsOnline(true);
@@ -370,13 +413,32 @@ export default function MapPage() {
       )}
 
       {statusState.kind === "ok" && resolvedMode !== "missing" && (
-        <div className="flex min-h-0 flex-1 flex-col gap-4 xl:flex-row">
+        <div
+          // DO-035 item 4/5 — bound the desktop row to the viewport. Without this
+          // the map element stretches to match the sidebar's content height
+          // (measured at 3264px in a 919px window once a verdict card is open), so
+          // the whole PAGE scrolls and the map repaints as a tall strip.
+          //
+          // `xl:flex-none` is load-bearing: this row is itself a flex item of an
+          // auto-height column, where `flex-1` (flex-grow on the main axis) beats
+          // the `height` property. Height alone silently did nothing — it only
+          // looked correct while the sidebar happened to be short.
+          //
+          // Bounded, the map keeps a sane height and the sidebar scrolls inside
+          // itself. Below xl the row stacks and heights stay auto — narrow layout
+          // unaffected.
+          className="flex min-h-0 flex-1 flex-col gap-4 xl:h-[calc(100vh-11rem)] xl:flex-none xl:flex-row"
+        >
           <div className="relative h-[55vh] min-h-72 w-full xl:h-auto xl:flex-1">
             <div
               ref={containerRef}
               // Leaflet renders LTR map internals; the surrounding layout stays RTL-aware.
               dir="ltr"
-              className="z-0 h-full w-full overflow-hidden rounded-lg border border-border"
+              // MUTED_MAP_CLASS filters the tile pane only — overlays keep their
+              // verdict colours (DO-035 item 3; see index.css).
+              className={`z-0 h-full w-full overflow-hidden rounded-lg border border-border ${
+                muted ? MUTED_MAP_CLASS : ""
+              }`}
               data-testid="leaflet-container"
             />
             {/* The absolute-positioned source indicator! */}
@@ -391,38 +453,89 @@ export default function MapPage() {
               </span>
             </div>
           </div>
-          <aside className="flex w-full flex-col gap-4 xl:max-w-sm">
-            <CoordinateEntry onSubmit={handleEntry} />
-            <PlaceSearch onSelect={handleEntry} />
-            <div className="rounded-lg border border-border p-4">
-              <PinPanel pin={pin} />
-            </div>
-            <div className="rounded-lg border border-border p-4">
+          {/* Sidebar. Three collapsible sections in the order fixed by the intent
+              doc: ① Location check (open), ② Check result (opens on pin),
+              ③ Layers & base map (COLLAPSED by default). Nothing was removed —
+              every control that used to be permanently visible now lives in one
+              of the three sections, and every honesty surface travels with it. */}
+          <aside className="flex w-full min-w-0 flex-col gap-3 xl:max-w-sm xl:overflow-y-auto">
+            <SidebarSection
+              title={t("map.section.location")}
+              open={isSectionOpen(sections, SECTION_LOCATION)}
+              onToggle={(open) => handleSectionToggle(SECTION_LOCATION, open)}
+              testId="section-location"
+            >
+              <div className="flex flex-col gap-4">
+                <CoordinateEntry onSubmit={handleEntry} />
+                <PlaceSearch onSelect={handleEntry} />
+                <PinPanel pin={pin} />
+              </div>
+            </SidebarSection>
+
+            <SidebarSection
+              title={t("map.section.result")}
+              open={isSectionOpen(sections, SECTION_RESULT)}
+              onToggle={(open) => handleSectionToggle(SECTION_RESULT, open)}
+              testId="section-result"
+            >
               <LocationCheckPanel pin={pin} />
-            </div>
-            <div className="rounded-lg border border-border p-4 flex flex-col gap-2">
-              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                {t("map.settings.overrideLabel")}
-              </label>
-              <select
-                className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                value={overrideMode}
-                onChange={(e) => handleModeChange(e.target.value as MapModeOverride)}
-              >
-                <option value="auto">{t("map.settings.mode.auto")}</option>
-                <option value="offline-only">{t("map.settings.mode.offline")}</option>
-                <option value="online-only">{t("map.settings.mode.online")}</option>
-              </select>
-            </div>
-            <div className="rounded-lg border border-border p-4">
-              <ZoneLayersPanel
-                state={zoneLayersState}
-                visibility={visibility}
-                onToggle={handleToggle}
-                legend={legend}
-                onRecheck={loadZones}
-              />
-            </div>
+            </SidebarSection>
+
+            <SidebarSection
+              title={t("map.section.layers")}
+              open={isSectionOpen(sections, SECTION_LAYERS)}
+              onToggle={(open) => handleSectionToggle(SECTION_LAYERS, open)}
+              testId="section-layers"
+            >
+              <div className="flex flex-col gap-4">
+                {/* Base-map appearance: source override + the muted toggle. */}
+                <div className="flex flex-col gap-2">
+                  <label
+                    htmlFor="map-source-override"
+                    className="text-xs font-semibold uppercase tracking-wide text-muted-foreground"
+                  >
+                    {t("map.settings.overrideLabel")}
+                  </label>
+                  <select
+                    id="map-source-override"
+                    className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                    value={overrideMode}
+                    onChange={(e) => handleModeChange(e.target.value as MapModeOverride)}
+                  >
+                    <option value="auto">{t("map.settings.mode.auto")}</option>
+                    <option value="offline-only">{t("map.settings.mode.offline")}</option>
+                    <option value="online-only">{t("map.settings.mode.online")}</option>
+                  </select>
+                  <label className="flex items-start gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5"
+                      checked={muted}
+                      onChange={(e) => handleMutedChange(e.target.checked)}
+                      data-testid="muted-map-toggle"
+                    />
+                    <span className="flex min-w-0 flex-col">
+                      <span className="font-medium">{t("map.settings.muted.label")}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t("map.settings.muted.hint")}
+                      </span>
+                    </span>
+                  </label>
+                </div>
+
+                <ZoneLayersPanel
+                  state={zoneLayersState}
+                  visibility={visibility}
+                  onToggle={handleToggle}
+                  legend={legend}
+                  onRecheck={loadZones}
+                />
+              </div>
+            </SidebarSection>
+
+            {/* NFR-8 provisioning status stays OUTSIDE the accordion: it is a
+                degraded-state surface, and a status the operator must see is not
+                something to hide behind a collapsed header. */}
             {statusState.status.dem.available === false && (
               <div className="rounded-lg border border-border bg-amber-500/5 p-4 text-xs flex flex-col gap-2">
                 {!provStatus ? (

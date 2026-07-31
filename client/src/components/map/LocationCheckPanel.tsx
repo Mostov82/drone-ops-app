@@ -13,6 +13,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ApproximateBadge from "@/components/map/ApproximateBadge";
+import ZoneNotes from "@/components/map/ZoneNotes";
 import UnverifiedBadge from "@/components/UnverifiedBadge";
 import { Button } from "@/components/ui/button";
 import type { LatLng } from "@/lib/coords";
@@ -96,9 +97,11 @@ export default function LocationCheckPanel({ pin }: { pin: LatLng | null }) {
   }
 
   return (
+    // DO-035 item 4: the panel's own "Location check" <h2> was removed — the
+    // accordion section header now names this block, and keeping it duplicated the
+    // title of sidebar section ①, which reads as two different things called the
+    // same name. No content was lost.
     <div className="flex flex-col gap-3">
-      <h2 className="text-sm font-semibold">{t("map.check.title")}</h2>
-
       {!pin && <p className="text-sm text-muted-foreground">{t("map.check.prompt")}</p>}
 
       {pin && (
@@ -288,12 +291,12 @@ function ReasonRow({
   return (
     <div className="rounded-md border border-border bg-background/60 p-2">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium" dir="auto">
+        <span className="min-w-0 break-words text-xs font-medium" dir="auto">
           {reason.zone.name}
         </span>
         <VerdictTierChip verdict={reason.verdict} t={t} />
       </div>
-      <div className="mt-0.5 text-xs text-muted-foreground" dir="auto">
+      <div className="mt-0.5 break-words text-xs text-muted-foreground" dir="auto">
         {reason.zone.zoneTypeName}
       </div>
       <div className="mt-1 text-xs" dir="auto">
@@ -317,7 +320,9 @@ function ReasonRow({
           </p>
         </div>
       )}
-      <div className="mt-1 text-xs text-muted-foreground" dir="auto">
+      {/* DO-035 item 2 — the zone's published special text + coordination contact. */}
+      <ZoneNotes notes={reason.zone.notes} />
+      <div className="mt-2 break-words text-xs text-muted-foreground" dir="auto">
         {reason.layer.name} · {t("map.zones.imported", { date: formatImported(reason.layer.importedAt) })}
         {!reason.layer.verified && (
           <span className="ms-1">
@@ -530,7 +535,10 @@ function DataQualityBanner({
       {/* NEVER softened: the standing disclaimer shows on every verdict. */}
       <p className="font-medium">{t("map.check.dq.notAuthoritative")}</p>
       {caveated && (
-        <ul className="mt-1 flex flex-col gap-0.5">
+        // break-words: these are long joined identifier lists — they must wrap
+        // inside the sidebar, never overflow it (item 4). Nothing is truncated:
+        // a clipped data-quality caveat would be a softened honesty surface.
+        <ul className="mt-1 flex flex-col gap-0.5 break-words">
           {dq.unverifiedLayers.length > 0 && (
             <li dir="auto">
               {t("map.check.dq.unverifiedLayers", { layers: dq.unverifiedLayers.join(", ") })}

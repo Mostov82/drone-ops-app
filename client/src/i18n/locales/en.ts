@@ -135,6 +135,13 @@ const en = {
   "map.settings.mode.auto": "Automatic (prefer offline)",
   "map.settings.mode.offline": "Offline only",
   "map.settings.mode.online": "Online only",
+  // DO-035 — sidebar sections + muted base map
+  "map.section.location": "Location check",
+  "map.section.result": "Check result",
+  "map.section.layers": "Layers & base map",
+  "map.settings.muted.label": "Mute base map",
+  "map.settings.muted.hint":
+    "Desaturates the background tiles so zone overlays stand out. Display only — it changes nothing about the data or the verdict.",
   "map.entry.label": "Coordinates (decimal or DMS)",
   "map.entry.placeholder": `31.771959, 35.217018 or 31° 46' 19.05" N, 35° 13' 1.26" E`,
   "map.entry.go": "Move pin",
@@ -231,6 +238,13 @@ const en = {
   "map.check.reasonKind.WITHIN_AIRPORT_BUFFER_RULE": "Within the airport / airfield buffer",
   "map.check.reasonKind.WITHIN_LANE_CORRIDOR": "Within the flight-lane corridor",
   "map.check.reasonKind.CVFR_OVERHEAD": "CVFR flight lane overhead",
+  // DO-035 item 2 — the zone's published special text + coordination contact.
+  // "as published" / "in the imported data" are load-bearing: this is what the
+  // import contains, not a claim about what exists in the world.
+  "map.check.notes.title": "Zone notes (as published)",
+  "map.check.notes.none": "No notes published for this zone in the imported data.",
+  "map.check.contact.title": "Coordination / contact (as published)",
+  "map.check.contact.none": "No contact published in the imported data.",
   "map.check.vertical.label": "Vertical",
   "map.check.vertical.status.CONFLICT":
     "Planned altitude conflicts with the zone's altitude band",

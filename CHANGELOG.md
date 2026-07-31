@@ -6,6 +6,10 @@ this project uses date-based release sections.
 
 ## [Unreleased]
 
+### Added
+- **DO-035** — Map UX pass: collapsible sidebar sections, per-zone
+  notes with coordination contacts, and a muted base-map option.
+
 ## [0.1.0] — 2026-07-15
 
 Initial public release: an offline-first, bilingual (Hebrew/English, RTL) single-operator
