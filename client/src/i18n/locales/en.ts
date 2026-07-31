@@ -208,7 +208,7 @@ const en = {
   "map.zones.class.AIP_PROHIBITED": "Prohibited Area (LLP)",
   "map.zones.class.AIP_RESTRICTED": "Restricted Area (LLR)",
   "map.zones.class.AIP_DANGER": "Danger Area (LLD)",
-  "map.zones.class.LLU_DRONE": "LLU Drone Zone",
+  "map.zones.class.LLU_DRONE": "Drones/RC prohibited (LLU)",
   "map.zones.class.AIRPORT": "Airport Buffer",
   "map.zones.class.CTR": "Control Zone (CTR)",
   "map.zones.class.ATZ": "Aerodrome Traffic Zone (ATZ)",

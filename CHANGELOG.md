@@ -7,6 +7,8 @@ this project uses date-based release sections.
 ## [Unreleased]
 
 ### Added
+- **DO-044** — UAV flight-area (LLU) zone type and a Hebrew terminology review:
+  provisional `[HE?]` markers removed from approved regulatory terms.
 - **DO-041** — Weekend/schedule surfacing: display-only indicators for a zone's
   active days/times, with no effect on verdicts.
 - **DO-040** — Map visual-language pass: custom zone swatches, decluttered
