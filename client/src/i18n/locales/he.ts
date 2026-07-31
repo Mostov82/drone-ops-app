@@ -137,6 +137,13 @@ const he = {
   "map.settings.mode.auto": "[HE?] אוטומטי (העדף לא מקוון)",
   "map.settings.mode.offline": "[HE?] לא מקוון בלבד",
   "map.settings.mode.online": "[HE?] מקוון בלבד",
+  // DO-035 — sidebar sections + muted base map. New coinages, unreviewed.
+  "map.section.location": "בדיקת מיקום",
+  "map.section.result": "[HE?] תוצאת הבדיקה",
+  "map.section.layers": "[HE?] שכבות ומפת רקע",
+  "map.settings.muted.label": "[HE?] עמעום מפת הרקע",
+  "map.settings.muted.hint":
+    "[HE?] מחליש את צבעי אריחי הרקע כדי שהאזורים יבלטו. תצוגה בלבד — אינו משנה דבר בנתונים או בתוצאת הבדיקה.",
   "map.entry.label": "קואורדינטות (עשרוני או DMS)",
   // Example coordinates are LTR data — identical in both locales.
   "map.entry.placeholder": `31.771959, 35.217018 or 31° 46' 19.05" N, 35° 13' 1.26" E`,
@@ -236,6 +243,13 @@ const he = {
   "map.check.reasonKind.WITHIN_AIRPORT_BUFFER_RULE": "[HE?] בתוך רדיוס החיץ סביב שדה תעופה / מנחת",
   "map.check.reasonKind.WITHIN_LANE_CORRIDOR": "[HE?] בתוך מסדרון נתיב הטיסה",
   "map.check.reasonKind.CVFR_OVERHEAD": "[HE?] נתיב טיסה (CVFR) ממעל",
+  // DO-035 item 2 — published special text + coordination contact. New coinages.
+  // "כפי שפורסם" / "בנתונים המיובאים" are load-bearing: the app states what the
+  // import contains, never what exists in the world.
+  "map.check.notes.title": "[HE?] הערות לאזור (כפי שפורסמו)",
+  "map.check.notes.none": "[HE?] לא פורסמו הערות עבור אזור זה בנתונים המיובאים.",
+  "map.check.contact.title": "[HE?] תיאום / איש קשר (כפי שפורסם)",
+  "map.check.contact.none": "[HE?] לא פורסם איש קשר בנתונים המיובאים.",
   "map.check.vertical.label": "[HE?] אנכי",
   "map.check.vertical.status.CONFLICT": "[HE?] הגובה המתוכנן מתנגש עם רצועת הגובה של האזור",
   "map.check.vertical.status.BELOW_FLOOR": "[HE?] הגובה המתוכנן נמוך מרצפת הרצועה",
