@@ -16,6 +16,9 @@ export interface ZoneStyle {
   weight: number;
   fillColor: string;
   fillOpacity: number;
+  dashArray?: string;
+  fill?: boolean;
+  stroke?: boolean;
 }
 
 /** Known verdict values (GB-03 Gate 3 three-tier mapping). */
@@ -26,7 +29,7 @@ export const VERDICT_CLEAR = "CLEAR";
 const VERDICT_STYLES: Record<string, ZoneStyle> = {
   [VERDICT_RESTRICTED]: { color: "#dc2626", weight: 1.5, fillColor: "#dc2626", fillOpacity: 0.22 },
   [VERDICT_NEEDS_PERMIT]: { color: "#d97706", weight: 1.5, fillColor: "#f59e0b", fillOpacity: 0.22 },
-  [VERDICT_CLEAR]: { color: "#16a34a", weight: 1.5, fillColor: "#22c55e", fillOpacity: 0.15 },
+  [VERDICT_CLEAR]: { color: "#475569", weight: 1.5, fillColor: "#64748b", fillOpacity: 0.15 },
 };
 
 /** Honest fallback for a verdict value this UI has no style for (the mapping
@@ -38,7 +41,218 @@ const UNKNOWN_VERDICT_STYLE: ZoneStyle = {
   fillOpacity: 0.18,
 };
 
-export function verdictStyle(verdict: string): ZoneStyle {
+export function getZoneStyle(
+  verdict: string,
+  zoneTypeCode: string,
+  extra?: { isInner?: boolean; isCorridor?: boolean }
+): ZoneStyle {
+  let color = "#475569";
+  
+  if (verdict === VERDICT_RESTRICTED) {
+    switch (zoneTypeCode) {
+      case "AIP_PROHIBITED":
+      case "BORDER_SECURITY":
+        color = "#b3261e";
+        break;
+      case "AIP_RESTRICTED":
+      case "AIRPORT":
+      case "POPULATED":
+        color = "#d64500";
+        break;
+      case "AIP_DANGER":
+        color = "#c77b00";
+        break;
+      case "LLU_DRONE":
+        color = "#c2185b";
+        break;
+      case "CTR":
+      case "ATZ":
+      case "CTA":
+      case "OTHER":
+        color = "#8c4a2f";
+        break;
+      case "NATURE_RESERVE":
+        color = "#9c7a00";
+        break;
+      case "CVFR_LANE":
+        color = "#3f51b5";
+        break;
+      default:
+        color = "#dc2626";
+    }
+  } else if (verdict === VERDICT_NEEDS_PERMIT) {
+    switch (zoneTypeCode) {
+      case "NATURE_RESERVE":
+        color = "#9c7a00";
+        break;
+      case "CVFR_LANE":
+        color = "#3f51b5";
+        break;
+      case "AIP_DANGER":
+        color = "#c77b00";
+        break;
+      case "CTR":
+      case "ATZ":
+      case "CTA":
+      case "OTHER":
+        color = "#a16207";
+        break;
+      case "AIP_PROHIBITED":
+      case "BORDER_SECURITY":
+      case "LLU_DRONE":
+        color = "#c77b00";
+        break;
+      default:
+        color = "#d97706";
+    }
+  } else {
+    if (zoneTypeCode === "CVFR_LANE") {
+      color = "#3f51b5";
+    } else {
+      switch (zoneTypeCode) {
+        case "AIP_PROHIBITED":
+        case "LLU_DRONE":
+        case "BORDER_SECURITY":
+        case "OTHER":
+          color = "#475569";
+          break;
+        case "AIP_RESTRICTED":
+        case "AIRPORT":
+        case "POPULATED":
+          color = "#64748b";
+          break;
+        case "AIP_DANGER":
+        case "NATURE_RESERVE":
+          color = "#94a3b8";
+          break;
+        default:
+          color = "#64748b";
+      }
+    }
+  }
+
+  let weight = 1.5;
+  let dashArray: string | undefined = undefined;
+  let fillColor = color;
+  let fillOpacity = 0.15;
+  let fill = true;
+
+  if (verdict === VERDICT_NEEDS_PERMIT) {
+    weight = 1.6;
+    dashArray = "2 4";
+    fillOpacity = 0.12;
+  } else if (verdict === VERDICT_CLEAR) {
+    weight = 1.2;
+    dashArray = "4 4";
+    fillOpacity = 0.08;
+  } else {
+    switch (zoneTypeCode) {
+      case "AIP_PROHIBITED":
+      case "BORDER_SECURITY":
+        weight = 2.6;
+        fillColor = "url(#crosshatch-restricted)";
+        fillOpacity = 0.22;
+        break;
+      case "AIP_RESTRICTED":
+      case "POPULATED":
+        weight = 2.2;
+        dashArray = "8 4";
+        fillOpacity = 0.16;
+        break;
+      case "AIP_DANGER":
+        weight = 2.0;
+        dashArray = "10 3 2 3";
+        fillColor = "url(#hatch-restricted)";
+        fillOpacity = 0.16;
+        break;
+      case "LLU_DRONE":
+        weight = 2.6;
+        fillOpacity = 0.20;
+        break;
+      case "AIRPORT":
+        weight = 1.4;
+        fillOpacity = 0.08;
+        break;
+      case "CTR":
+      case "OTHER":
+        weight = 2.2;
+        dashArray = "12 4";
+        fillOpacity = 0.15;
+        break;
+      case "ATZ":
+        weight = 1.2;
+        dashArray = "5 3";
+        fillOpacity = 0.07;
+        break;
+      case "CTA":
+        weight = 1.6;
+        dashArray = "2 2";
+        fill = false;
+        fillOpacity = 0;
+        break;
+      case "NATURE_RESERVE":
+        weight = 1.8;
+        dashArray = "1.5 3.5";
+        fillOpacity = 0.14;
+        break;
+      case "CVFR_LANE":
+        break;
+      default:
+        weight = 1.5;
+        fillOpacity = 0.15;
+    }
+  }
+
+  if (zoneTypeCode === "LLU_DRONE" && extra?.isInner) {
+    weight = 1.5;
+    dashArray = "1 3";
+    fill = false;
+    fillOpacity = 0;
+  } else if (zoneTypeCode === "AIRPORT" && extra?.isInner) {
+    weight = 1.4;
+    fill = false;
+    fillOpacity = 0;
+  } else if (zoneTypeCode === "CVFR_LANE") {
+    if (extra?.isCorridor) {
+      weight = 1.0;
+      fill = true;
+      fillOpacity = 0.08;
+    } else {
+      weight = 1.4;
+      dashArray = "7 5";
+      fill = false;
+      fillOpacity = 0;
+    }
+  }
+
+  if (verdict === VERDICT_NEEDS_PERMIT) {
+    if (zoneTypeCode === "AIP_PROHIBITED" || zoneTypeCode === "BORDER_SECURITY") {
+      fillColor = "url(#crosshatch-needs-permit)";
+    } else if (zoneTypeCode === "AIP_DANGER") {
+      fillColor = "url(#hatch-needs-permit)";
+    }
+  } else if (verdict === VERDICT_CLEAR) {
+    if (zoneTypeCode === "AIP_PROHIBITED" || zoneTypeCode === "BORDER_SECURITY") {
+      fillColor = "url(#crosshatch-clear)";
+    } else if (zoneTypeCode === "AIP_DANGER") {
+      fillColor = "url(#hatch-clear)";
+    }
+  }
+
+  return {
+    color,
+    weight,
+    fillColor,
+    fillOpacity,
+    dashArray,
+    fill,
+  };
+}
+
+export function verdictStyle(verdict: string, zoneTypeCode?: string): ZoneStyle {
+  if (zoneTypeCode) {
+    return getZoneStyle(verdict, zoneTypeCode);
+  }
   return VERDICT_STYLES[verdict] ?? UNKNOWN_VERDICT_STYLE;
 }
 
@@ -48,7 +262,14 @@ export function isKnownVerdict(verdict: string): boolean {
 
 /** Lane (line-geometry) rendering: verdict color, dashed, no fill — visually
  *  distinct from polygon borders while still verdict-driven. */
-export function laneStyle(verdict: string): ZoneStyle & { dashArray: string } {
+export function laneStyle(verdict: string, zoneTypeCode?: string): ZoneStyle & { dashArray: string } {
+  if (zoneTypeCode) {
+    const style = getZoneStyle(verdict, zoneTypeCode);
+    return {
+      ...style,
+      dashArray: style.dashArray ?? "8 6",
+    } as ZoneStyle & { dashArray: string };
+  }
   const base = verdictStyle(verdict);
   return { ...base, weight: 2.5, fillOpacity: 0, dashArray: "8 6" };
 }
@@ -167,4 +388,57 @@ export function saveLayerVisibility(
 
 export function isLayerVisible(visibility: LayerVisibility, layerName: string): boolean {
   return visibility[layerName] ?? true;
+}
+
+export function bufferLine(coords: [number, number][], halfWidthM: number): [number, number][] {
+  if (coords.length < 2) return [];
+
+  const leftPoints: [number, number][] = [];
+  const rightPoints: [number, number][] = [];
+
+  for (let i = 0; i < coords.length; i++) {
+    const curr = coords[i];
+    let dx = 0;
+    let dy = 0;
+
+    if (i === 0) {
+      const next = coords[i + 1];
+      dx = next[0] - curr[0];
+      dy = next[1] - curr[1];
+    } else if (i === coords.length - 1) {
+      const prev = coords[i - 1];
+      dx = curr[0] - prev[0];
+      dy = curr[1] - prev[1];
+    } else {
+      const prev = coords[i - 1];
+      const next = coords[i + 1];
+      const d1x = curr[0] - prev[0];
+      const d1y = curr[1] - prev[1];
+      const d2x = next[0] - curr[0];
+      const d2y = next[1] - curr[1];
+      dx = d1x + d2x;
+      dy = d1y + d2y;
+    }
+
+    const latRad = (curr[1] * Math.PI) / 180;
+    const metersPerDegLat = 111132;
+    const metersPerDegLng = 111132 * Math.cos(latRad);
+
+    const lenM = Math.sqrt((dx * metersPerDegLng) ** 2 + (dy * metersPerDegLat) ** 2);
+    if (lenM === 0) continue;
+
+    const tx = (dx * metersPerDegLng) / lenM;
+    const ty = (dy * metersPerDegLat) / lenM;
+
+    const nx = -ty;
+    const ny = tx;
+
+    const offsetLng = (nx * halfWidthM) / metersPerDegLng;
+    const offsetLat = (ny * halfWidthM) / metersPerDegLat;
+
+    leftPoints.push([curr[0] + offsetLng, curr[1] + offsetLat]);
+    rightPoints.push([curr[0] - offsetLng, curr[1] - offsetLat]);
+  }
+
+  return [...leftPoints, ...rightPoints.reverse(), leftPoints[0]];
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // DO-012 — the offline map of Israel (FR-C1) with precise pin coordinates
 // (FR-C2) and terrain elevation at the pin (FR-C5).
 // Leaflet raster TileLayer over locally served MBTiles (PRD §6 locked stack;
@@ -52,12 +53,13 @@ import {
 } from "@/lib/map-api";
 import {
   isLayerVisible,
-  laneStyle,
   loadLayerVisibility,
   saveLayerVisibility,
-  verdictStyle,
+  getZoneStyle,
+  bufferLine,
   type LayerVisibility,
 } from "@/lib/zone-display";
+import { listRules } from "@/lib/ruleset-api";
 import { buildZonePopupHtml } from "@/lib/zone-popup";
 import {
   getLayerGeoJson,
@@ -89,18 +91,9 @@ type StatusState = { kind: "loading" } | { kind: "error" } | { kind: "ok"; statu
 
 type LoadedZoneData = { kind: "loading" } | { kind: "error" } | { kind: "ok"; layers: LayerGeoJsonResponse[] };
 
-const LINE_GEOMETRY_TYPES = new Set(["LineString", "MultiLineString"]);
 
-/** Verdict legend order: known tiers first, then anything unexpected, raw. */
-const VERDICT_LEGEND_ORDER = ["RESTRICTED", "NEEDS_PERMIT", "CLEAR"];
 
-function sortVerdicts(verdicts: Iterable<string>): string[] {
-  return [...new Set(verdicts)].sort((a, b) => {
-    const ia = VERDICT_LEGEND_ORDER.indexOf(a);
-    const ib = VERDICT_LEGEND_ORDER.indexOf(b);
-    return (ia === -1 ? VERDICT_LEGEND_ORDER.length : ia) - (ib === -1 ? VERDICT_LEGEND_ORDER.length : ib);
-  });
-}
+
 
 export default function MapPage() {
   const { t } = useTranslation();
@@ -108,6 +101,7 @@ export default function MapPage() {
   const [pin, setPin] = useState<LatLng | null>(null);
   const [zoneData, setZoneData] = useState<LoadedZoneData>({ kind: "loading" });
   const [visibility, setVisibility] = useState<LayerVisibility>(() => loadLayerVisibility());
+  const [halfWidthM, setHalfWidthM] = useState<number>(1000);
   const [isOnline, setIsOnline] = useState(() => navigator.onLine);
   const [overrideMode, setOverrideMode] = useState<MapModeOverride>(() => {
     const saved = localStorage.getItem("drone-ops-map-mode-override");
@@ -168,6 +162,18 @@ export default function MapPage() {
   const markerRef = useRef<L.Marker | null>(null);
   /** Leaflet overlay per zone layer, keyed by layer NAME (the stable layerKey). */
   const zoneOverlaysRef = useRef<Map<string, L.GeoJSON>>(new Map());
+
+  // DO-040: Apply the muted class directly to the container DOM element
+  // to avoid React wiping out Leaflet's internal classes on re-render.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    if (muted) {
+      container.classList.add(MUTED_MAP_CLASS);
+    } else {
+      container.classList.remove(MUTED_MAP_CLASS);
+    }
+  }, [muted]);
 
   const loadStatus = useCallback(() => {
     setStatusState({ kind: "loading" });
@@ -231,6 +237,19 @@ export default function MapPage() {
     loadZones();
   }, [loadStatus, loadZones]);
 
+  useEffect(() => {
+    listRules()
+      .then((rules) => {
+        const rule = rules.find((r) => r.key === "cvfr_lane_halfwidth_km");
+        if (rule && typeof rule.numberValue === "number") {
+          setHalfWidthM(rule.numberValue * 1000);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to load ruleset for lane halfwidth:", err);
+      });
+  }, []);
+
   const tiles = statusState.kind === "ok" ? statusState.status.tiles : null;
 
   // Create/destroy the Leaflet map when resolvedMode or tiles changes.
@@ -270,11 +289,24 @@ export default function MapPage() {
       });
     }
 
+    const handleZoom = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      if (map.getZoom() < 11) {
+        container.classList.add("zoom-low");
+      } else {
+        container.classList.remove("zoom-low");
+      }
+    };
+    map.on("zoomend", handleZoom);
+    handleZoom();
+
     map.on("click", (event: L.LeafletMouseEvent) => {
       setPin({ lat: event.latlng.lat, lng: event.latlng.lng });
     });
     mapRef.current = map;
     return () => {
+      map.off("zoomend", handleZoom);
       map.remove();
       mapRef.current = null;
       markerRef.current = null;
@@ -289,18 +321,200 @@ export default function MapPage() {
 
     const overlays = new Map<string, L.GeoJSON>();
     for (const { layer, geojson } of zoneData.layers) {
-      const overlay = L.geoJSON(geojson, {
-        // Styling is driven by the verdict VALUE served per request (editable
-        // Gate 3 data) — never by zone-type constants. Lanes (line geometry)
-        // render dashed with no fill; polygons filled.
+      const preprocessedFeatures: any[] = [];
+      
+      for (const feature of geojson.features) {
+        const props = feature.properties as ZoneFeatureProperties;
+        const typeCode = props.zoneTypeCode;
+        
+        if (typeCode !== "CVFR_LANE") {
+          preprocessedFeatures.push(feature);
+        }
+        
+        if (typeCode === "CVFR_LANE") {
+          preprocessedFeatures.push({
+            ...feature,
+            properties: {
+              ...props,
+              isLaneCenterline: true,
+            },
+          });
+          
+          const coords = feature.geometry.type === "LineString" || feature.geometry.type === "MultiLineString"
+            ? (feature.geometry as any).coordinates
+            : [];
+            
+          let corridorCoords: any = [];
+          if (feature.geometry.type === "LineString") {
+            corridorCoords = [bufferLine(coords as [number, number][], halfWidthM)];
+          } else if (feature.geometry.type === "MultiLineString") {
+            corridorCoords = coords.map((line: [number, number][]) =>
+              [bufferLine(line, halfWidthM)]
+            );
+          }
+          
+          if (corridorCoords.length > 0) {
+            preprocessedFeatures.push({
+              type: "Feature",
+              properties: {
+                ...props,
+                isLaneCorridor: true,
+              },
+              geometry: {
+                type: feature.geometry.type === "LineString" ? "Polygon" : "MultiPolygon",
+                coordinates: corridorCoords,
+              },
+            });
+          }
+          
+          if (props.floorAmslFt !== null && props.floorAmslFt > 0) {
+            const center = getCentroid(feature.geometry);
+            if (center) {
+              preprocessedFeatures.push({
+                type: "Feature",
+                properties: {
+                  ...props,
+                  isFloorLabel: true,
+                  labelText: i18n.language === "he" ? `${props.floorAmslFt} רגל+` : `${props.floorAmslFt}ft+`,
+                },
+                geometry: {
+                  type: "Point",
+                  coordinates: center,
+                },
+              });
+            }
+          }
+        } else if (typeCode === "AIRPORT") {
+          const center = getCentroid(feature.geometry);
+          if (center) {
+            const innerGeom = scaleGeometry(feature.geometry, 0.97, { lat: center[1], lng: center[0] });
+            preprocessedFeatures.push({
+              type: "Feature",
+              properties: {
+                ...props,
+                isAirportInnerRing: true,
+              },
+              geometry: innerGeom,
+            });
+            
+            preprocessedFeatures.push({
+              type: "Feature",
+              properties: {
+                ...props,
+                isAirportCenterCross: true,
+              },
+              geometry: {
+                type: "Point",
+                coordinates: center,
+              },
+            });
+          }
+        } else if (typeCode === "LLU_DRONE") {
+          const center = getCentroid(feature.geometry);
+          if (center) {
+            const innerGeom = scaleGeometry(feature.geometry, 0.97, { lat: center[1], lng: center[0] });
+            preprocessedFeatures.push({
+              type: "Feature",
+              properties: {
+                ...props,
+                isLLUInnerRing: true,
+              },
+              geometry: innerGeom,
+            });
+          }
+        } else if (typeCode === "CTA") {
+          if (props.floorAmslFt !== null && props.floorAmslFt > 0) {
+            const center = getCentroid(feature.geometry);
+            if (center) {
+              preprocessedFeatures.push({
+                type: "Feature",
+                properties: {
+                  ...props,
+                  isFloorLabel: true,
+                  labelText: i18n.language === "he" ? `${props.floorAmslFt} רגל+` : `${props.floorAmslFt}ft+`,
+                },
+                geometry: {
+                  type: "Point",
+                  coordinates: center,
+                },
+              });
+            }
+          }
+        }
+      }
+      
+      const preprocessedGeojson = {
+        ...geojson,
+        features: preprocessedFeatures,
+      };
+
+      const overlay = L.geoJSON(preprocessedGeojson as any, {
         style: (feature) => {
-          const props = feature?.properties as ZoneFeatureProperties | undefined;
+          const props = feature?.properties as any;
           const verdict = props?.verdict ?? "";
-          const isLine = feature ? LINE_GEOMETRY_TYPES.has(feature.geometry.type) : false;
-          return isLine ? laneStyle(verdict) : verdictStyle(verdict);
+          const zoneTypeCode = props?.zoneTypeCode ?? "";
+          
+          if (props?.isFloorLabel || props?.isAirportCenterCross) {
+            return { stroke: false, fill: false } as any;
+          }
+          
+          if (zoneTypeCode === "CVFR_LANE") {
+            if (props?.isLaneCorridor) {
+              return getZoneStyle(verdict, zoneTypeCode, { isCorridor: true }) as any;
+            }
+            return getZoneStyle(verdict, zoneTypeCode) as any;
+          }
+          
+          if (zoneTypeCode === "LLU_DRONE" && props?.isLLUInnerRing) {
+            return getZoneStyle(verdict, zoneTypeCode, { isInner: true }) as any;
+          }
+          
+          if (zoneTypeCode === "AIRPORT" && props?.isAirportInnerRing) {
+            return getZoneStyle(verdict, zoneTypeCode, { isInner: true }) as any;
+          }
+          
+          return getZoneStyle(verdict, zoneTypeCode) as any;
+        },
+        pointToLayer: (feature, latlng) => {
+          const props = feature.properties as any;
+          if (props.isAirportCenterCross) {
+            const verdict = props.verdict ?? "";
+            const style = getZoneStyle(verdict, "AIRPORT");
+            return L.marker(latlng, {
+              icon: L.divIcon({
+                className: "airport-center-cross-icon",
+                html: `<svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1 V11 M1 6 H11" stroke="${style.color}" stroke-width="1.5"/></svg>`,
+                iconSize: [12, 12],
+                iconAnchor: [6, 6],
+              }),
+              interactive: false,
+            });
+          }
+          
+          if (props.isFloorLabel) {
+            const isLane = props.zoneTypeCode === "CVFR_LANE";
+            const className = isLane ? "zone-floor-label-chip lane" : "zone-floor-label-chip";
+            const verdict = props.verdict ?? "";
+            const style = getZoneStyle(verdict, props.zoneTypeCode);
+            return L.marker(latlng, {
+              icon: L.divIcon({
+                className: "zone-floor-label-icon",
+                html: `<div class="${className}" style="border-color: ${style.color}; color: ${style.color}">${props.labelText}</div>`,
+                iconSize: [60, 20],
+                iconAnchor: [30, 10],
+              }),
+              interactive: false,
+            });
+          }
+          
+          return L.marker(latlng);
         },
         onEachFeature: (feature, featureLayer) => {
-          const props = feature.properties as ZoneFeatureProperties;
+          const props = feature.properties as any;
+          if (props.isFloorLabel || props.isAirportCenterCross || props.isAirportInnerRing || props.isLLUInnerRing) {
+            return;
+          }
+          
           // Bound lazily so the popup renders in the CURRENT UI language.
           featureLayer.bindPopup(
             () =>
@@ -325,7 +539,7 @@ export default function MapPage() {
       for (const overlay of overlays.values()) overlay.remove();
       zoneOverlaysRef.current = new Map();
     };
-  }, [zoneData, resolvedMode]);
+  }, [zoneData, resolvedMode, halfWidthM]);
 
   // Keep overlay presence on the map in sync with the visibility toggles.
   useEffect(() => {
@@ -370,23 +584,50 @@ export default function MapPage() {
     return zoneData.kind === "loading" ? { kind: "loading" } : { kind: "error" };
   }, [zoneData]);
 
-  // An honest legend: only the verdict styles actually present in loaded data.
+  // An honest legend: only the zone classes and verdicts actually present in loaded data.
   const legend: LegendFacts = useMemo(() => {
-    if (zoneData.kind !== "ok") return { polygonVerdicts: [], laneVerdicts: [] };
-    const polygonVerdicts: string[] = [];
-    const laneVerdicts: string[] = [];
+    if (zoneData.kind !== "ok") return { activeClasses: [] };
+    const seen = new Set<string>();
+    const activeClasses: { zoneTypeCode: string; verdict: string }[] = [];
     for (const { geojson } of zoneData.layers) {
       for (const feature of geojson.features) {
-        (LINE_GEOMETRY_TYPES.has(feature.geometry.type) ? laneVerdicts : polygonVerdicts).push(
-          feature.properties.verdict,
-        );
+        const { zoneTypeCode, verdict } = feature.properties;
+        const key = `${zoneTypeCode}|${verdict}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          activeClasses.push({ zoneTypeCode, verdict });
+        }
       }
     }
-    return { polygonVerdicts: sortVerdicts(polygonVerdicts), laneVerdicts: sortVerdicts(laneVerdicts) };
+    return { activeClasses };
   }, [zoneData]);
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-4">
+      {/* DO-040: SVG patterns definitions for zone styling */}
+      <svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}>
+        <defs>
+          <pattern id="crosshatch-restricted" width="6" height="6" patternUnits="userSpaceOnUse">
+            <path d="M 0 0 L 6 6 M 6 0 L 0 6" stroke="#b3261e" strokeWidth="1" opacity="0.4" />
+          </pattern>
+          <pattern id="crosshatch-needs-permit" width="6" height="6" patternUnits="userSpaceOnUse">
+            <path d="M 0 0 L 6 6 M 6 0 L 0 6" stroke="#c77b00" strokeWidth="1" opacity="0.4" />
+          </pattern>
+          <pattern id="crosshatch-clear" width="6" height="6" patternUnits="userSpaceOnUse">
+            <path d="M 0 0 L 6 6 M 6 0 L 0 6" stroke="#475569" strokeWidth="1" opacity="0.4" />
+          </pattern>
+
+          <pattern id="hatch-restricted" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#c77b00" strokeWidth="1.5" opacity="0.5" />
+          </pattern>
+          <pattern id="hatch-needs-permit" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#d97706" strokeWidth="1.5" opacity="0.5" />
+          </pattern>
+          <pattern id="hatch-clear" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#94a3b8" strokeWidth="1.5" opacity="0.5" />
+          </pattern>
+        </defs>
+      </svg>
       <div>
         <h1 className="text-2xl font-semibold">{t("map.title")}</h1>
         <p className="mt-1 text-sm text-muted-foreground">{t("map.description")}</p>
@@ -436,9 +677,7 @@ export default function MapPage() {
               dir="ltr"
               // MUTED_MAP_CLASS filters the tile pane only — overlays keep their
               // verdict colours (DO-035 item 3; see index.css).
-              className={`z-0 h-full w-full overflow-hidden rounded-lg border border-border ${
-                muted ? MUTED_MAP_CLASS : ""
-              }`}
+              className="z-0 h-full w-full overflow-hidden rounded-lg border border-border"
               data-testid="leaflet-container"
             />
             {/* The absolute-positioned source indicator! */}
@@ -596,4 +835,63 @@ export default function MapPage() {
       )}
     </div>
   );
+}
+
+function getCentroid(geometry: any): [number, number] | null {
+  if (!geometry) return null;
+  let coords: [number, number][] = [];
+  if (geometry.type === "Point") {
+    coords = [geometry.coordinates];
+  } else if (geometry.type === "LineString") {
+    coords = geometry.coordinates;
+  } else if (geometry.type === "MultiLineString") {
+    coords = geometry.coordinates.flat(1);
+  } else if (geometry.type === "Polygon") {
+    coords = geometry.coordinates[0];
+  } else if (geometry.type === "MultiPolygon") {
+    coords = geometry.coordinates.flatMap((poly: any) => poly[0]);
+  }
+  
+  if (coords.length === 0) return null;
+  let sumLng = 0;
+  let sumLat = 0;
+  const len = coords.length > 1 && coords[0][0] === coords[coords.length - 1][0] && coords[0][1] === coords[coords.length - 1][1] 
+    ? coords.length - 1 
+    : coords.length;
+    
+  for (let i = 0; i < len; i++) {
+    sumLng += coords[i][0];
+    sumLat += coords[i][1];
+  }
+  return [sumLng / len, sumLat / len];
+}
+
+function scaleGeometry(geometry: any, factor: number, center: { lat: number; lng: number }): any {
+  if (geometry.type === "Polygon") {
+    return {
+      ...geometry,
+      coordinates: geometry.coordinates.map((ring: any[]) =>
+        ring.map((coord) => {
+          const lng = center.lng + (coord[0] - center.lng) * factor;
+          const lat = center.lat + (coord[1] - center.lat) * factor;
+          return [lng, lat];
+        })
+      )
+    };
+  }
+  if (geometry.type === "MultiPolygon") {
+    return {
+      ...geometry,
+      coordinates: geometry.coordinates.map((poly: any[]) =>
+        poly.map((ring: any[]) =>
+          ring.map((coord) => {
+            const lng = center.lng + (coord[0] - center.lng) * factor;
+            const lat = center.lat + (coord[1] - center.lat) * factor;
+            return [lng, lat];
+          })
+        )
+      )
+    };
+  }
+  return geometry;
 }

@@ -53,3 +53,29 @@
     transition: none;
   }
 }
+
+/* DO-040 — Floor label chips */
+.zone-floor-label-chip {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.2px solid;
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  display: inline-block;
+}
+
+/* Hide floor labels at low zoom levels to prevent clutter */
+.zoom-low .zone-floor-label-icon {
+  display: none !important;
+}
+
+/* Reset Leaflet divIcon styles for custom icons */
+.airport-center-cross-icon,
+.zone-floor-label-icon {
+  border: none !important;
+  background: none !important;
+}
