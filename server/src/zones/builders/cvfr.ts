@@ -1,6 +1,6 @@
 // DO-013 — CVFR flight-lane conversion (FR-C6).
 //
-// TRIGGER 6 — RESOLVED (option A, decision log 2026-07-11): a lane carries
+// TRIGGER 6 — RESOLVED (option A, DECISION 2026-07-11): a lane carries
 // FOUR directional altitude fields (N_A / S_A / W_Alt / E_Alt) with 'X' (not
 // applicable), blanks and dual values ("2500/3500"), while Zone has a single
 // floor/ceiling pair. Per the approved modeling, each segment becomes one
@@ -132,7 +132,7 @@ export function buildCvfr(routes: GdbDump, points: GdbDump): CvfrResult {
       }
       if (segmentHasMultiValue) envelopeFromMultiValue += 1;
 
-      // Option A (decision log 2026-07-11): conservative envelope over every
+      // Option A (DECISION 2026-07-11): conservative envelope over every
       // published directional altitude number on the segment.
       const published = Object.values(rawAlts).flatMap(publishedAltitudesFt);
       const floorAmslFt = published.length > 0 ? Math.min(...published) : null;

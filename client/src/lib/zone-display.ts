@@ -129,7 +129,7 @@ export function describeAltitudeBand(
   return { kind: "band", floor, ceiling };
 }
 
-// ── Layer-visibility persistence (session decision, session log 2026-07-11) ─
+// ── Layer-visibility persistence (session decision, 2026-07-11) ─
 // Client-side persistence keyed by layer NAME (layerKey — stable across
 // re-imports, unlike ids in a rebuilt dev DB). Unlisted layers default to ON:
 // new datasets must be visible the first time, never silently hidden.

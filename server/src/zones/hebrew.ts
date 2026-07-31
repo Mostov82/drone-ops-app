@@ -1,6 +1,6 @@
 // DO-013 — RTL line assembly for text extracted from the AIP PDFs.
 //
-// Verified against the א'-17 PDF by codepoint inspection (session log
+// Verified against the א'-17 PDF by codepoint inspection (verified
 // 2026-07-10): PyMuPDF's get_text("words") yields each Hebrew word with its
 // characters already in LOGICAL order for this document — no character-level
 // reversal is needed. What DOES need repair is word order: words come with

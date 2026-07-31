@@ -3,7 +3,7 @@
 //   - verdict in feature properties comes from the ZoneType mapping AT READ
 //     TIME (editable Gate 3 data — a mapping edit changes the response),
 //   - provenance blob is parsed and surfaced (staleness/unverified UI input),
-//   - geometry passes through unmodified (no simplification — decision-logged),
+//   - geometry passes through unmodified (no simplification — ratified),
 //   - 404 with the bilingual error contract for unknown layers,
 //   - empty DB → empty layer list (the map page's zero-layers state).
 // Fixture geometry/altitudes are arbitrary test data, never regulatory values.

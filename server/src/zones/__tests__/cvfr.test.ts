@@ -1,4 +1,4 @@
-// DO-013 — option-A lane altitude envelope (trigger 6 resolved, decision log
+// DO-013 — option-A lane altitude envelope (trigger 6 resolved, DECISION
 // 2026-07-11). Fixture altitudes are arbitrary test data shaped like the
 // gdb's real value patterns, never regulatory values.
 import { describe, it, expect } from "vitest";

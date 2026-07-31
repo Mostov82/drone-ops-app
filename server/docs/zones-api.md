@@ -88,8 +88,7 @@ npm run zones:build -w server -- <dumps-dir>
 ```
 
 Requires Python ≥3.14 with `pyogrio` (vendors GDAL), `pyproj`, `shapely`,
-`pymupdf` (all user-level pip wheels; see the DO-013 session log tooling
-decision). Deterministic: identical inputs → byte-identical datasets, except
+`pymupdf` (all user-level pip wheels; see the DO-013 tooling notes). Deterministic: identical inputs → byte-identical datasets, except
 the manifest's `extractedAt` date (the one documented timestamp).
 
 ## Read API (DO-014 — read-only)
@@ -97,7 +96,7 @@ the manifest's `extractedAt` date (the one documented timestamp).
 Additive read-only routes in `server/src/zones/routes.ts`, mounted at
 `/api/zones` behind the PIN middleware like every `/api` route. They expose
 DO-013's models to the map UI (and any later consumer) **without any write
-surface** — imports stay the only writer (DO-014 escalation trigger 3).
+surface** — imports stay the only writer (DO-014).
 
 ### `GET /api/zones/layers`
 
@@ -144,7 +143,7 @@ One layer's zones as a GeoJSON FeatureCollection, plus the layer object above.
    constants; a DB verdict edit must change the next fetch's rendering with no
    code change (FR-C1 acceptance criterion, verified in DO-014).
 2. **Geometry passes through exactly as imported** — no simplification
-   (precision is safety-critical; decision-logged 2026-07-11).
+   (precision is safety-critical; ratified 2026-07-11).
 3. Altitude columns follow the [altitude semantics](#altitude-semantics--read-this-before-writing-verdict-logic-do-015)
    above; `notes` carries the lane directional strings and `aglCeilingFt=N`
    AGL ceilings the UI must surface.
@@ -155,7 +154,7 @@ One layer's zones as a GeoJSON FeatureCollection, plus the layer object above.
 
 - No HTTP routes (DO-012 owns `app.ts`; DO-014/015 add read routes).
 - No border-zone gap-filler — **resolved as won't-build** (trigger 4 closed,
-  decision log 2026-07-11): the imported AIP P/R/D polygons are the
+  DECISION 2026-07-11): the imported AIP P/R/D polygons are the
   border-closure source; no border-buffer rule was added to the catalog.
   Reopens only if the ב'-08 visual verification shows a coverage gap.
 - No AGL→AMSL conversion for the ceilings riding in `notes` (see altitude

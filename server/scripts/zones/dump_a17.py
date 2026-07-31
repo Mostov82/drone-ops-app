@@ -10,7 +10,7 @@ where they are unit-tested against these exact strings.
 
 Tooling: PyMuPDF (chosen PDF text-extraction tool for DO-013 — word-level
 bounding boxes make table row/column association deterministic where plain
-pdftotext output is ambiguous; see session log 2026-07-10).
+pdftotext output is ambiguous).
 
 Determinism: pages in order, tables in reading order, words sorted by
 (y0, x0) rounded to 2 decimals; rerun on the same PDF is byte-identical.

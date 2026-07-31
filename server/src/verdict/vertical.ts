@@ -1,6 +1,6 @@
 // DO-015 — vertical separation (FR-C5/C6): pure band arithmetic.
 //
-// Semantics implemented EXACTLY as ratified (decision log 2026-07-11;
+// Semantics implemented EXACTLY as ratified (DECISION 2026-07-11;
 // zones-api.md "Altitude semantics"):
 //   - AIP P/R/D zones: floor <= 0 ft AMSL = ground-reaching, INCLUDING
 //     below-sea-level terrain (Dead Sea) — airspace between the terrain and
@@ -14,7 +14,7 @@
 //     conversion awaits a modeling decision (zones-api.md).
 //
 // CONSERVATIVE ROUNDING RULE (the contract — documented in verdict-api.md):
-// elevation is a ~±4 m surface model (decision log 2026-07-10, always
+// elevation is a ~±4 m surface model (DECISION 2026-07-10, always
 // `approximate`), so the planned altitude is evaluated as an INTERVAL that
 // the uncertainty can only WIDEN, never narrow:
 //   minFt = floor((elevationM - 4 + aglM) / 0.3048)
@@ -25,7 +25,7 @@
 // 0.3048 m/ft is the exact international-foot definition (unit conversion,
 // not a regulatory value).
 
-/** GLO-30 vertical uncertainty, meters (decision log 2026-07-10: "~±4 m"). */
+/** GLO-30 vertical uncertainty, meters (DECISION 2026-07-10: "~±4 m"). */
 export const ELEVATION_UNCERTAINTY_M = 4;
 
 /** Exact international foot (unit definition, not a regulatory value). */

@@ -10,9 +10,9 @@ plus its geometry both in the native CRS and reprojected to WGS-84.
 This script is deliberately non-interpretive: all parsing/shaping/validation
 lives in the TypeScript builders (server/src/zones/), where it is unit-tested.
 
-Tooling note (decision log 2026-07-10 + DO-013 session log): the sanctioned
+Tooling note (DECISION 2026-07-10): the sanctioned
 converter is GDAL. On this machine GDAL is provided by the pyogrio wheel
-(vendors GDAL; see session log DECISIONS). Reprojection uses pyproj (PROJ).
+(vendors GDAL). Reprojection uses pyproj (PROJ).
 
 Determinism: features sorted by FID, JSON keys sorted, coordinates rounded to
 7 decimal places (~1 cm — far below the source's 0.01-arcsecond precision).

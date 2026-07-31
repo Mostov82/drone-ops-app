@@ -47,8 +47,8 @@ export function createPrismaDocumentMetaStore(): DocumentMetaStore {
 export const MAX_UPLOAD_BYTES = 25 * 1024 * 1024; // default cap per intent doc
 
 // Allowed types (intent doc: pdf, png, jpg). Extension AND declared MIME must
-// match; content sniffing is a known, deliberate gap (escalation trigger 3 —
-// noted for standup, no content-inspection dependency added).
+// match; content sniffing is a known, deliberate gap (no content-inspection
+// dependency added).
 const ALLOWED: Record<string, string> = {
   pdf: "application/pdf",
   png: "image/png",

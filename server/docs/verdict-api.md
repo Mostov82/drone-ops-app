@@ -175,7 +175,7 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
 - A planned altitude **never downgrades** a horizontally triggered zone: a
   zone whose floor is above the planned altitude still yields its mapped
   verdict, with the clearance visible in `reasons[].vertical`
-  (`BELOW_FLOOR`, `clearanceFt`). **Ratified** — decision log 2026-07-13
+  (`BELOW_FLOOR`, `clearanceFt`). **Ratified** — DECISION 2026-07-13
   (DO-015 escalation 2 resolution): over-strict is the accepted failure
   direction; a permissive under-floor interpretation is a regulatory
   judgment nobody has authority to make here.
@@ -209,8 +209,7 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
 
 Planned altitude is supplied in **meters AGL**; zone bands are **ft AMSL as
 published**. The engine converts via the terrain elevation at the point
-(DO-012 DEM service — offline, always `approximate`, ~±4 m; decision log
-2026-07-10; the engine never calls the online cross-check).
+(DO-012 DEM service — offline, always `approximate`, ~±4 m; DECISION 2026-07-10; the engine never calls the online cross-check).
 
 **The exact rule** (uncertainty *widens* conflicts, never narrows —
 `vertical.ts`, tested):
@@ -220,7 +219,7 @@ minFt = floor((elevationM − 4 + aglM) / 0.3048)
 maxFt = ceil ((elevationM + 4 + aglM) / 0.3048)
 ```
 
-- 4 m = GLO-30 vertical uncertainty (decision log 2026-07-10). 0.3048 m/ft is
+- 4 m = GLO-30 vertical uncertainty (DECISION 2026-07-10). 0.3048 m/ft is
   the exact international-foot definition (unit conversion, not regulatory).
 - A band **conflicts** iff `[minFt, maxFt]` overlaps the effective band,
   **inclusive at both edges** — touching a band edge counts as conflict.
@@ -228,7 +227,7 @@ maxFt = ceil ((elevationM + 4 + aglM) / 0.3048)
   `BELOW_FLOOR.clearanceFt = floor − maxFt`;
   `ABOVE_CEILING.clearanceFt = minFt − ceiling`.
 
-**Band semantics, exactly as ratified** (decision log 2026-07-11;
+**Band semantics, exactly as ratified** (DECISION 2026-07-11;
 `zones-api.md`), keyed by `zoneTypeCode`:
 
 | Zone type | Floor | Ceiling |
@@ -255,7 +254,7 @@ Consumers must present it as such.
 ### Lanes (FR-C6) — corridor containment (ratified)
 
 CVFR lanes are centerlines in the imported data; the corridor width is the
-**editable Ruleset value `cvfr_lane_halfwidth_km`** (decision log 2026-07-13,
+**editable Ruleset value `cvfr_lane_halfwidth_km`** (DECISION 2026-07-13,
 DO-015 escalation 1 resolution / Amendment 1), seeded from the governing ב'-03 text —
 §2.ב (page ב-03-2, עדכון 2/25): *"רוחב הנתיבים הינו 2 ק"מ (1 ק"מ מכל צד
 של מרכז הנתיב) אלא אם מצוין אחרת"* — route width 2 km, **1 km each side of

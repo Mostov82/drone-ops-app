@@ -1,5 +1,5 @@
 // DO-015 — vertical separation: the ratified altitude semantics + the
-// conservative rounding rule (decision log 2026-07-11 GND/UNL ratification;
+// conservative rounding rule (DECISION 2026-07-11 GND/UNL ratification;
 // Option A lane envelope; ±4 m elevation uncertainty widens, never narrows).
 import { describe, expect, it } from "vitest";
 import { ELEVATION_UNCERTAINTY_M, evaluateBand, plannedAmslEnvelope } from "../vertical.js";

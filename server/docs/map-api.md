@@ -39,7 +39,7 @@ Offline lookup from the local Copernicus GLO-30 DEM (bilinear over the 2×2 pixe
 
 **Semantics DO-015 must honor:**
 
-1. **`approximate` is always `true` and must be surfaced.** GLO-30 is a ~30 m *surface* model (~±4 m vertical, decision log 2026-07-10 — it measures canopy/rooftops, not bare ground). Any UI showing this value or a verdict derived from it renders the approximate marker (client: `components/map/ApproximateBadge.tsx`, the sibling of DO-010's `UnverifiedBadge`); vertical-separation math **rounds conservatively**.
+1. **`approximate` is always `true` and must be surfaced.** GLO-30 is a ~30 m *surface* model (~±4 m vertical, DECISION 2026-07-10 — it measures canopy/rooftops, not bare ground). Any UI showing this value or a verdict derived from it renders the approximate marker (client: `components/map/ApproximateBadge.tsx`, the sibling of DO-010's `UnverifiedBadge`); vertical-separation math **rounds conservatively**.
 2. **Fail-closed, like the Ruleset read API.** Errors are structured and bilingual; there is **never a default elevation**. A missing DEM must abort the computation that needed it — never catch-and-default (mirrors `ruleset-api.md` consumer obligation 1).
 
 | Status | Code | When |

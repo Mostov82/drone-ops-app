@@ -2,7 +2,7 @@
 // FR-C4, Gate 1 constraints). Every layer row shows its source + import date
 // (staleness) and the prominent UNVERIFIED badge while verified=false —
 // honest-uncertainty UI is a standing product stance (DO-010 precedent,
-// GB-06 Gate 3); softening it is escalation trigger 5, not a design choice.
+// GB-06 Gate 3); softening it is not a design choice.
 import { useTranslation } from "react-i18next";
 import UnverifiedBadge from "@/components/UnverifiedBadge";
 import { Button } from "@/components/ui/button";
