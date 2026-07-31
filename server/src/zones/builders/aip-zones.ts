@@ -37,7 +37,11 @@ export interface ReconIssue {
     | "parse-failure"
     | "no-geometry"
     | "kmz-only"
-    | "note";
+    | "note"
+    // DO-036 session 2 — coordination-contact extraction (contacts.ts)
+    | "contact-ambiguous"
+    | "contact-unextracted"
+    | "contact-no-zone";
   detail: string;
 }
 

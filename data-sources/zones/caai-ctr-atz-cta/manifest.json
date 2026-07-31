@@ -1,0 +1,23 @@
+{
+ "layerKey": "caai-ctr-atz-cta",
+ "title": "CAAI TLV_FIR — controlled airspace: CTR / ATZ / CTA (all classes → RESTRICTED per checkpoint 2026-07-19)",
+ "sourceFiles": [
+  {
+   "path": "data-sources/gis/TLV_FIR.zip",
+   "sha256": "b1ee07e453d046cc70962e06c91537f02ae2b71297cee2626ddc519d2dedd0d7"
+  }
+ ],
+ "aipUpdateStamp": "TLV_FIR.lpk (Esri layer package), editor stamps 2020–2023; page label promised TMA/ACC/runways — NOT present in the file",
+ "extractedAt": "2026-07-19",
+ "extractionTools": [
+  "pyogrio 0.13.0 (GDAL 3.12.4)",
+  "pyproj 3.7.2",
+  "PyMuPDF 1.28.0",
+  "server/src/zones builders (DO-013)",
+  "py7zr (lpk extraction — DO-036 tooling note)"
+ ],
+ "featureCount": 39,
+ "importable": true,
+ "verified": false,
+ "notes": "Findings checkpoint (DECISION 2026-07-19): all three classes import; CTR/ATZ/CTA ZoneTypes all seed RESTRICTED (editable); CTA gets NO overhead advisory (vertical ruling stays lanes-only); variant polygons import separately with dual ceilings taking the conservative max; ALTITUDE UNIT UNSTATED in source — adopted ft AMSL per producer's sibling files, confirm in visual check."
+}

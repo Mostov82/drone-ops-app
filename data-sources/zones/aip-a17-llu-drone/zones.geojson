@@ -5611,7 +5611,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°08'38\"N 34°48'18\"E, radius 500 m (published)"
+    "notes": "circle: center 32°08'38\"N 34°48'18\"E, radius 500 m (published) | תיאום (אזורי): גורם המעוניין להגיש בקשה לטיסה בתוך מרחבים אלו מחויב ליצור קשר עם שירות בתי הסוהר מטה ארצי- 074-7833333; מחוז צפון– 074-7834080; מ חוז מרכז– 074-7836000; מחוז דרום– 074-7839000 ולקבל אישור בכתב לגבי ביצוע הפעילות לאזור LLU21 לטלפון 03-5038875."
    },
    "geometry": {
     "type": "Polygon",
@@ -14925,7 +14925,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "polygon zone: מרחב אווירי (4 vertices)"
+    "notes": "polygon zone: מרחב אווירי (4 vertices) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם נציג חברת \"שברון\" במייל itzik.Sardinas@chevron.com, tal.lapidot@chevron.com."
    },
    "geometry": {
     "type": "Polygon",
@@ -15805,7 +15805,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°59'27\"N 35°31'02\"E, radius 500 m (published)"
+    "notes": "circle: center 32°59'27\"N 35°31'02\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 04-6975253."
    },
    "geometry": {
     "type": "Polygon",
@@ -16085,7 +16085,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 31°18'39\"N 34°32'37\"E, radius 500 m (published)"
+    "notes": "circle: center 31°18'39\"N 34°32'37\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 073-3142501 / 052-9289403."
    },
    "geometry": {
     "type": "Polygon",
@@ -16365,7 +16365,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 31°45'30\"N 35°09'13\"E, radius 500 m (published)"
+    "notes": "circle: center 31°45'30\"N 35°09'13\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם החמ\"ל בטלפון 052-3410054 / 02-5917531."
    },
    "geometry": {
     "type": "Polygon",
@@ -16645,7 +16645,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°08'42\"N 34°49'14\"E, radius 500 m (published)"
+    "notes": "circle: center 32°08'42\"N 34°49'14\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 03-5487211."
    },
    "geometry": {
     "type": "Polygon",
@@ -16925,7 +16925,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°08'36\"N 34°48'48\"E, radius 500 m (published)"
+    "notes": "circle: center 32°08'36\"N 34°48'48\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -17205,7 +17205,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°28'10\"N 35°01'25\"E, radius 500 m (published)"
+    "notes": "circle: center 32°28'10\"N 35°01'25\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -17485,7 +17485,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 31°16'48\"N 34°49'11\"E, radius 500 m (published)"
+    "notes": "circle: center 31°16'48\"N 34°49'11\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -17765,7 +17765,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 30°54'20\"N 34°31'24\"E, radius 500 m (published)"
+    "notes": "circle: center 30°54'20\"N 34°31'24\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -18045,7 +18045,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°03'53\"N 34°48'05\"E, radius 500 m (published)"
+    "notes": "circle: center 32°03'53\"N 34°48'05\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -18325,7 +18325,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°05'02\"N 34°55'24\"E, radius 500 m (published)"
+    "notes": "circle: center 32°05'02\"N 34°55'24\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -18605,7 +18605,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°04'01\"N 34°47'05\"E, radius 500 m (published)"
+    "notes": "circle: center 32°04'01\"N 34°47'05\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -18885,7 +18885,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°04'04\"N 34°46'51\"E, radius 500 m (published)"
+    "notes": "circle: center 32°04'04\"N 34°46'51\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -19165,7 +19165,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°07'44\"N 34°47'57\"E, radius 500 m (published)"
+    "notes": "circle: center 32°07'44\"N 34°47'57\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -19445,7 +19445,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 31°37'57\"N 34°45'04\"E, radius 500 m (published)"
+    "notes": "circle: center 31°37'57\"N 34°45'04\"E, radius 500 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר בטלפון 052-9265944."
    },
    "geometry": {
     "type": "Polygon",
@@ -19725,7 +19725,7 @@
     "floorAmslFt": null,
     "ceilingAmslFt": null,
     "aglCeilingFt": null,
-    "notes": "circle: center 32°35'53\"N 35°32'28\"E, radius 200 m (published)"
+    "notes": "circle: center 32°35'53\"N 35°32'28\"E, radius 200 m (published) | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם נציג החברה בטחון תחנה 24/7 04-9096525, יריב שלם 052-5222789."
    },
    "geometry": {
     "type": "Polygon",

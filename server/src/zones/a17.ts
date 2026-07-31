@@ -102,6 +102,12 @@ export interface A17Parsed {
   proseLluCodes: string[];
   /** Footer update stamps seen on appendix pages, visual→logical repaired. */
   updateStamps: string[];
+  /**
+   * First page carrying an appendix table — main-text prose (incl. the
+   * coordination-contact sentences, DO-036 session 2) ends before it.
+   * Infinity when the dump has no appendix tables.
+   */
+  firstAppendixPage: number;
 }
 
 // ── small helpers ────────────────────────────────────────────────────────────
@@ -453,6 +459,7 @@ export function parseA17(dump: A17Dump): A17Parsed {
     failures: [],
     proseLluCodes: [],
     updateStamps: [],
+    firstAppendixPage: Number.POSITIVE_INFINITY,
   };
 
   const appendixPages = new Set<number>();
@@ -468,6 +475,7 @@ export function parseA17(dump: A17Dump): A17Parsed {
 
   // prose LLU mentions (main text, before the appendix pages)
   const firstAppendixPage = Math.min(...appendixPages);
+  parsed.firstAppendixPage = firstAppendixPage;
   const prose = new Set<string>();
   for (const page of dump.pages) {
     if (page.page >= firstAppendixPage) continue;

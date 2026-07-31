@@ -1863,7 +1863,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 1900,
     "aglCeilingFt": null,
-    "notes": "geometry from א'-17 appendix ב' text (7 published vertices) — zone absent from ZONE_gdb.zip"
+    "notes": "geometry from א'-17 appendix ב' text (7 published vertices) — zone absent from ZONE_gdb.zip | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם יוסי מעוז קב\"ט בטלפון 054-2479323."
    },
    "geometry": {
     "type": "Polygon",
@@ -2957,7 +2957,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 900,
     "aglCeilingFt": null,
-    "notes": "geometry from א'-17 appendix ב' text (radius 1 ק\"מ around 31° 35' 47.00\" N 34° 47' 22.00\" E) — zone absent from ZONE_gdb.zip"
+    "notes": "geometry from א'-17 appendix ב' text (radius 1 ק\"מ around 31° 35' 47.00\" N 34° 47' 22.00\" E) — zone absent from ZONE_gdb.zip | תיאום: לצורך תיאום טיסה בסגירה זו יש לפנות למנהל חמ\"ל אינטל בטלפון 08-6121111."
    },
    "geometry": {
     "type": "Polygon",
@@ -5995,7 +5995,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 300,
     "aglCeilingFt": null,
-    "notes": "א'-17 definition note: מעגל שרדיוסו 900 מטר ומרכזו בנקודה : 32° 09' 07.00\" N 34° 49' 03.00\" E | gdb editor stamp: AMI 2021-08-29T00:00:00.000"
+    "notes": "א'-17 definition note: מעגל שרדיוסו 900 מטר ומרכזו בנקודה : 32° 09' 07.00\" N 34° 49' 03.00\" E | gdb editor stamp: AMI 2021-08-29T00:00:00.000 | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם חמ\"ל 9950 בטלפון 052-3792937."
    },
    "geometry": {
     "coordinates": [
@@ -6865,7 +6865,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 300,
     "aglCeilingFt": null,
-    "notes": "gdb editor stamp: AMI 2022-01-23T00:00:00.000"
+    "notes": "gdb editor stamp: AMI 2022-01-23T00:00:00.000 | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם חמ\"ל 9950 בטלפון 052-3792937."
    },
    "geometry": {
     "coordinates": [
@@ -6989,7 +6989,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": -530,
     "aglCeilingFt": null,
-    "notes": "gdb editor stamp: AMI 2022-01-23T00:00:00.000"
+    "notes": "gdb editor stamp: AMI 2022-01-23T00:00:00.000 | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם שי חן בטלפון 054-7302309 / 08-9977741."
    },
    "geometry": {
     "coordinates": [
@@ -7093,7 +7093,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 3000,
     "aglCeilingFt": null,
-    "notes": "א'-17 definition note: מהנקודה הקודמת עוקב הגבול אחר קשת ברדיוס של 2 ק \" מ שמרכזה בנקודה הבאה : · הקשת מסתיימת בנקודה הבאה : | gdb editor stamp: AMI 2022-07-17T00:00:00.000"
+    "notes": "א'-17 definition note: מהנקודה הקודמת עוקב הגבול אחר קשת ברדיוס של 2 ק \" מ שמרכזה בנקודה הבאה : · הקשת מסתיימת בנקודה הבאה : | gdb editor stamp: AMI 2022-07-17T00:00:00.000 | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם מגדל רמת דוד בטלפון המפורסם בפרק א 07."
    },
    "geometry": {
     "coordinates": [
@@ -8541,7 +8541,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 900,
     "aglCeilingFt": null,
-    "notes": "geometry from א'-17 appendix ב' text (6 published vertices) — zone absent from ZONE_gdb.zip"
+    "notes": "geometry from א'-17 appendix ב' text (6 published vertices) — zone absent from ZONE_gdb.zip | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם נציג החברה בטלפון 052-8669537 / 054-9151539."
    },
    "geometry": {
     "type": "Polygon",
@@ -8629,7 +8629,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 700,
     "aglCeilingFt": null,
-    "notes": "geometry from א'-17 appendix ב' text (6 published vertices) — zone absent from ZONE_gdb.zip"
+    "notes": "geometry from א'-17 appendix ב' text (6 published vertices) — zone absent from ZONE_gdb.zip | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם נציג חברת קנדו בטלפון 054-2021535 בועז צרפתי, 052-6909123 גיל שטיבלמן."
    },
    "geometry": {
     "type": "Polygon",
@@ -8677,7 +8677,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 800,
     "aglCeilingFt": null,
-    "notes": "geometry from א'-17 appendix ב' text (radius 300 מטר around 31° 52' 28.20\" N 34° 55' 16.10\" E) — zone absent from ZONE_gdb.zip"
+    "notes": "geometry from א'-17 appendix ב' text (radius 300 מטר around 31° 52' 28.20\" N 34° 55' 16.10\" E) — zone absent from ZONE_gdb.zip | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם נציג חברת פרספטו בטלפון 052-8669537 / 054-9151539."
    },
    "geometry": {
     "type": "Polygon",
@@ -8957,7 +8957,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 700,
     "aglCeilingFt": null,
-    "notes": "geometry from א'-17 appendix ב' text (6 published vertices) — zone absent from ZONE_gdb.zip"
+    "notes": "geometry from א'-17 appendix ב' text (6 published vertices) — zone absent from ZONE_gdb.zip | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם נציג חברת קנדו בועז צרפתי בטלפון 054-2021535."
    },
    "geometry": {
     "type": "Polygon",
@@ -12709,7 +12709,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 3000,
     "aglCeilingFt": null,
-    "notes": "gdb editor stamp: ILANS 2019-06-28T08:57:31.000"
+    "notes": "gdb editor stamp: ILANS 2019-06-28T08:57:31.000 | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם מב\"ט אבטחה מכון דוד בטלפון 050-3384198."
    },
    "geometry": {
     "coordinates": [
@@ -16237,7 +16237,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 4000,
     "aglCeilingFt": null,
-    "notes": "א'-17 definition note: מעגל שרדיוסו 6 ק \" מ ומרכזו בנקודה : | gdb editor stamp: AGL AVIATION 2016-07-06T20:46:37.000"
+    "notes": "א'-17 definition note: מעגל שרדיוסו 6 ק \" מ ומרכזו בנקודה : | gdb editor stamp: AGL AVIATION 2016-07-06T20:46:37.000 | תיאום: עבור טיסות רב להב בקשר עין, יש לאשר תכנית טיסה מול אחראית מידע ותעופה משרד התחבורה, אביטל שלס בטלפון 050-6212003."
    },
    "geometry": {
     "coordinates": [
@@ -18443,7 +18443,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 7000,
     "aglCeilingFt": null,
-    "notes": "gdb editor stamp: AGL AVIATION 2016-07-06T20:46:37.000"
+    "notes": "gdb editor stamp: AGL AVIATION 2016-07-06T20:46:37.000 | תיאום: טרם הגשת בקשה לטיסת מרחב ל טיסה באזור אסור זה יש לתאם עם ע\"פ סדר העדיפות 1 משה ישראל 054-3390262 2 יוסי שמש 052-5773105 3 ניר כהן 052-8686406 4 אריה גלוטמן 052-3678550"
    },
    "geometry": {
     "coordinates": [
@@ -23347,7 +23347,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 2000,
     "aglCeilingFt": null,
-    "notes": "א'-17 definition note: מעגל שרדיוסו חצי ק \" מ ומרכזו בנקודה : 32° 41' 58.97\" N 35° 20' 07.05\" E | gdb editor stamp: AGL AVIATION 2016-07-06T20:46:37.000"
+    "notes": "א'-17 definition note: מעגל שרדיוסו חצי ק \" מ ומרכזו בנקודה : 32° 41' 58.97\" N 35° 20' 07.05\" E | gdb editor stamp: AGL AVIATION 2016-07-06T20:46:37.000 | תיאום: לתיאום טיסה במרחב זה יש ליצור קשר עם קב\"ט המתקן בטלפון 054-9992044, 052-3678155."
    },
    "geometry": {
     "coordinates": [
@@ -38941,7 +38941,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 12000,
     "aglCeilingFt": null,
-    "notes": "א'-17 definition note: מהנקודה הקודמת עוקב הגבול אחר קשת ברדיוס של 3 ק \" מ שמרכזה בנקודה הבאה : · הקשת מסתיימת בנקודה הבאה : | gdb editor stamp: AMI 2022-11-30T00:00:00.000 | gdb comment: גובה רגיל/ סופ\"ש"
+    "notes": "א'-17 definition note: מהנקודה הקודמת עוקב הגבול אחר קשת ברדיוס של 3 ק \" מ שמרכזה בנקודה הבאה : · הקשת מסתיימת בנקודה הבאה : | gdb editor stamp: AMI 2022-11-30T00:00:00.000 | gdb comment: גובה רגיל/ סופ\"ש | תיאום: לצורך תיאום טיסה בסגירה זו יש לפנות לפי הסדר עינב ליברמן סמנכ\"ל תפעול 054-2518700 einavlib@gmail.com אור אלרון מפעיל מנחת 052-5365141 orelron12@gmail.com דן מוקדי מנכ\"ל 054-2519100 danm@parardive.co.il."
    },
    "geometry": {
     "coordinates": [
@@ -41969,7 +41969,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 11000,
     "aglCeilingFt": null,
-    "notes": "gdb editor stamp: AMI 2021-01-10T00:00:00.000"
+    "notes": "gdb editor stamp: AMI 2021-01-10T00:00:00.000 | תיאום (אזורי): בקשה לתכנית טיסה באזורים LLR90/801/802/803/83 דורשת הגשת בקשה לחה\"א לפחות 7 ימי עבודה מראש."
    },
    "geometry": {
     "coordinates": [
@@ -42023,7 +42023,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 11000,
     "aglCeilingFt": null,
-    "notes": "gdb editor stamp: AMI 2021-01-10T00:00:00.000"
+    "notes": "gdb editor stamp: AMI 2021-01-10T00:00:00.000 | תיאום (אזורי): בקשה לתכנית טיסה באזורים LLR90/801/802/803/83 דורשת הגשת בקשה לחה\"א לפחות 7 ימי עבודה מראש."
    },
    "geometry": {
     "coordinates": [
@@ -42065,7 +42065,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 11000,
     "aglCeilingFt": null,
-    "notes": "gdb editor stamp: AMI 2021-01-10T00:00:00.000"
+    "notes": "gdb editor stamp: AMI 2021-01-10T00:00:00.000 | תיאום (אזורי): בקשה לתכנית טיסה באזורים LLR90/801/802/803/83 דורשת הגשת בקשה לחה\"א לפחות 7 ימי עבודה מראש."
    },
    "geometry": {
     "coordinates": [
@@ -42345,7 +42345,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 11000,
     "aglCeilingFt": null,
-    "notes": "GEOMETRY DISAGREEMENT: 6/6 א'-17 vertices do not appear in the gdb outline — requires visual adjudication (ב'-08) | gdb editor stamp: AMI 2021-08-02T00:00:00.000"
+    "notes": "GEOMETRY DISAGREEMENT: 6/6 א'-17 vertices do not appear in the gdb outline — requires visual adjudication (ב'-08) | gdb editor stamp: AMI 2021-08-02T00:00:00.000 | תיאום (אזורי): בקשה לתכנית טיסה באזורים LLR90/801/802/803/83 דורשת הגשת בקשה לחה\"א לפחות 7 ימי עבודה מראש."
    },
    "geometry": {
     "coordinates": [
@@ -42411,7 +42411,7 @@
     "floorAmslFt": 0,
     "ceilingAmslFt": 11000,
     "aglCeilingFt": null,
-    "notes": "gdb editor stamp: AMI 2020-12-28T00:00:00.000"
+    "notes": "gdb editor stamp: AMI 2020-12-28T00:00:00.000 | תיאום (אזורי): בקשה לתכנית טיסה באזורים LLR90/801/802/803/83 דורשת הגשת בקשה לחה\"א לפחות 7 ימי עבודה מראש."
    },
    "geometry": {
     "coordinates": [

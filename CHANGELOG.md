@@ -7,6 +7,8 @@ this project uses date-based release sections.
 ## [Unreleased]
 
 ### Added
+- **DO-036** — Import CAAI TLV_FIR controlled airspace (CTR/ATZ/CTA zones) and
+  extract published coordination contacts onto zone notes.
 - **DO-035** — Map UX pass: collapsible sidebar sections, per-zone
   notes with coordination contacts, and a muted base-map option.
 
