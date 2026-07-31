@@ -50,6 +50,12 @@
  * (the manifest `layerKey`) — stable across re-imports, unlike row ids.
  */
 export const ZONE_LAYER_DRAW_ORDER: readonly string[] = [
+  // DO-045 — the weekend fly-bubbles sit at the very BOTTOM, and that placement
+  // is a safety choice rather than a size one. They are the only permissive
+  // layer on the map (WEEKEND_BUBBLE seeds CLEAR), so if one ever painted over a
+  // restriction it would be actively misleading in a way no other pair of layers
+  // can be. Bottom of the stack makes that impossible by construction.
+  "caai-weekend-bubbles",
   "aip-a17-inpa-closures",
   "aip-a17-llp-llr-danger",
   "cvfr-lanes",

@@ -71,7 +71,12 @@ Success responses are the `VerdictResult` JSON below; errors are the standard
   "verdict": "RESTRICTED",              // RESTRICTED | NEEDS_PERMIT | CLEAR
   "point": { "lat": 32.15, "lng": 35.15 },
 
-  // Triggered zones, worst verdict first. Empty array ⇔ verdict CLEAR.
+  // Zones containing the point, worst verdict first.
+  // NOT "empty ⇔ CLEAR": DO-045 added the first CLEAR-verdict ZoneType
+  // (WEEKEND_BUBBLE — the AIP ב'-08 weekend fly-bubbles), and membership is
+  // emitted for every containing zone regardless of its verdict, so a CLEAR
+  // result can carry a non-empty list. Read `verdict`, never `reasons.length`,
+  // to decide severity.
   "reasons": [
     {
       "kind": "POINT_IN_ZONE",          // or WITHIN_AIRPORT_BUFFER_RULE

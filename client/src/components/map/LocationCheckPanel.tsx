@@ -195,8 +195,14 @@ function VerdictCard({
       {/* Data-quality banner FIRST — the verdict is never authoritative. */}
       <DataQualityBanner result={result} t={t} formatImported={formatImported} />
 
-      {/* Triggering zones, worst verdict first. */}
-      {result.reasons.length > 0 ? (
+      {/* Zones containing the point, worst verdict first.
+          DO-045: read `verdict`, NOT `reasons.length`. Until DO-045 every seeded
+          ZoneType was RESTRICTED or NEEDS_PERMIT, so a non-empty list implied a
+          non-CLEAR verdict and this branch could stand in for both. The weekend
+          fly-bubbles are the first CLEAR zone type, so a CLEAR result can now
+          contain zones — and calling them "triggering zones" while suppressing
+          the clear message would misreport a clear location as a restricted one. */}
+      {result.verdict !== "CLEAR" && result.reasons.length > 0 ? (
         <section>
           <h3 className="text-sm font-semibold">{t("map.check.reasons.title")}</h3>
           <ul className="mt-2 flex flex-col gap-2">
@@ -208,9 +214,29 @@ function VerdictCard({
           </ul>
         </section>
       ) : (
-        <p className="text-sm" dir="auto">
-          {t("map.check.clear.body")}
-        </p>
+        <>
+          <p className="text-sm" dir="auto">
+            {t("map.check.clear.body")}
+          </p>
+          {/* DO-045 — permissive zones the point sits in. Informational: they did
+              not produce the verdict, they just say where you are. Rendered under
+              their own heading so they are never read as restrictions. */}
+          {result.reasons.length > 0 && (
+            <section data-testid="clear-zone-memberships">
+              <h3 className="text-sm font-semibold">{t("map.check.memberships.title")}</h3>
+              <p className="mt-1 text-xs text-muted-foreground" dir="auto">
+                {t("map.check.memberships.hint")}
+              </p>
+              <ul className="mt-2 flex flex-col gap-2">
+                {result.reasons.map((reason, i) => (
+                  <li key={`${reason.zone.id}-${reason.kind}-${i}`}>
+                    <ReasonRow reason={reason} t={t} formatImported={formatImported} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </>
       )}
 
       {/* Distance findings (FR-C3) — always present. */}

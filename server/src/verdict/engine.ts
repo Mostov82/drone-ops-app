@@ -195,7 +195,17 @@ export interface DataQuality {
 export interface VerdictResult {
   verdict: VerdictValue;
   point: { lat: number; lng: number };
-  /** Triggered zones, worst verdict first. Empty ⇔ verdict CLEAR. */
+  /**
+   * Zones containing the point, worst verdict first.
+   *
+   * NOT "empty ⇔ CLEAR" — that held only while every seeded ZoneType was
+   * RESTRICTED or NEEDS_PERMIT. DO-045 added the first CLEAR one
+   * (`WEEKEND_BUBBLE`, the AIP ב'-08 weekend fly-bubbles), and membership is
+   * emitted for every containing zone regardless of its verdict, so a CLEAR
+   * result can now carry a non-empty list. `verdict` is still the worst entry's
+   * verdict, and still CLEAR when the list is empty — consumers must read
+   * `verdict`, never `reasons.length`, to decide severity.
+   */
   reasons: VerdictReason[];
   distance: {
     nearestAirport: NearestAirport;

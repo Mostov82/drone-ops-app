@@ -232,6 +232,23 @@ function ClassSwatch({ zoneTypeCode, verdict }: { zoneTypeCode: string; verdict:
     );
   }
 
+  if (zoneTypeCode === "WEEKEND_BUBBLE") {
+    // DO-045 — two swatches, because the weekend/all-week distinction is carried
+    // by border grammar and a legend that showed only one would teach half of it.
+    return (
+      <span className="flex shrink-0 items-center gap-1">
+        <svg aria-hidden="true" width="24" height="16">
+          <rect x="2" y="2" width="20" height="12" rx="6" fill={color} fillOpacity="0.1"
+            stroke={color} strokeWidth="1.8" strokeDasharray="6 4" />
+        </svg>
+        <svg aria-hidden="true" width="24" height="16">
+          <rect x="2" y="2" width="20" height="12" rx="6" fill={color} fillOpacity="0.12"
+            stroke={color} strokeWidth="2" />
+        </svg>
+      </span>
+    );
+  }
+
   if (zoneTypeCode === "CVFR_LANE") {
     return (
       <svg aria-hidden="true" width="24" height="16" className="shrink-0">
@@ -381,7 +398,10 @@ export default function ZoneLayersPanel({
               "NATURE_RESERVE",
               "CVFR_LANE",
               "POPULATED",
-              "OTHER"
+              "OTHER",
+              // DO-045 — last: the only permissive class on the map, and the
+              // only one whose geometry is hand-traced rather than published.
+              "WEEKEND_BUBBLE"
             ];
             const sortClasses = (items: LegendClassFact[]) => {
               return [...items].sort((a, b) => {

@@ -1,1 +1,7 @@
 * text=auto
+
+# DO-045 — dataset bytes ARE provenance. Each dataset manifest records the
+# SHA-256 of its source files, so if git rewrites line endings on checkout that
+# hash stops identifying the bytes it claims to. Keep everything under
+# data-sources byte-exact, on every platform.
+data-sources/** -text

@@ -59,6 +59,14 @@ export const ZONE_TYPE_SEEDS: Record<string, { name: string; defaultVerdict: str
   CTR: { name: "Control zone (CTR)", defaultVerdict: "RESTRICTED" },
   ATZ: { name: "Aerodrome traffic zone (ATZ)", defaultVerdict: "RESTRICTED" },
   CTA: { name: "Control area (CTA)", defaultVerdict: "RESTRICTED" },
+  // DO-045 — AIP ב'-08 weekend fly-bubbles. CLEAR, and that is the point: these
+  // are sport-aviation areas that are *free* to fly, not restrictions, so the
+  // layer is DISPLAY-ONLY and must not move any verdict. Where a bubble overlaps
+  // a genuine restriction, the engine's worst-of already reports the
+  // restriction — the bubble adds no severity of its own. Still editable data
+  // like every other row here: changing this verdict restyles and re-behaves
+  // with no code change (NFR-5), which is exactly what the DO-045 test asserts.
+  WEEKEND_BUBBLE: { name: 'Weekend fly-bubble (AIP ב\'-08, sport aviation)', defaultVerdict: "CLEAR" },
 };
 
 export interface ImportResult {

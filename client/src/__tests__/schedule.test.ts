@@ -149,9 +149,18 @@ describe("detectSchedule — the real corpus", () => {
   // any new match or lost match fails here rather than surfacing on the map.
   const ROOT = path.resolve(__dirname, "../../../data-sources/zones");
 
-  function detectAll(): { code: string; type: string; text: string }[] {
+  // DO-045 note: `caai-weekend-bubbles` is EXCLUDED from the assertion below and
+  // asserted separately. Its 37 zones each carry a deliberate `schedule:` segment
+  // written by their importer, so folding them into the "exactly six" list would
+  // turn a sharp drift alarm into a 43-line inventory. Split, both halves stay
+  // sharp: the published corpus must still yield exactly six, and every bubble
+  // must still be detected.
+  const BUBBLES_DIR = "caai-weekend-bubbles";
+
+  function detectAll(only?: (dir: string) => boolean): { code: string; type: string; text: string }[] {
     const hits: { code: string; type: string; text: string }[] = [];
     for (const dir of fs.readdirSync(ROOT)) {
+      if (only && !only(dir)) continue;
       const file = path.join(ROOT, dir, "zones.geojson");
       if (!fs.existsSync(file)) continue;
       for (const feature of JSON.parse(fs.readFileSync(file, "utf8")).features) {
@@ -164,7 +173,7 @@ describe("detectSchedule — the real corpus", () => {
   }
 
   it("matches exactly the six known scheduled zones and nothing else", () => {
-    expect(detectAll()).toEqual([
+    expect(detectAll((dir) => dir !== BUBBLES_DIR)).toEqual([
       { code: "ATZ-LLBO-2", type: "weekend", text: "סופש" },
       { code: "ATZ-LLBO-3", type: "weekday", text: "אמצע שבוע" },
       { code: "CTA-LLHS", type: "weekend", text: "סופש" },
@@ -172,6 +181,21 @@ describe("detectSchedule — the real corpus", () => {
       { code: "CTR-LLRD-2", type: "weekend", text: "סופש" },
       { code: "LLR20", type: "weekend", text: 'סופ"ש' },
     ]);
+  });
+
+  it("detects a schedule on EVERY weekend fly-bubble (DO-045)", () => {
+    const bubbles = detectAll((dir) => dir === BUBBLES_DIR);
+    const total = JSON.parse(
+      fs.readFileSync(path.join(ROOT, BUBBLES_DIR, "zones.geojson"), "utf8"),
+    ).features.length;
+    expect(bubbles).toHaveLength(total);
+    // Weekend-only → "weekend" (emphasised in the weekend view); all-week →
+    // "other" (shown verbatim). NOTHING may read as "weekday", which would
+    // de-emphasise a bubble that is in force all week.
+    expect(bubbles.every((b) => b.type === "weekend" || b.type === "other")).toBe(true);
+    expect(bubbles.some((b) => b.type === "weekend")).toBe(true);
+    expect(bubbles.some((b) => b.type === "other")).toBe(true);
+    expect(bubbles.filter((b) => b.type === "weekday")).toHaveLength(0);
   });
 });
 

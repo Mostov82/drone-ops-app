@@ -10,6 +10,8 @@ import {
 } from "@/lib/zone-popup-helpers";
 import {
   describeAltitudeBand,
+  isBubbleScheduleInferred,
+  isHandTracedGeometry,
   isKnownVerdict,
   laneDirectionalAltitudes,
   LANE_ZONE_TYPE_CODE,
@@ -101,6 +103,26 @@ export function buildZonePopupHtml(
         <span dir="ltr">${escapeHtml(directional)}</span>
       </div>`,
       `<div class="text-xs text-muted-foreground">${escapeHtml(t("map.zones.popup.envelopeNote"))}</div>`,
+    );
+  }
+
+  // DO-045 — hand-traced geometry is a per-ZONE honesty surface, not just a
+  // layer-level one. The unverified chip below says "this layer has not been
+  // visually checked"; this says something stronger and more specific — the
+  // outline itself was drawn by hand to about half a kilometre. A reader
+  // deciding where to fly must not have to infer that from a layer badge.
+  // Also flags a weekend/all-week status that was inferred rather than
+  // published, so an inference is never shown with a published one's confidence.
+  if (isHandTracedGeometry(props.notes)) {
+    const inferred = isBubbleScheduleInferred(props.notes)
+      ? `<div class="mt-0.5" dir="auto">${escapeHtml(t("map.zones.popup.scheduleInferred"))}</div>`
+      : "";
+    rows.push(
+      `<div class="mt-1 rounded border border-amber-300 bg-amber-50/70 px-1.5 py-1 text-[10px] leading-normal text-amber-900" dir="auto">
+        <span class="font-semibold">${escapeHtml(t("map.zones.popup.tracedTitle"))}</span>
+        <div class="mt-0.5">${escapeHtml(t("map.zones.popup.tracedBody"))}</div>
+        ${inferred}
+      </div>`,
     );
   }
 
