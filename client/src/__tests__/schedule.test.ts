@@ -291,9 +291,30 @@ describe("weekend view caption + copy (acceptance criterion)", () => {
     expect(body).toMatch(/override/i);
   });
 
-  it("marks the untranslated Hebrew coinage with [HE?] per convention", () => {
+  // DO-041 originally asserted here that every one of these HE strings CONTAINS
+  // "[HE?]". That inverted the convention it was named after. The `[HE?]` prefix
+  // marks a term as *awaiting* Jonathan's terminology review (standing
+  // convention, DECISION 2026-07-10); removing it is what "reviewed" looks
+  // like — see the same file's own precedent, `he.ts`'s Ruleset header: "Rule
+  // labels human-reviewed by Jonathan 2026-07-10 … '[HE?]' prefixes removed."
+  //
+  // So the old assertion pinned a point-in-time state ("not yet reviewed") as if
+  // it were a permanent invariant, and was guaranteed to fail the moment the
+  // convention did its job. It did: these five terms were reviewed and finalised
+  // in DO-044 (b15632f), and `main` went red. Ruling 2026-07-28 — the labels
+  // stand; the assertion was the defect.
+  //
+  // What replaces it is the invariant that actually survives review: the Hebrew
+  // copy must be real Hebrew and genuinely translated, not the English string
+  // left in place. That catches the failure the old test was groping for (a key
+  // shipped untranslated) without breaking every time a term gets approved.
+  it("ships real, translated Hebrew for every weekend-view key", () => {
+    const HEBREW_LETTER = /[֐-׿]/;
     for (const key of KEYS) {
-      expect((he as Record<string, string>)[key], `HE ${key}`).toContain("[HE?]");
+      const heValue = (he as Record<string, string>)[key];
+      const enValue = (en as Record<string, string>)[key];
+      expect(heValue, `HE ${key}`).toMatch(HEBREW_LETTER);
+      expect(heValue, `HE ${key} is still the English string`).not.toBe(enValue);
     }
   });
 });
