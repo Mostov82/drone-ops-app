@@ -8,8 +8,10 @@ import {
   isSectionOpen,
   loadMapMuted,
   loadSidebarSections,
+  loadWeekendView,
   saveMapMuted,
   saveSidebarSections,
+  saveWeekendView,
   SECTION_LAYERS,
   SECTION_LOCATION,
   SECTION_RESULT,
@@ -114,5 +116,33 @@ describe("muted base map persistence", () => {
     expect(() => loadMapMuted(throwingStorage)).not.toThrow();
     expect(loadMapMuted(throwingStorage)).toBe(false);
     expect(() => saveMapMuted(true, throwingStorage)).not.toThrow();
+  });
+});
+
+// DO-041 — the weekend view is an appearance setting and persists like the
+// others. It defaults OFF: the normal view is the conservative always-on read,
+// so a returning user is never silently put into a filtered-looking map.
+describe("weekend view persistence", () => {
+  it("defaults to off", () => {
+    expect(loadWeekendView(memoryStorage())).toBe(false);
+  });
+
+  it("round-trips both states", () => {
+    const storage = memoryStorage();
+    saveWeekendView(true, storage);
+    expect(storage.read("droneops.mapWeekendView")).toBe("true");
+    expect(loadWeekendView(storage)).toBe(true);
+    saveWeekendView(false, storage);
+    expect(loadWeekendView(storage)).toBe(false);
+  });
+
+  it("treats any non-'true' stored value as off", () => {
+    expect(loadWeekendView(memoryStorage({ "droneops.mapWeekendView": "garbage" }))).toBe(false);
+  });
+
+  it("never throws when storage is unavailable", () => {
+    expect(() => loadWeekendView(throwingStorage)).not.toThrow();
+    expect(loadWeekendView(throwingStorage)).toBe(false);
+    expect(() => saveWeekendView(true, throwingStorage)).not.toThrow();
   });
 });

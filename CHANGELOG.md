@@ -7,6 +7,8 @@ this project uses date-based release sections.
 ## [Unreleased]
 
 ### Added
+- **DO-041** — Weekend/schedule surfacing: display-only indicators for a zone's
+  active days/times, with no effect on verdicts.
 - **DO-040** — Map visual-language pass: custom zone swatches, decluttered
   overlay rendering, and a MultiPolygon nesting fix.
 - **DO-036** — Import CAAI TLV_FIR controlled airspace (CTR/ATZ/CTA zones) and

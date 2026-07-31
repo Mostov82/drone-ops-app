@@ -14,6 +14,7 @@ import {
   laneDirectionalAltitudes,
   LANE_ZONE_TYPE_CODE,
   verdictStyle,
+  detectSchedule,
 } from "@/lib/zone-display";
 import type { ZoneFeatureProperties, ZoneLayerSummary } from "@/lib/zones-api";
 
@@ -74,6 +75,23 @@ export function buildZonePopupHtml(
       <span dir="auto">${escapeHtml(bandText)}</span>
     </div>`,
   );
+
+  // DO-041 — schedule chip + the published text verbatim. verbatimText is null
+  // for name-derived schedules; the name is already rendered above, so showing
+  // it again here would just repeat the same string.
+  const schedule = detectSchedule(props.name, props.notes);
+  if (schedule) {
+    const verbatim = schedule.verbatimText
+      ? `<div class="mt-1 text-[10px] leading-normal italic text-muted-foreground" dir="auto">${escapeHtml(schedule.verbatimText)}</div>`
+      : "";
+    rows.push(
+      `<div class="mt-2 text-xs">
+        <span class="text-muted-foreground">${escapeHtml(t("map.zones.popup.schedule"))}:</span>
+        <span class="inline-flex items-center rounded border border-blue-200 bg-blue-50 px-1.5 py-0.5 text-[10px] font-bold text-blue-900 leading-none" dir="auto">${escapeHtml(schedule.text)}</span>
+        ${verbatim}
+      </div>`
+    );
+  }
 
   if (directional) {
     // Raw directional strings exactly as published (Option A, decision 2026-07-11).

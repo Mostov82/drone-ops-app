@@ -19,6 +19,7 @@ export interface ZoneStyle {
   dashArray?: string;
   fill?: boolean;
   stroke?: boolean;
+  opacity?: number;
 }
 
 /** Known verdict values (GB-03 Gate 3 three-tier mapping). */
@@ -44,7 +45,14 @@ const UNKNOWN_VERDICT_STYLE: ZoneStyle = {
 export function getZoneStyle(
   verdict: string,
   zoneTypeCode: string,
-  extra?: { isInner?: boolean; isCorridor?: boolean }
+  extra?: {
+    isInner?: boolean;
+    isCorridor?: boolean;
+    /** DO-041 weekend view — weekday-only zone, faded but never hidden. */
+    isDeemphasized?: boolean;
+    /** DO-041 weekend view — weekend-relevant zone, brought forward. */
+    isEmphasized?: boolean;
+  }
 ): ZoneStyle {
   let color = "#475569";
   
@@ -239,6 +247,19 @@ export function getZoneStyle(
     }
   }
 
+  // DO-041 weekend view — display-only re-weighting on top of DO-040's colours.
+  // De-emphasis fades but never hides (honesty stance); emphasis thickens the
+  // stroke and deepens the fill without changing hue, so the verdict colour a
+  // reader has learned still means exactly the same thing.
+  let opacity: number | undefined = undefined;
+  if (extra?.isDeemphasized) {
+    fillOpacity = fillOpacity * 0.25;
+    opacity = 0.3;
+  } else if (extra?.isEmphasized) {
+    weight = weight + 1.5;
+    fillOpacity = Math.min(fillOpacity * 1.8, 0.6);
+  }
+
   return {
     color,
     weight,
@@ -246,6 +267,14 @@ export function getZoneStyle(
     fillOpacity,
     dashArray,
     fill,
+    // Emitted ONLY when de-emphasis actually set it. Leaflet copies every key of
+    // a style object over its defaults, so an explicit `opacity: undefined`
+    // would clobber the default 1.0 — and its canvas renderer then does
+    // `ctx.globalAlpha = options.opacity` (leaflet-src.js:12907) right after
+    // setting globalAlpha to fillOpacity for the fill. Canvas ignores a NaN
+    // alpha, so every stroke would silently inherit the fill's opacity and the
+    // whole palette would wash out.
+    ...(opacity === undefined ? {} : { opacity }),
   };
 }
 
@@ -442,3 +471,74 @@ export function bufferLine(coords: [number, number][], halfWidthM: number): [num
 
   return [...leftPoints, ...rightPoints.reverse(), leftPoints[0]];
 }
+
+// DO-041 — schedule surfacing (display-only). Detection reads ONLY what the
+// importers already preserve: variant names carrying סופש/אמצע שבוע, the
+// `schedule:` notes segment (ctr.ts builder), and the `gdb comment:` segment
+// (aip-zones.ts builder). Anything unmatched yields null — no chip, never
+// guessed. Presentation only: verdicts stay time-blind and conservative.
+export type ScheduleType = "weekend" | "weekday" | "other";
+
+/** Which published string the schedule was read from. */
+export type ScheduleSource = "name" | "notes";
+
+export interface ZoneSchedule {
+  type: ScheduleType;
+  /** Chip label — the published token itself, never a normalised coinage. */
+  text: string;
+  /**
+   * The full published string the schedule was read from, verbatim — or null
+   * when it came from the zone name, which callers already render on its own
+   * line. Repeating it there would print the same string twice.
+   */
+  verbatimText: string | null;
+  source: ScheduleSource;
+}
+
+// Published tokens, exactly as they occur in the imported strings. סופ"ש (with
+// gershayim) and סופש are distinct spellings and both appear in real data.
+const WEEKEND_TOKEN = /סופ"ש|סופש|סוף שבוע/;
+const WEEKDAY_TOKEN = /אמצע שבוע|אמצ"ש|א'-ה'|א'–ה'/;
+
+/** Read a weekend/weekday token out of one published string. */
+function readSchedule(value: string, source: ScheduleSource): ZoneSchedule | null {
+  const weekend = WEEKEND_TOKEN.exec(value);
+  const weekday = weekend ? null : WEEKDAY_TOKEN.exec(value);
+  const match = weekend ?? weekday;
+  if (!match) return null;
+  return {
+    type: weekend ? "weekend" : "weekday",
+    text: match[0],
+    verbatimText: source === "notes" ? value : null,
+    source,
+  };
+}
+
+export function detectSchedule(name: string, notes: string | null): ZoneSchedule | null {
+  if (notes) {
+    const scheduleSegment = /(?:^|\|)\s*schedule:\s*([^|]+)/.exec(notes);
+    if (scheduleSegment) {
+      const value = scheduleSegment[1].trim();
+      // An explicit `schedule:` segment is schedule data by construction, so it
+      // is surfaced verbatim even when it carries no weekend/weekday token.
+      return (
+        readSchedule(value, "notes") ?? {
+          type: "other",
+          text: value,
+          verbatimText: value,
+          source: "notes",
+        }
+      );
+    }
+
+    // gdb comments are free prose — surface only when a token is actually there.
+    const commentSegment = /(?:^|\|)\s*gdb comment:\s*([^|]+)/.exec(notes);
+    if (commentSegment) {
+      const found = readSchedule(commentSegment[1].trim(), "notes");
+      if (found) return found;
+    }
+  }
+
+  return readSchedule(name, "name");
+}
+

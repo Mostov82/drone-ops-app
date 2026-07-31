@@ -142,6 +142,10 @@ const en = {
   "map.settings.muted.label": "Mute base map",
   "map.settings.muted.hint":
     "Desaturates the background tiles so zone overlays stand out. Display only — it changes nothing about the data or the verdict.",
+  "map.settings.weekendView.label": "Weekend configuration highlight",
+  "map.settings.weekendView.hint": "Visually de-emphasize weekday-only zones and emphasize weekend variants.",
+  "map.settings.weekendView.caption.title": "Viewing Aid Only",
+  "map.settings.weekendView.caption.body": "All verdicts remain conservative (always-on). NOTAMs and real-time instructions override schedules.",
   "map.entry.label": "Coordinates (decimal or DMS)",
   "map.entry.placeholder": `31.771959, 35.217018 or 31° 46' 19.05" N, 35° 13' 1.26" E`,
   "map.entry.go": "Move pin",
@@ -222,6 +226,7 @@ const en = {
   "map.zones.popup.envelopeNote":
     "Band shown is the min/max envelope of the published directional altitudes.",
   "map.zones.popup.source": "Source",
+  "map.zones.popup.schedule": "Schedule",
   // Altitude-band value texts — semantics per server/docs/zones-api.md.
   "map.zones.band.range": "{{floor}} – {{ceiling}}",
   "map.zones.band.ground": "GND (surface)",

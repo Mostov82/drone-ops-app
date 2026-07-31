@@ -34,7 +34,7 @@ import {
   isKnownVerdict,
 } from "@/lib/verdict-display";
 import { altitudeBandTextParts } from "@/lib/zone-popup-helpers";
-import { describeAltitudeBand } from "@/lib/zone-display";
+import { describeAltitudeBand, detectSchedule } from "@/lib/zone-display";
 
 type CheckState =
   | { kind: "idle" }
@@ -288,6 +288,7 @@ function ReasonRow({
   formatImported: (iso: string) => string;
 }) {
   const band = altitudeBandTextParts(describeAltitudeBand(reason.zone), t);
+  const schedule = detectSchedule(reason.zone.name, reason.zone.notes);
   return (
     <div className="rounded-md border border-border bg-background/60 p-2">
       <div className="flex flex-wrap items-center gap-2">
@@ -295,10 +296,23 @@ function ReasonRow({
           {reason.zone.name}
         </span>
         <VerdictTierChip verdict={reason.verdict} t={t} />
+        {schedule && (
+          <span className="inline-flex items-center rounded border border-blue-200 bg-blue-50 px-1 py-0.5 text-[9px] font-bold text-blue-900 leading-none" dir="auto">
+            {schedule.text}
+          </span>
+        )}
       </div>
       <div className="mt-0.5 break-words text-xs text-muted-foreground" dir="auto">
         {reason.zone.zoneTypeName}
       </div>
+      {/* Published schedule text verbatim. Omitted when it was read from the
+          zone name, which is already rendered above. */}
+      {schedule?.verbatimText && (
+        <div className="mt-1 text-xs" dir="auto">
+          <span className="text-muted-foreground">{t("map.zones.popup.schedule")}: </span>
+          <span className="italic text-muted-foreground">{schedule.verbatimText}</span>
+        </div>
+      )}
       <div className="mt-1 text-xs" dir="auto">
         {t(reasonKindKey(reason.kind))}
         {reason.distanceM !== undefined && (
