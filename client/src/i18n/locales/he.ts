@@ -144,6 +144,10 @@ const he = {
   "map.settings.muted.label": "[HE?] עמעום מפת הרקע",
   "map.settings.muted.hint":
     "[HE?] מחליש את צבעי אריחי הרקע כדי שהאזורים יבלטו. תצוגה בלבד — אינו משנה דבר בנתונים או בתוצאת הבדיקה.",
+  "map.settings.weekendView.label": "[HE?] הדגשת תצורת סוף שבוע",
+  "map.settings.weekendView.hint": "[HE?] עמעום אזורים הפעילים באמצע שבוע בלבד והדגשת גרסאות סוף שבוע.",
+  "map.settings.weekendView.caption.title": "[HE?] כלי עזר לתצוגה בלבד",
+  "map.settings.weekendView.caption.body": "[HE?] כל תוצאות הבדיקה נותרות מחמירות (תמיד פעיל). פרסומי NOTAM והנחיות בזמן אמת גוברים על לוחות זמנים.",
   "map.entry.label": "קואורדינטות (עשרוני או DMS)",
   // Example coordinates are LTR data — identical in both locales.
   "map.entry.placeholder": `31.771959, 35.217018 or 31° 46' 19.05" N, 35° 13' 1.26" E`,
@@ -228,6 +232,7 @@ const he = {
   "map.zones.popup.envelopeNote":
     "[HE?] הרצועה המוצגת היא מעטפת מינימום/מקסימום של הגבהים הכיווניים שפורסמו.",
   "map.zones.popup.source": "מקור",
+  "map.zones.popup.schedule": "[HE?] לוח זמנים",
   // Altitude-band value texts — semantics per server/docs/zones-api.md.
   "map.zones.band.range": "{{floor}} – {{ceiling}}",
   "map.zones.band.ground": "[HE?] פני הקרקע (GND)",

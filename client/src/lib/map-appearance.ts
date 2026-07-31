@@ -104,3 +104,30 @@ export function saveSidebarSections(
 export function isSectionOpen(state: SidebarSectionState, id: SidebarSectionId): boolean {
   return state[id] ?? DEFAULT_SECTION_STATE[id];
 }
+
+// ── Weekend view (DO-041) ───────────────────────────────────────────────────
+
+const WEEKEND_VIEW_STORAGE_KEY = "droneops.mapWeekendView";
+
+/**
+ * Off by default: the normal view is the conservative always-on reading, so a
+ * returning user is never silently dropped into the weekend viewing aid.
+ */
+export function loadWeekendView(storage: Pick<Storage, "getItem"> = localStorage): boolean {
+  try {
+    return storage.getItem(WEEKEND_VIEW_STORAGE_KEY) === "true";
+  } catch {
+    return false; // unreadable persistence falls back to the normal view
+  }
+}
+
+export function saveWeekendView(
+  active: boolean,
+  storage: Pick<Storage, "setItem"> = localStorage,
+): void {
+  try {
+    storage.setItem(WEEKEND_VIEW_STORAGE_KEY, active ? "true" : "false");
+  } catch {
+    // Quota/private-mode failures degrade to session-only appearance.
+  }
+}

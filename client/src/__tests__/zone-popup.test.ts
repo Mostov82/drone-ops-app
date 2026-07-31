@@ -144,3 +144,54 @@ describe("escapeHtml", () => {
     );
   });
 });
+
+// DO-041 — schedule chip in the popup. Real imported strings (see
+// schedule.test.ts for provenance); the chip is display-only and must never
+// disturb the verdict or band lines around it.
+describe("buildZonePopupHtml — schedule chip", () => {
+  const RAMAT_DAVID_NOTES =
+    "CTR | צבאי | schedule: הרחבה סופש | source stamp 2023-02-19 | altitude unit unstated in source";
+
+  it("renders the chip and the published text verbatim for notes-derived schedules", () => {
+    const html = buildZonePopupHtml(
+      props({ name: "רמת דוד-כנף 1", notes: RAMAT_DAVID_NOTES }),
+      layer(),
+      ctx,
+    );
+    expect(html).toContain("Schedule");
+    expect(html).toContain("סופש");
+    expect(html).toContain("הרחבה סופש");
+  });
+
+  it("does not repeat the zone name when the schedule came from the name", () => {
+    const html = buildZonePopupHtml(props({ name: "הבונים סופש", notes: null }), layer(), ctx);
+    expect(html).toContain("Schedule");
+    // The name renders once, as the heading — not a second time as verbatim text.
+    expect(html.match(/הבונים סופש/g)).toHaveLength(1);
+  });
+
+  it("omits the schedule row entirely for zones with no schedule clue", () => {
+    const html = buildZonePopupHtml(props({ name: "גלילות", notes: null }), layer(), ctx);
+    expect(html).not.toContain("Schedule");
+  });
+
+  it("leaves the verdict and band lines untouched when a chip is present", () => {
+    const scheduled = buildZonePopupHtml(
+      props({ name: "רמת דוד-כנף 1", notes: RAMAT_DAVID_NOTES, floorAmslFt: 0 }),
+      layer(),
+      ctx,
+    );
+    expect(scheduled).toContain("Restricted (no-fly)");
+    expect(scheduled).toContain("GND (surface)");
+  });
+
+  it("escapes schedule text like every other untrusted field", () => {
+    const html = buildZonePopupHtml(
+      props({ name: "x", notes: "CTR | schedule: <img src=x> סופש | end" }),
+      layer(),
+      ctx,
+    );
+    expect(html).not.toContain("<img src=x>");
+    expect(html).toContain("&lt;img");
+  });
+});

@@ -39,6 +39,8 @@ import {
   SECTION_RESULT,
   type SidebarSectionId,
   type SidebarSectionState,
+  loadWeekendView,
+  saveWeekendView,
 } from "@/lib/map-appearance";
 import i18n from "@/i18n";
 import { resolveMapMode, type MapModeOverride } from "@/lib/map-mode";
@@ -57,6 +59,7 @@ import {
   saveLayerVisibility,
   getZoneStyle,
   bufferLine,
+  detectSchedule,
   type LayerVisibility,
 } from "@/lib/zone-display";
 import { listRules } from "@/lib/ruleset-api";
@@ -113,6 +116,13 @@ export default function MapPage() {
   const handleMutedChange = useCallback((next: boolean) => {
     setMuted(next);
     saveMapMuted(next);
+  }, []);
+
+  // DO-041 — weekend view highlight (persisted).
+  const [weekendView, setWeekendView] = useState<boolean>(() => loadWeekendView());
+  const handleWeekendViewChange = useCallback((next: boolean) => {
+    setWeekendView(next);
+    saveWeekendView(next);
   }, []);
 
   // DO-035 item 1 — sidebar accordion state (persisted; Layers collapsed by default).
@@ -458,32 +468,25 @@ export default function MapPage() {
             return { stroke: false, fill: false } as any;
           }
           
-          if (zoneTypeCode === "CVFR_LANE") {
-            if (props?.isLaneCorridor) {
-              return getZoneStyle(verdict, zoneTypeCode, { isCorridor: true }) as any;
-            }
-            return getZoneStyle(verdict, zoneTypeCode) as any;
-          }
-          
-          if (zoneTypeCode === "LLU_DRONE" && props?.isLLUInnerRing) {
-            return getZoneStyle(verdict, zoneTypeCode, { isInner: true }) as any;
-          }
-          
-          if (zoneTypeCode === "AIRPORT" && props?.isAirportInnerRing) {
-            return getZoneStyle(verdict, zoneTypeCode, { isInner: true }) as any;
-          }
-          
-          return getZoneStyle(verdict, zoneTypeCode) as any;
+          // getZoneStyle gates isInner/isCorridor on zoneTypeCode itself, so the
+          // flags can be passed unconditionally.
+          return getZoneStyle(verdict, zoneTypeCode, {
+            ...weekendViewExtras(props, weekendView),
+            isCorridor: props?.isLaneCorridor,
+            isInner: props?.isLLUInnerRing || props?.isAirportInnerRing,
+          }) as any;
         },
         pointToLayer: (feature, latlng) => {
           const props = feature.properties as any;
+          const { isDeemphasized } = weekendViewExtras(props, weekendView);
+
           if (props.isAirportCenterCross) {
             const verdict = props.verdict ?? "";
-            const style = getZoneStyle(verdict, "AIRPORT");
+            const style = getZoneStyle(verdict, "AIRPORT", { isDeemphasized });
             return L.marker(latlng, {
               icon: L.divIcon({
-                className: "airport-center-cross-icon",
-                html: `<svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1 V11 M1 6 H11" stroke="${style.color}" stroke-width="1.5"/></svg>`,
+                className: "airport-center-cross-icon" + (isDeemphasized ? " deemphasized" : ""),
+                html: `<svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1 V11 M1 6 H11" stroke="${style.color}" stroke-width="1.5" opacity="${isDeemphasized ? 0.3 : 1}"/></svg>`,
                 iconSize: [12, 12],
                 iconAnchor: [6, 6],
               }),
@@ -493,13 +496,17 @@ export default function MapPage() {
           
           if (props.isFloorLabel) {
             const isLane = props.zoneTypeCode === "CVFR_LANE";
-            const className = isLane ? "zone-floor-label-chip lane" : "zone-floor-label-chip";
+            const className = [
+              isLane ? "zone-floor-label-chip lane" : "zone-floor-label-chip",
+              isDeemphasized ? "deemphasized" : ""
+            ].filter(Boolean).join(" ");
             const verdict = props.verdict ?? "";
-            const style = getZoneStyle(verdict, props.zoneTypeCode);
+            const style = getZoneStyle(verdict, props.zoneTypeCode, { isDeemphasized });
+            const opacity = isDeemphasized ? 0.3 : 1;
             return L.marker(latlng, {
               icon: L.divIcon({
                 className: "zone-floor-label-icon",
-                html: `<div class="${className}" style="border-color: ${style.color}; color: ${style.color}">${props.labelText}</div>`,
+                html: `<div class="${className}" style="border-color: ${style.color}; color: ${style.color}; opacity: ${opacity}">${props.labelText}</div>`,
                 iconSize: [60, 20],
                 iconAnchor: [30, 10],
               }),
@@ -539,9 +546,14 @@ export default function MapPage() {
       for (const overlay of overlays.values()) overlay.remove();
       zoneOverlaysRef.current = new Map();
     };
-  }, [zoneData, resolvedMode, halfWidthM]);
+  }, [zoneData, resolvedMode, halfWidthM, weekendView]);
 
   // Keep overlay presence on the map in sync with the visibility toggles.
+  // These deps MUST cover every dep of the overlay-building effect above: that
+  // effect replaces zoneOverlaysRef with fresh, unattached L.GeoJSON objects,
+  // and this is the only place anything is added to the map. Miss one and the
+  // rebuilt overlays exist but stay invisible until some unrelated change to
+  // `visibility` re-runs this — i.e. zones vanish until you toggle a layer.
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
@@ -552,7 +564,7 @@ export default function MapPage() {
         overlay.remove();
       }
     }
-  }, [visibility, zoneData, resolvedMode]);
+  }, [visibility, zoneData, resolvedMode, halfWidthM, weekendView]);
 
   // Keep the marker in sync with the pin.
   useEffect(() => {
@@ -760,6 +772,29 @@ export default function MapPage() {
                       </span>
                     </span>
                   </label>
+                  <label className="flex items-start gap-2 text-sm mt-1">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5"
+                      checked={weekendView}
+                      onChange={(e) => handleWeekendViewChange(e.target.checked)}
+                      data-testid="weekend-view-toggle"
+                    />
+                    <span className="flex min-w-0 flex-col">
+                      <span className="font-medium">{t("map.settings.weekendView.label")}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {t("map.settings.weekendView.hint")}
+                      </span>
+                    </span>
+                  </label>
+                  {weekendView && (
+                    <div className="mt-1 rounded-md border border-amber-200 bg-amber-50/60 p-2.5 text-[11px] text-amber-800 leading-normal" dir="auto" data-testid="weekend-view-caption">
+                      <p className="font-semibold">{t("map.settings.weekendView.caption.title")}</p>
+                      <p className="mt-0.5">
+                        {t("map.settings.weekendView.caption.body")}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <ZoneLayersPanel
@@ -835,6 +870,23 @@ export default function MapPage() {
       )}
     </div>
   );
+}
+
+/**
+ * DO-041 — weekend-view emphasis flags for one zone feature. Display only:
+ * nothing here reaches the verdict, and no zone is ever hidden. Off outside
+ * weekend view, and silent for zones whose schedule could not be detected.
+ */
+function weekendViewExtras(
+  props: any,
+  weekendView: boolean,
+): { isDeemphasized: boolean; isEmphasized: boolean } {
+  if (!weekendView) return { isDeemphasized: false, isEmphasized: false };
+  const schedule = detectSchedule(props?.name || "", props?.notes || null);
+  return {
+    isDeemphasized: schedule?.type === "weekday",
+    isEmphasized: schedule?.type === "weekend",
+  };
 }
 
 function getCentroid(geometry: any): [number, number] | null {
