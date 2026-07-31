@@ -12,6 +12,12 @@
 | 4 | פמ"ת ב'-03 text (governing publication for lanes) | via https://www.gov.il/he/pages/aip?chapterIndex=5 → ב'-03 | `aip/aip_b-03_cvfr-routes.pdf` |
 | 5 | ב'-03 chart sheets (צפוני / דרומי) | same page, ב'-03 attachments | `aip/aip_b-03_cvfr-north.pdf`, `aip/aip_b-03_cvfr-south.pdf` |
 
+## Priority 1b — DO-036 (CTR/TMA layer, added 2026-07-14)
+
+| # | What | URL | Save as |
+|---|---|---|---|
+| 8 | CAAI TLV FIR package: CTR ים, מסלולים, TMA, ACC (Esri layer package) | https://www.gov.il/BlobFolder/guide/aip/he/TLV_FIR.zip | `gis/TLV_FIR.zip` |
+
 ## Priority 2 — high value for DO-013 (zones)
 
 | # | What | URL | Save as |

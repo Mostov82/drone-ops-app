@@ -12,7 +12,7 @@
   }
  ],
  "aipUpdateStamp": "עדכון 2/25 (02 Oct 2025); appendix pages stamped עדכון 1/25 (15 May 2025)",
- "extractedAt": "2026-07-10",
+ "extractedAt": "2026-07-19",
  "extractionTools": [
   "pyogrio 0.13.0 (GDAL 3.12.4)",
   "pyproj 3.7.2",
@@ -22,5 +22,5 @@
  "featureCount": 113,
  "importable": true,
  "verified": false,
- "notes": "Geometry: CAAI zones geodatabase F_Limited (EPSG:32636→WGS-84, verified in-session against Limited_Edges published DMS, ~1 cm agreement). Altitude bands: א'-17 text governs; gdb used only where the text has no entry (flagged). GND/MSL floors stored as 0 ft AMSL (CAAI gdb convention) — see zones-api.md caveat."
+ "notes": "Geometry: CAAI zones geodatabase F_Limited (EPSG:32636→WGS-84, verified in-session against Limited_Edges published DMS, ~1 cm agreement). Altitude bands: א'-17 text governs; gdb used only where the text has no entry (flagged). GND/MSL floors stored as 0 ft AMSL (CAAI gdb convention) — see zones-api.md caveat. Coordination contacts (DO-036 s2): published תיאום sentences from the chapter prose appended to affected zones' notes, exact-code association only — see the reconciliation report."
 }

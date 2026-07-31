@@ -53,6 +53,12 @@ export const ZONE_TYPE_SEEDS: Record<string, { name: string; defaultVerdict: str
   // editable default; DO-015's vertical-separation logic refines the verdict
   // using the altitude band.
   CVFR_LANE: { name: "CVFR flight lane (low transport route)", defaultVerdict: "RESTRICTED" },
+  // DO-036 findings checkpoint (DECISION 2026-07-19) — TLV_FIR controlled
+  // airspace: all three classes RESTRICTED (editable). CTA gets NO overhead
+  // advisory — the vertical ruling stays lanes-only.
+  CTR: { name: "Control zone (CTR)", defaultVerdict: "RESTRICTED" },
+  ATZ: { name: "Aerodrome traffic zone (ATZ)", defaultVerdict: "RESTRICTED" },
+  CTA: { name: "Control area (CTA)", defaultVerdict: "RESTRICTED" },
 };
 
 export interface ImportResult {

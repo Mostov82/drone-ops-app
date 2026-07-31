@@ -16,7 +16,9 @@ import { createHash } from "node:crypto";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { parseA17, type A17Dump } from "../../src/zones/a17.js";
-import { buildAipZones } from "../../src/zones/builders/aip-zones.js";
+import { buildAipZones, type ReconIssue } from "../../src/zones/builders/aip-zones.js";
+import { appendContactNotes, extractCoordinationContacts } from "../../src/zones/contacts.js";
+import { buildCtr } from "../../src/zones/builders/ctr.js";
 import { buildCvfr } from "../../src/zones/builders/cvfr.js";
 import { buildInpa, buildInpaGeo, type RatagDump } from "../../src/zones/builders/inpa.js";
 import { buildLlu } from "../../src/zones/builders/llu.js";
@@ -69,9 +71,39 @@ const cvfrPoints = readDump<GdbDump>("CVFR_POINTS2023.json");
 const a17Dump = readDump<A17Dump>("a17.json");
 const a17 = parseA17(a17Dump);
 
+// ── coordination contacts (DO-036 session 2) ─────────────────────────────────
+// Extracted once from the chapter's main-text prose; attachments are split by
+// code family below (LLP/LLR/LLD → dataset 1, LLU → dataset 2). Exact-code
+// association only — class-level/ambiguous contacts are issues, never guesses.
+const contacts = extractCoordinationContacts(a17Dump, a17.firstAppendixPage);
+const contactReportSection = (
+  attachments: { code: string; regional: boolean }[],
+  appended: { attached: number; zonesCovered: number; issues: ReconIssue[] },
+): string => {
+  const codes = [...new Set(attachments.map((a) => `${a.code}${a.regional ? " (אזורי)" : ""}`))];
+  return `## Coordination contacts (DO-036 session 2)
+
+Published \`תיאום\` sentences from the chapter's main-text prose, appended verbatim
+(bidi-mangled punctuation normalized — words, phones and emails unchanged) to the
+affected zones' notes as \`| תיאום: …\` segments. Association is **exact-code only**
+(the sentence sits inside the code's serial-marked entry, or names its codes
+explicitly). Multi-zone sentences carry an **(אזורי)** tag. Nothing is assigned by
+geography, name similarity or proximity (trigger 3).
+
+- chapter-wide: sentences extracted **${contacts.stats.sentences}** · phones seen **${contacts.stats.phonesSeen}** (attached ${contacts.stats.phonesAttached}) · emails seen **${contacts.stats.emailsSeen}** (attached ${contacts.stats.emailsAttached}) · ambiguous class-level blocks excluded **${contacts.stats.ambiguousExcluded}** · residual unextracted contacts **${contacts.stats.residualContacts}**
+- this dataset: contact segments appended **${appended.attached}** · zones covered **${appended.zonesCovered}**
+- zones with contacts here: ${codes.length > 0 ? codes.join(", ") : "none"}
+
+### Contact issues (chapter-level — listed identically in both AIP datasets; nothing silently dropped)
+
+${renderIssueTable([...contacts.issues, ...appended.issues])}`;
+};
+
 // ── 1. LLP/LLR/danger zones (gdb geometry ⊕ א'-17 reconciliation) ───────────
 {
   const result = buildAipZones(fLimited, a17);
+  const aipContacts = contacts.attachments.filter((a) => !a.code.startsWith("LLU"));
+  const aipAppended = appendContactNotes(result.collection, aipContacts);
   const manifest: DatasetManifest = {
     layerKey: "aip-a17-llp-llr-danger",
     title: "AIP א'-17 prohibited / restricted / danger areas (LLP·LLR·LLD)",
@@ -83,7 +115,7 @@ const a17 = parseA17(a17Dump);
     importable: true,
     verified: false,
     notes:
-      "Geometry: CAAI zones geodatabase F_Limited (EPSG:32636→WGS-84, verified in-session against Limited_Edges published DMS, ~1 cm agreement). Altitude bands: א'-17 text governs; gdb used only where the text has no entry (flagged). GND/MSL floors stored as 0 ft AMSL (CAAI gdb convention) — see zones-api.md caveat.",
+      "Geometry: CAAI zones geodatabase F_Limited (EPSG:32636→WGS-84, verified in-session against Limited_Edges published DMS, ~1 cm agreement). Altitude bands: א'-17 text governs; gdb used only where the text has no entry (flagged). GND/MSL floors stored as 0 ft AMSL (CAAI gdb convention) — see zones-api.md caveat. Coordination contacts (DO-036 s2): published תיאום sentences from the chapter prose appended to affected zones' notes, exact-code association only — see the reconciliation report.",
   };
   const report = `# Reconciliation — aip-a17-llp-llr-danger — ${extractedAt}
 
@@ -106,6 +138,7 @@ ${issueCounts(result.issues)}
 ## Issues (every mismatch listed; text governs — nothing averaged or guessed)
 
 ${renderIssueTable(result.issues)}
+${contactReportSection(aipContacts, aipAppended)}
 _Everything ships \`verified=false\` until Jonathan's visual check against the ב'-08 sheets (GB-06 Gate 3)._
 `;
   writeDataset("aip-a17-llp-llr-danger", {
@@ -118,6 +151,8 @@ _Everything ships \`verified=false\` until Jonathan's visual check against the �
 // ── 2. LLU drone no-fly zones (appendix ג') ──────────────────────────────────
 {
   const result = buildLlu(a17, a17Dump);
+  const lluContacts = contacts.attachments.filter((a) => a.code.startsWith("LLU"));
+  const lluAppended = appendContactNotes(result.collection, lluContacts);
   const manifest: DatasetManifest = {
     layerKey: "aip-a17-llu-drone",
     title: "AIP א'-17 appendix ג' — LLU drone no-fly zones (MTOW < 25 kg, VLOS)",
@@ -130,7 +165,7 @@ _Everything ships \`verified=false\` until Jonathan's visual check against the �
     importable: true,
     verified: false,
     notes:
-      "Centers/radii/vertices exactly as published in appendix ג'. Circles are geodesic polygons. LLU59–LLU72 carry a 300 ft AGL max-height note (from chapter prose) in properties.aglCeilingFt — NOT in the AMSL columns.",
+      "Centers/radii/vertices exactly as published in appendix ג'. Circles are geodesic polygons. LLU59–LLU72 carry a 300 ft AGL max-height note (from chapter prose) in properties.aglCeilingFt — NOT in the AMSL columns. Coordination contacts (DO-036 s2): published תיאום sentences from the chapter prose appended to affected zones' notes, exact-code association only — see the reconciliation report.",
   };
   const report = `# Reconciliation — aip-a17-llu-drone — ${extractedAt}
 
@@ -150,6 +185,7 @@ ${issueCounts(result.issues)}
 ## Issues
 
 ${renderIssueTable(result.issues)}
+${contactReportSection(lluContacts, lluAppended)}
 _Everything ships \`verified=false\` until Jonathan's visual check against the ב'-08 sheets (GB-06 Gate 3)._
 `;
   writeDataset("aip-a17-llu-drone", {
@@ -345,6 +381,68 @@ ${result.collection.features.map((f) => `  - ${f.properties.nameEn ?? f.properti
 ${renderIssueTable(result.issues)}
 `;
     writeDataset("osm-airport-buffers", {
+      "zones.geojson": stableJson(result.collection),
+      "manifest.json": stableJson(manifest),
+      "reconciliation.md": report,
+    });
+  }
+}
+
+// ── 6. CTR/ATZ/CTA controlled airspace (TLV_FIR — DO-036) ────────────────────
+{
+  const tlvPath = path.join(dumpsDir, "TLV_CTR.json");
+  if (!fs.existsSync(tlvPath)) {
+    console.warn("caai-ctr-atz-cta: TLV_CTR.json dump missing — dataset skipped (run dump_tlv_fir.py)");
+  } else {
+    const dump = readDump<GdbDump>("TLV_CTR.json");
+    const result = buildCtr(dump);
+    const manifest: DatasetManifest = {
+      layerKey: "caai-ctr-atz-cta",
+      title: "CAAI TLV_FIR — controlled airspace: CTR / ATZ / CTA (all classes → RESTRICTED per checkpoint 2026-07-19)",
+      sourceFiles: [sha256("data-sources/gis/TLV_FIR.zip")],
+      aipUpdateStamp:
+        "TLV_FIR.lpk (Esri layer package), editor stamps 2020–2023; page label promised TMA/ACC/runways — NOT present in the file",
+      extractedAt,
+      extractionTools: [...TOOLS, "py7zr (lpk extraction — DO-036 tooling note)"],
+      featureCount: result.collection.features.length,
+      importable: true,
+      verified: false,
+      notes:
+        "Findings checkpoint (DECISION 2026-07-19): all three classes import; CTR/ATZ/CTA ZoneTypes all seed RESTRICTED (editable); CTA gets NO overhead advisory (vertical ruling stays lanes-only); variant polygons import separately with dual ceilings taking the conservative max; ALTITUDE UNIT UNSTATED in source — adopted ft AMSL per producer's sibling files, confirm in visual check.",
+    };
+    const classTable = Object.entries(result.stats.perClass)
+      .sort()
+      .map(([cls, n]) => `- **${cls}**: ${n}`)
+      .join("\n");
+    const report = `# Reconciliation — caai-ctr-atz-cta — ${extractedAt}
+
+**Source:** \`TLV_FIR.zip\` → \`TLV_FIR.lpk\` (7-zip) → \`v101/new_file_geodatabase_ctr.gdb\` layer \`CTR\`, EPSG:32636→WGS-84.
+
+## Counts
+
+- source features: **${dump.featureCount}** · imported: **${result.stats.features}**
+${classTable}
+- civil: **${result.stats.civil}** · military: **${result.stats.military}**
+- dual/multi ceilings (envelope max adopted): **${result.stats.dualCeilings}** · unparseable ceilings (null): **${result.stats.unparseableCeilings}**
+- repeated source codes disambiguated (variant/expansion polygons): **${result.stats.disambiguatedCodes}**
+
+## Caveats for the visual check (GB-06 Gate 3)
+
+- **Altitude unit/datum is NOT stated in the source** — values adopted as ft AMSL per the producer's sibling files (F_Limited matched א'-17's AMSL text). Confirm against the AIP.
+- The פמ"ת GIS tab labeled this download "FIR תל אביב כולל CTR ים, מסלולים, TMA ו-ACC" — **the file contains only the CTR/ATZ/CTA layer**; TMA/ACC/runways absent. If needed, that is a new source hunt.
+- Editor stamps 2020–2023 — fresher than the ZONE gdb, still not current-edition; governing publications win on any conflict found in the visual check.
+- Weekend/weekday variants imported as separate zones (schedule text preserved in notes) — both render; time-based activation is NOT modeled.
+
+## Issue summary
+
+${issueCounts(result.issues)}
+
+## Issues
+
+${renderIssueTable(result.issues)}
+_Everything ships \`verified=false\` until Jonathan's visual check (GB-06 Gate 3)._
+`;
+    writeDataset("caai-ctr-atz-cta", {
       "zones.geojson": stableJson(result.collection),
       "manifest.json": stableJson(manifest),
       "reconciliation.md": report,
