@@ -14,6 +14,8 @@ import {
   loadLayerVisibility,
   saveLayerVisibility,
   verdictStyle,
+  getZoneStyle,
+  bufferLine,
 } from "../lib/zone-display";
 
 describe("verdictStyle — data-driven styling", () => {
@@ -223,5 +225,125 @@ describe("layer-visibility persistence", () => {
       "droneops.zoneLayerVisibility": '{"a": true, "b": "yes", "c": 1, "d": false}',
     });
     expect(loadLayerVisibility(storage)).toEqual({ a: true, d: false });
+  });
+});
+
+describe("getZoneStyle — zone class × verdict styling", () => {
+  it("resolves specific styling for Prohibited restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "AIP_PROHIBITED");
+    expect(style.color).toBe("#b3261e");
+    expect(style.weight).toBe(2.6);
+    expect(style.fillColor).toBe("url(#crosshatch-restricted)");
+  });
+
+  it("resolves specific styling for Restricted restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "AIP_RESTRICTED");
+    expect(style.color).toBe("#d64500");
+    expect(style.weight).toBe(2.2);
+    expect(style.dashArray).toBe("8 4");
+  });
+
+  it("resolves specific styling for Danger restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "AIP_DANGER");
+    expect(style.color).toBe("#c77b00");
+    expect(style.weight).toBe(2.0);
+    expect(style.dashArray).toBe("10 3 2 3");
+    expect(style.fillColor).toBe("url(#hatch-restricted)");
+  });
+
+  it("resolves specific styling for LLU Drone restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "LLU_DRONE");
+    expect(style.color).toBe("#c2185b");
+    expect(style.weight).toBe(2.6);
+  });
+
+  it("resolves LLU Drone inner ring styling", () => {
+    const style = getZoneStyle("RESTRICTED", "LLU_DRONE", { isInner: true });
+    expect(style.weight).toBe(1.5);
+    expect(style.dashArray).toBe("1 3");
+    expect(style.fill).toBe(false);
+  });
+
+  it("resolves specific styling for Airport restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "AIRPORT");
+    expect(style.color).toBe("#d64500");
+    expect(style.weight).toBe(1.4);
+    expect(style.fillOpacity).toBe(0.08);
+  });
+
+  it("resolves specific styling for CTR restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "CTR");
+    expect(style.color).toBe("#8c4a2f");
+    expect(style.weight).toBe(2.2);
+    expect(style.dashArray).toBe("12 4");
+  });
+
+  it("resolves specific styling for ATZ restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "ATZ");
+    expect(style.color).toBe("#8c4a2f");
+    expect(style.weight).toBe(1.2);
+    expect(style.dashArray).toBe("5 3");
+  });
+
+  it("resolves specific styling for CTA restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "CTA");
+    expect(style.color).toBe("#8c4a2f");
+    expect(style.weight).toBe(1.6);
+    expect(style.dashArray).toBe("2 2");
+    expect(style.fill).toBe(false);
+  });
+
+  it("resolves specific styling for Nature Reserve restricted family", () => {
+    const style = getZoneStyle("RESTRICTED", "NATURE_RESERVE");
+    expect(style.color).toBe("#9c7a00");
+    expect(style.weight).toBe(1.8);
+    expect(style.dashArray).toBe("1.5 3.5");
+  });
+
+  it("resolves specific styling for CVFR Lane", () => {
+    const centerline = getZoneStyle("RESTRICTED", "CVFR_LANE");
+    expect(centerline.color).toBe("#3f51b5");
+    expect(centerline.weight).toBe(1.4);
+    expect(centerline.dashArray).toBe("7 5");
+
+    const corridor = getZoneStyle("RESTRICTED", "CVFR_LANE", { isCorridor: true });
+    expect(corridor.color).toBe("#3f51b5");
+    expect(corridor.weight).toBe(1.0);
+    expect(corridor.fillOpacity).toBe(0.08);
+  });
+
+  it("resolves Needs Permit overrides (dotted border and color shift)", () => {
+    const style = getZoneStyle("NEEDS_PERMIT", "AIP_PROHIBITED");
+    expect(style.color).toBe("#c77b00");
+    expect(style.weight).toBe(1.6);
+    expect(style.dashArray).toBe("2 4");
+    expect(style.fillColor).toBe("url(#crosshatch-needs-permit)");
+  });
+
+  it("resolves Clear overrides (color shift and no green)", () => {
+    const style = getZoneStyle("CLEAR", "AIP_PROHIBITED");
+    expect(style.color).toBe("#475569");
+    expect(style.weight).toBe(1.2);
+    expect(style.dashArray).toBe("4 4");
+    expect(style.fillColor).toBe("url(#crosshatch-clear)");
+    expect(style.color).not.toContain("green");
+  });
+});
+
+describe("bufferLine — centerline corridor generation", () => {
+  it("buffers a simple line segment into a corridor polygon", () => {
+    const line: [number, number][] = [
+      [35.0, 32.0],
+      [35.1, 32.1],
+    ];
+    const polygon = bufferLine(line, 1000); // 1km buffer
+    expect(polygon.length).toBe(5); // 2 left points + 2 right points + closed loop
+    // Start and end points should form a closed loop
+    expect(polygon[0]).toEqual(polygon[4]);
+  });
+
+  it("handles empty or single point lines gracefully", () => {
+    expect(bufferLine([], 1000)).toEqual([]);
+    expect(bufferLine([[35.0, 32.0]], 1000)).toEqual([]);
   });
 });

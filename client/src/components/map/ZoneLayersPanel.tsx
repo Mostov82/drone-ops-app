@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import UnverifiedBadge from "@/components/UnverifiedBadge";
 import { Button } from "@/components/ui/button";
 import { formatDate, toDateLanguage } from "@/lib/dates";
-import { isKnownVerdict, laneStyle, verdictStyle, type LayerVisibility } from "@/lib/zone-display";
+import { isKnownVerdict, getZoneStyle, type LayerVisibility } from "@/lib/zone-display";
 import { isLayerVisible } from "@/lib/zone-display";
 import type { ZoneLayerSummary } from "@/lib/zones-api";
 
@@ -16,47 +16,245 @@ export type ZoneLayersState =
   | { kind: "error" }
   | { kind: "ok"; layers: ZoneLayerSummary[] };
 
-/** What actually loaded onto the map — drives an honest legend (only styles
- *  that are really in use), computed by MapPage from the fetched features. */
+export interface LegendClassFact {
+  zoneTypeCode: string;
+  verdict: string;
+}
+
 export interface LegendFacts {
-  /** Distinct verdicts of polygon zones, in render order. */
-  polygonVerdicts: string[];
-  /** Distinct verdicts of lane (line) zones — lanes get their own swatch. */
-  laneVerdicts: string[];
+  activeClasses: LegendClassFact[];
 }
 
 function verdictName(verdict: string, t: (key: string) => string): string {
-  // Unknown verdict values (the mapping is editable data) are shown raw.
   return isKnownVerdict(verdict) ? t(`map.zones.verdict.${verdict}`) : verdict;
 }
 
-function PolygonSwatch({ verdict }: { verdict: string }) {
-  const style = verdictStyle(verdict);
-  return (
-    <span
-      aria-hidden="true"
-      className="inline-block h-3.5 w-5 shrink-0 rounded-sm border"
-      style={{
-        borderColor: style.color,
-        // Approximates fillOpacity over the map without real transparency stacking.
-        backgroundColor: `color-mix(in srgb, ${style.fillColor} ${Math.round(style.fillOpacity * 100)}%, white)`,
-      }}
-    />
-  );
-}
+function ClassSwatch({ zoneTypeCode, verdict }: { zoneTypeCode: string; verdict: string }) {
+  const style = getZoneStyle(verdict, zoneTypeCode);
+  const color = style.color;
 
-function LaneSwatch({ verdict }: { verdict: string }) {
-  const style = laneStyle(verdict);
+  if (zoneTypeCode === "AIP_PROHIBITED" || zoneTypeCode === "BORDER_SECURITY") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2.5"
+          y="2.5"
+          width="19"
+          height="11"
+          rx="1.5"
+          fill={verdict === "RESTRICTED" ? "url(#crosshatch-restricted)" : verdict === "NEEDS_PERMIT" ? "url(#crosshatch-needs-permit)" : "url(#crosshatch-clear)"}
+          stroke={color}
+          strokeWidth="2.6"
+        />
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "AIP_RESTRICTED" || zoneTypeCode === "POPULATED") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="12"
+          rx="1.5"
+          fill={color}
+          fillOpacity={verdict === "NEEDS_PERMIT" ? 0.12 : 0.16}
+          stroke={color}
+          strokeWidth="2.2"
+          strokeDasharray={verdict === "NEEDS_PERMIT" ? "2 4" : "8 4"}
+        />
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "AIP_DANGER") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="12"
+          rx="1.5"
+          fill={verdict === "RESTRICTED" ? "url(#hatch-restricted)" : verdict === "NEEDS_PERMIT" ? "url(#hatch-needs-permit)" : "url(#hatch-clear)"}
+          stroke={color}
+          strokeWidth="2"
+          strokeDasharray={verdict === "NEEDS_PERMIT" ? "2 4" : "10 3 2 3"}
+        />
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "LLU_DRONE") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="12"
+          rx="1.5"
+          fill={color}
+          fillOpacity="0.2"
+          stroke={color}
+          strokeWidth="2.6"
+        />
+        <rect
+          x="5.5"
+          y="5.5"
+          width="13"
+          height="5"
+          rx="0.5"
+          fill="none"
+          stroke={color}
+          strokeWidth="1"
+          strokeDasharray="1 3"
+        />
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "AIRPORT") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="12"
+          rx="1.5"
+          fill={color}
+          fillOpacity="0.08"
+          stroke={color}
+          strokeWidth="1.4"
+        />
+        <rect
+          x="5"
+          y="4"
+          width="14"
+          height="8"
+          rx="1"
+          fill="none"
+          stroke={color}
+          strokeWidth="1.4"
+        />
+        <path d="M12 6 v4 M10 8 h4" stroke={color} strokeWidth="1" />
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "CTR") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="12"
+          rx="1.5"
+          fill={color}
+          fillOpacity="0.15"
+          stroke={color}
+          strokeWidth="2.2"
+          strokeDasharray={verdict === "NEEDS_PERMIT" ? "2 4" : "12 4"}
+        />
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "ATZ") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="12"
+          rx="1.5"
+          fill={color}
+          fillOpacity="0.07"
+          stroke={color}
+          strokeWidth="1.2"
+          strokeDasharray={verdict === "NEEDS_PERMIT" ? "2 4" : "5 3"}
+        />
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "CTA") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="12"
+          rx="1.5"
+          fill="none"
+          stroke={color}
+          strokeWidth="1.6"
+          strokeDasharray="2 2"
+        />
+        <text
+          x="12"
+          y="10.5"
+          fontSize="6"
+          fontFamily="sans-serif"
+          fontWeight="bold"
+          fill={color}
+          textAnchor="middle"
+        >
+          1000+
+        </text>
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "NATURE_RESERVE") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="12"
+          rx="1.5"
+          fill={color}
+          fillOpacity="0.14"
+          stroke={color}
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeDasharray="1.5 3.5"
+        />
+      </svg>
+    );
+  }
+
+  if (zoneTypeCode === "CVFR_LANE") {
+    return (
+      <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+        <line x1="1" y1="2" x2="23" y2="2" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+        <line x1="1" y1="14" x2="23" y2="14" stroke={color} strokeWidth="1" strokeOpacity="0.5" />
+        <line x1="1" y1="8" x2="23" y2="8" stroke={color} strokeWidth="1.4" strokeDasharray="7 5" />
+      </svg>
+    );
+  }
+
   return (
-    <svg aria-hidden="true" width="20" height="14" viewBox="0 0 20 14" className="shrink-0">
-      <line
-        x1="1"
-        y1="7"
-        x2="19"
-        y2="7"
-        stroke={style.color}
-        strokeWidth="2.5"
-        strokeDasharray="4 3"
+    <svg aria-hidden="true" width="24" height="16" className="shrink-0">
+      <rect
+        x="2"
+        y="2"
+        width="20"
+        height="12"
+        rx="1.5"
+        fill={color}
+        fillOpacity="0.15"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeDasharray={verdict === "NEEDS_PERMIT" ? "2 4" : undefined}
       />
     </svg>
   );
@@ -157,27 +355,75 @@ export default function ZoneLayersPanel({
 
       <section>
         <h2 className="text-sm font-semibold">{t("map.zones.legend.title")}</h2>
-        <ul className="mt-2 flex flex-col gap-1.5 text-xs">
-          {legend.polygonVerdicts.map((verdict) => (
-            <li key={verdict} className="flex items-center gap-2">
-              <PolygonSwatch verdict={verdict} />
-              <span>{verdictName(verdict, t)}</span>
-            </li>
-          ))}
-          {legend.laneVerdicts.map((verdict) => (
-            <li key={`lane-${verdict}`} className="flex items-center gap-2">
-              <LaneSwatch verdict={verdict} />
-              <span>{t("map.zones.legend.lane")}</span>
-            </li>
-          ))}
-          <li className="flex items-start gap-2 text-muted-foreground">
-            <span
-              aria-hidden="true"
-              className="mt-0.5 inline-block h-3.5 w-5 shrink-0 rounded-sm border border-border bg-transparent"
-            />
-            <span>{t("map.zones.legend.clearContext")}</span>
-          </li>
-        </ul>
+        <div className="mt-2 flex flex-col gap-3 text-xs">
+          {(() => {
+            const groups: Record<string, LegendClassFact[]> = {};
+            for (const item of legend.activeClasses) {
+              groups[item.verdict] ??= [];
+              groups[item.verdict].push(item);
+            }
+
+            const sortedVerdicts = Object.keys(groups).sort((a, b) => {
+              const order: Record<string, number> = { RESTRICTED: 1, NEEDS_PERMIT: 2, CLEAR: 3 };
+              return (order[a] ?? 99) - (order[b] ?? 99);
+            });
+
+            const CLASS_ORDER = [
+              "AIP_PROHIBITED",
+              "BORDER_SECURITY",
+              "AIP_RESTRICTED",
+              "AIP_DANGER",
+              "LLU_DRONE",
+              "AIRPORT",
+              "CTR",
+              "ATZ",
+              "CTA",
+              "NATURE_RESERVE",
+              "CVFR_LANE",
+              "POPULATED",
+              "OTHER"
+            ];
+            const sortClasses = (items: LegendClassFact[]) => {
+              return [...items].sort((a, b) => {
+                const idxA = CLASS_ORDER.indexOf(a.zoneTypeCode);
+                const idxB = CLASS_ORDER.indexOf(b.zoneTypeCode);
+                const orderA = idxA === -1 ? 999 : idxA;
+                const orderB = idxB === -1 ? 999 : idxB;
+                return orderA - orderB;
+              });
+            };
+
+            return sortedVerdicts.map((verdict) => (
+              <div key={verdict} className="flex flex-col gap-1.5">
+                <h3 className="font-semibold text-muted-foreground uppercase tracking-wider text-[10px]">
+                  {t(`map.zones.legend.family.${verdict}`, { defaultValue: verdictName(verdict, t) })}
+                </h3>
+                <ul className="flex flex-col gap-1.5 pl-1.5">
+                  {sortClasses(groups[verdict]).map((item) => (
+                    <li key={`${item.verdict}-${item.zoneTypeCode}`} className="flex items-center gap-2">
+                      <ClassSwatch zoneTypeCode={item.zoneTypeCode} verdict={item.verdict} />
+                      <span dir="auto">
+                        {t(`map.zones.class.${item.zoneTypeCode}`, { defaultValue: item.zoneTypeCode })}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ));
+          })()}
+          <div className="flex flex-col gap-1.5 text-muted-foreground border-t border-border/60 pt-2">
+            <div className="flex items-start gap-2">
+              <span
+                aria-hidden="true"
+                className="mt-0.5 inline-block h-3.5 w-5 shrink-0 rounded-sm border border-border bg-transparent"
+              />
+              <span>{t("map.zones.legend.clearContext")}</span>
+            </div>
+            <p className="text-[10px] leading-normal italic mt-1" dir="auto">
+              {t("map.zones.legend.disclaimer")}
+            </p>
+          </div>
+        </div>
       </section>
     </div>
   );
