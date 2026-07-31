@@ -23,6 +23,10 @@ import { buildCvfr } from "../../src/zones/builders/cvfr.js";
 import { buildInpa, buildInpaGeo, type RatagDump } from "../../src/zones/builders/inpa.js";
 import { buildLlu } from "../../src/zones/builders/llu.js";
 import { buildOsmAirports } from "../../src/zones/builders/osm-airports.js";
+import {
+  assembleWeekendBubblesDataset,
+  type TracedBubbleCollection,
+} from "../../src/zones/builders/weekend-bubbles.js";
 import { stableJson, type DatasetManifest } from "../../src/zones/dataset.js";
 import { CIRCLE_SEGMENTS } from "../../src/zones/geometry.js";
 import type { GdbDump } from "../../src/zones/gdb.js";
@@ -447,6 +451,36 @@ _Everything ships \`verified=false\` until Jonathan's visual check (GB-06 Gate 3
       "manifest.json": stableJson(manifest),
       "reconciliation.md": report,
     });
+  }
+}
+
+// ── DO-045 — AIP ב'-08 weekend fly-bubbles ─────────────────────────────
+//
+// The odd one out: its input is not a machine dump but a COMMITTED hand-traced
+// GeoJSON, because ב'-08's bubbles share an outline colour with the midweek
+// routes and the ב'-09 UAV areas and could not be auto-separated. So this block
+// reads from the repo rather than <dumps-dir>, and the dataset rebuilds with no
+// Python and no raw charts. The assembly itself lives in the builder module so
+// the deterministic-rebuild test can call exactly this code path.
+{
+  const tracedRel = "data-sources/traced/b08_weekend_bubbles.geojson";
+  if (!fs.existsSync(path.join(repoRoot, tracedRel))) {
+    console.warn(`caai-weekend-bubbles: ${tracedRel} missing — dataset skipped`);
+  } else {
+    const traced = JSON.parse(
+      fs.readFileSync(path.join(repoRoot, tracedRel), "utf8"),
+    ) as TracedBubbleCollection;
+    const { files } = assembleWeekendBubblesDataset({
+      traced,
+      extractedAt,
+      tracedPath: tracedRel,
+      sourceFiles: [
+        sha256("data-sources/aip/aip_b-08_north-sheet.pdf"),
+        sha256("data-sources/aip/aip_b-08_south-sheet.pdf"),
+        sha256(tracedRel),
+      ],
+    });
+    writeDataset("caai-weekend-bubbles", files);
   }
 }
 

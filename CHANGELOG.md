@@ -7,6 +7,8 @@ this project uses date-based release sections.
 ## [Unreleased]
 
 ### Added
+- **DO-045** — Weekend fly-bubbles layer (AIP ב'-08 sport-aviation areas): a new
+  permissive zone class, hidden by default, with per-zone provenance honesty.
 - **DO-043** — Deterministic, stable draw order for the zone overlay stack,
   independent of layer toggle order.
 - **DO-044** — UAV flight-area (LLU) zone type and a Hebrew terminology review:

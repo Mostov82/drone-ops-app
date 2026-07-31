@@ -219,6 +219,8 @@ const he = {
   "map.zones.class.CTA": "אזור בקרה (CTA)",
   "map.zones.class.NATURE_RESERVE": "שמורת טבע (רשות הטבע והגנים)",
   "map.zones.class.CVFR_LANE": "נתיב טיסה CVFR",
+  // DO-045 — new coinage, awaiting terminology review ([HE?] convention).
+  "map.zones.class.WEEKEND_BUBBLE": "[HE?] בועת טיסת סופ\"ש (תעופה ספורטיבית)",
   "map.zones.class.POPULATED": "אזור מאוכלס",
   "map.zones.class.BORDER_SECURITY": "אזור אבטחת גבול",
   "map.zones.class.OTHER": "אזור אחר",
@@ -227,6 +229,12 @@ const he = {
   "map.zones.verdict.CLEAR": "פנוי",
   "map.zones.popup.band": "רצועת גובה",
   "map.zones.popup.directional": "גבהים לפי כיוון (כפי שפורסמו)",
+  // DO-045 — new coinage, awaiting terminology review ([HE?] convention).
+  "map.zones.popup.tracedTitle": "[HE?] מתאר משורטט ידנית — אינו מחייב מול המפה הרשמית",
+  "map.zones.popup.tracedBody":
+    "[HE?] הגבול שורטט ידנית מהמפה המפורסמת בדיוק של כ-500 מ'. יש להתייחס לקצה המדויק כמשוער ולבדוק מול המפה הרשמית לפני הסתמכות.",
+  "map.zones.popup.scheduleInferred":
+    "[HE?] מצב סופ\"ש/כל השבוע הוסק ואינו מפורסם במקור המשורטט.",
   "map.zones.popup.envelopeNote":
     "הרצועה המוצגת היא מעטפת מינימום/מקסימום של הגבהים הכיווניים שפורסמו.",
   "map.zones.popup.source": "מקור",
@@ -255,6 +263,10 @@ const he = {
   "map.check.checkedAt": "נבדק {{date}}",
   "map.check.error.title": "לא ניתן היה להשלים את בדיקת המיקום",
   "map.check.error.generic": "הבדיקה נכשלה. שום דבר כאן אינו קביעה — יש לנסות שוב.",
+  // DO-045 — new coinage, awaiting terminology review ([HE?] convention).
+  "map.check.memberships.title": "[HE?] אזורים בנקודה זו",
+  "map.check.memberships.hint":
+    "[HE?] הנקודה נמצאת בתוך האזורים הבאים. הם אינם מגבילים את המיקום — הם מוצגים כדי שתדע היכן אתה.",
   "map.check.clear.body":
     "אף אזור אינו מכיל נקודה זו. המגבלות הרגולטוריות הרגילות שלהלן עדיין חלות.",
   "map.check.units.m": "מ׳",

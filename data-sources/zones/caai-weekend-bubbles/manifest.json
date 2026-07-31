@@ -1,0 +1,28 @@
+{
+ "layerKey": "caai-weekend-bubbles",
+ "title": "AIP ב'-08 — weekend fly-bubbles (בועות טיסת סופ\"ש, sport aviation); display-only, hand-traced ≈500 m",
+ "sourceFiles": [
+  {
+   "path": "data-sources/aip/aip_b-08_north-sheet.pdf",
+   "sha256": "85f68900907c1c9cfa073da8c6f734c39c2d4a872447af54938d893e0683b04d"
+  },
+  {
+   "path": "data-sources/aip/aip_b-08_south-sheet.pdf",
+   "sha256": "dde0d3169ea5db136320127c6946f7ba5e694c09fe37a8bc14f953751f1d62fb"
+  },
+  {
+   "path": "data-sources/traced/b08_weekend_bubbles.geojson",
+   "sha256": "ed100728ff1ed9881deda09f4c52342985d245e51e4eac79dc6c8957f687a1c7"
+  }
+ ],
+ "aipUpdateStamp": "ב'-08 מפת גובה נמוך לתעופה ספורטיבית 1:250,000, ed 2/25 (Oct 2025), WGS84; northern + southern sheets",
+ "extractedAt": "2026-07-28",
+ "extractionTools": [
+  "manual trace over a georeferenced render (bubble_tracer.html — delivered instrument, not app code)",
+  "server/src/zones builders (DO-013)"
+ ],
+ "featureCount": 37,
+ "importable": true,
+ "verified": false,
+ "notes": "DISPLAY-ONLY (DO-045): WEEKEND_BUBBLE seeds CLEAR and must not change any verdict; time-aware activation stays deferred. GEOMETRY IS HAND-TRACED at ~0.4′ (≈500 m) and is NOT chart-authoritative. Ceilings are ft AMSL ingested with no conversion (trigger 3, resolved 2026-07-28). Codes WBnn are dataset-scoped ordinals — the chart publishes no designator. Features lacking weekendOnly default to true per Jonathan's ruling 2026-07-28; every inferred one is listed in the reconciliation report. The input's `sheet` field was NOT carried (a tracer-UI default) — see reconciliation.md, and extraction-method.md for the georeference and method."
+}

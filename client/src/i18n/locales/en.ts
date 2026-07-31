@@ -215,6 +215,9 @@ const en = {
   "map.zones.class.CTA": "Control Area (CTA)",
   "map.zones.class.NATURE_RESERVE": "Nature Reserve (INPA)",
   "map.zones.class.CVFR_LANE": "CVFR Flight Lane",
+  // DO-045 — AIP ב'-08 sport-aviation weekend fly-bubbles. Two swatches in the
+  // legend: dashed = weekend-only, solid = active all week.
+  "map.zones.class.WEEKEND_BUBBLE": "Weekend fly-bubble (sport aviation)",
   "map.zones.class.POPULATED": "Populated Area",
   "map.zones.class.BORDER_SECURITY": "Border Security Zone",
   "map.zones.class.OTHER": "Other Zone",
@@ -223,6 +226,12 @@ const en = {
   "map.zones.verdict.CLEAR": "Clear",
   "map.zones.popup.band": "Altitude band",
   "map.zones.popup.directional": "Directional altitudes (as published)",
+  // DO-045 — per-zone honesty surfaces for the hand-traced bubbles.
+  "map.zones.popup.tracedTitle": "Hand-traced outline — not chart-authoritative",
+  "map.zones.popup.tracedBody":
+    "This boundary was traced by hand from the published chart to roughly 500 m. Treat its exact edge as approximate and check the chart before relying on it.",
+  "map.zones.popup.scheduleInferred":
+    "Its weekend/all-week status was inferred, not published in the traced source.",
   "map.zones.popup.envelopeNote":
     "Band shown is the min/max envelope of the published directional altitudes.",
   "map.zones.popup.source": "Source",
@@ -253,6 +262,10 @@ const en = {
   "map.check.checkedAt": "Checked {{date}}",
   "map.check.error.title": "Location check could not be completed",
   "map.check.error.generic": "The check failed. Nothing here is a verdict — try again.",
+  // DO-045 — a CLEAR result can now list zones (the first permissive zone type).
+  "map.check.memberships.title": "Areas at this point",
+  "map.check.memberships.hint":
+    "You are inside these areas. They did not restrict this location — they are shown so you know where you are.",
   "map.check.clear.body":
     "No zone contains this point. The standard regulatory limits below still apply.",
   "map.check.units.m": "m",

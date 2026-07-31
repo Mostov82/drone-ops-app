@@ -52,6 +52,11 @@ export function getZoneStyle(
     isDeemphasized?: boolean;
     /** DO-041 weekend view — weekend-relevant zone, brought forward. */
     isEmphasized?: boolean;
+    /**
+     * DO-045 — a WEEKEND_BUBBLE that is active all week rather than weekends
+     * only. Carried in the border grammar, never in hue alone (Amendment 1).
+     */
+    isAllWeek?: boolean;
   }
 ): ZoneStyle {
   let color = "#475569";
@@ -116,6 +121,15 @@ export function getZoneStyle(
   } else {
     if (zoneTypeCode === "CVFR_LANE") {
       color = "#3f51b5";
+    } else if (zoneTypeCode === "WEEKEND_BUBBLE") {
+      // DO-045 — teal, the one cool hue not already spoken for (indigo is lanes,
+      // carmine is LLU, brick is controlled airspace, olive-amber is INPA).
+      //
+      // Deliberately NOT green, and not only because DO-040 Amendment 1 forbids
+      // it: green would read as "cleared", and this geometry is hand-traced to
+      // ±500 m and ships unverified. The colour must not promise more than the
+      // data can support.
+      color = "#00838f";
     } else {
       switch (zoneTypeCode) {
         case "AIP_PROHIBITED":
@@ -209,6 +223,26 @@ export function getZoneStyle(
         weight = 1.5;
         fillOpacity = 0.15;
     }
+  }
+
+  // DO-045 — weekend fly-bubbles. These are permissive areas, so the treatment
+  // must stay quiet: a light wash that never competes with a restriction sharing
+  // the same ground. The weekend/all-week distinction rides on BORDER GRAMMAR,
+  // extending Amendment 1's vocabulary rather than reinterpreting it — dashed
+  // reads as "conditional/scheduled" exactly as it does for the AIP classes, and
+  // solid means the area is in force whenever you look at it.
+  if (zoneTypeCode === "WEEKEND_BUBBLE") {
+    if (extra?.isAllWeek) {
+      weight = 2.0;
+      dashArray = undefined; // in force all week — no schedule condition to signal
+      fillOpacity = 0.12;
+    } else {
+      weight = 1.8;
+      dashArray = "6 4"; // weekends only — a scheduled, conditional area
+      fillOpacity = 0.1;
+    }
+    fill = true;
+    fillColor = color;
   }
 
   if (zoneTypeCode === "LLU_DRONE" && extra?.isInner) {
@@ -415,8 +449,27 @@ export function saveLayerVisibility(
   }
 }
 
+/**
+ * Layers that start hidden, overriding the "unlisted layers default to ON" rule
+ * above. Jonathan's call at DO-045 review, 2026-07-29.
+ *
+ * The default-ON rule exists so a newly imported dataset can never silently hide
+ * a RESTRICTION from an operator — that is a safety rule, and it is not being
+ * weakened. The weekend fly-bubbles are the inverse: a permissive, display-only
+ * layer of 37 hand-traced areas that grant nothing and restrict nothing. Hiding
+ * them by default cannot cause a missed restriction, which is the only harm the
+ * rule guards against; leaving 37 large washes on by default would just add
+ * noise to a map that already carries 1,046 zones.
+ *
+ * So this set is narrow on purpose. A layer belongs here only if it is
+ * permissive; anything that can restrict must stay default-ON.
+ */
+const DEFAULT_HIDDEN_LAYERS: ReadonlySet<string> = new Set(["caai-weekend-bubbles"]);
+
 export function isLayerVisible(visibility: LayerVisibility, layerName: string): boolean {
-  return visibility[layerName] ?? true;
+  // An explicit stored choice always wins — including turning a default-hidden
+  // layer on, which then persists like any other toggle.
+  return visibility[layerName] ?? !DEFAULT_HIDDEN_LAYERS.has(layerName);
 }
 
 export function bufferLine(coords: [number, number][], halfWidthM: number): [number, number][] {
@@ -542,3 +595,40 @@ export function detectSchedule(name: string, notes: string | null): ZoneSchedule
   return readSchedule(name, "name");
 }
 
+
+// ── DO-045 — weekend fly-bubbles (AIP ב'-08) ───────────────────────────────
+//
+// The importer writes a structured `weekendOnly: true|false` segment into the
+// zone's notes rather than adding a Zone column (DO-045 trigger 4: schema
+// pressure is an escalation, structured notes are the sanctioned alternative).
+// Reading it here keeps every caller — map style, popup, panel — off ad-hoc
+// regexes and off parsing Hebrew to decide which kind of bubble it is.
+
+export const WEEKEND_BUBBLE_ZONE_TYPE = "WEEKEND_BUBBLE";
+
+/**
+ * `true` when the bubble is published/derived as active ALL week, `false` when
+ * it is weekend-only, `null` when the note carries no such segment (a zone that
+ * is not a bubble, or one whose notes predate the segment). Never guessed.
+ */
+export function isAllWeekBubble(notes: string | null): boolean | null {
+  if (!notes) return null;
+  const match = /(?:^|\|)\s*weekendOnly:\s*(true|false)\b/.exec(notes);
+  if (!match) return null;
+  return match[1] === "false";
+}
+
+/**
+ * `true` when the bubble's weekend/all-week status was INFERRED by the importer
+ * rather than published in the traced source (Jonathan's ruling 2026-07-28).
+ * Surfaces are expected to say so — an inferred schedule must never be shown
+ * with the same confidence as a published one.
+ */
+export function isBubbleScheduleInferred(notes: string | null): boolean {
+  return notes ? /weekendOnly:\s*(?:true|false)\s*\(inferred/.test(notes) : false;
+}
+
+/** `true` when the zone's geometry is hand-traced rather than chart-derived. */
+export function isHandTracedGeometry(notes: string | null): boolean {
+  return notes ? /hand-traced/.test(notes) : false;
+}

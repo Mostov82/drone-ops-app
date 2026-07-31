@@ -60,6 +60,7 @@ import {
   getZoneStyle,
   bufferLine,
   detectSchedule,
+  isAllWeekBubble,
   type LayerVisibility,
 } from "@/lib/zone-display";
 import { orderLayersForDraw } from "@/lib/zone-layer-order";
@@ -475,6 +476,9 @@ export default function MapPage() {
             ...weekendViewExtras(props, weekendView),
             isCorridor: props?.isLaneCorridor,
             isInner: props?.isLLUInnerRing || props?.isAirportInnerRing,
+            // DO-045 — weekend/all-week rides on border grammar. Read from the
+            // importer's structured notes segment, never inferred here.
+            isAllWeek: isAllWeekBubble(props?.notes ?? null) === true,
           }) as any;
         },
         pointToLayer: (feature, latlng) => {
