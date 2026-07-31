@@ -7,6 +7,8 @@ this project uses date-based release sections.
 ## [Unreleased]
 
 ### Added
+- **DO-043** — Deterministic, stable draw order for the zone overlay stack,
+  independent of layer toggle order.
 - **DO-044** — UAV flight-area (LLU) zone type and a Hebrew terminology review:
   provisional `[HE?]` markers removed from approved regulatory terms.
 - **DO-041** — Weekend/schedule surfacing: display-only indicators for a zone's

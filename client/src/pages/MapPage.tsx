@@ -62,6 +62,7 @@ import {
   detectSchedule,
   type LayerVisibility,
 } from "@/lib/zone-display";
+import { orderLayersForDraw } from "@/lib/zone-layer-order";
 import { listRules } from "@/lib/ruleset-api";
 import { buildZonePopupHtml } from "@/lib/zone-popup";
 import {
@@ -548,7 +549,9 @@ export default function MapPage() {
     };
   }, [zoneData, resolvedMode, halfWidthM, weekendView]);
 
-  // Keep overlay presence on the map in sync with the visibility toggles.
+  // Keep overlay presence on the map in sync with the visibility toggles, then
+  // re-assert the DO-043 draw order.
+  //
   // These deps MUST cover every dep of the overlay-building effect above: that
   // effect replaces zoneOverlaysRef with fresh, unattached L.GeoJSON objects,
   // and this is the only place anything is added to the map. Miss one and the
@@ -563,6 +566,24 @@ export default function MapPage() {
       } else if (map.hasLayer(overlay)) {
         overlay.remove();
       }
+    }
+
+    // DO-043 — every vector layer shares one canvas, whose draw order is pure
+    // insertion order, so `addTo(map)` above just put whatever was toggled on
+    // last at the very top. Walking the policy bottom-first and bringing each
+    // layer to the front leaves the stack in exactly policy order, regardless of
+    // the sequence the operator clicked. Re-asserted unconditionally (it is
+    // idempotent) so it also survives the overlay rebuild that `weekendView` and
+    // `halfWidthM` trigger — the rebuild hands us brand-new, unordered layers.
+    //
+    // `L.GeoJSON` is a `FeatureGroup`, whose `bringToFront()` invokes the same
+    // on each child in the group's own insertion order — so a group lands on top
+    // with its internal order intact. Markers (floor-label chips, the airport
+    // centre cross) have no public `bringToFront` and are skipped by Leaflet's
+    // `invoke` guard; they live in the marker pane above the canvas either way.
+    for (const layerName of orderLayersForDraw(zoneOverlaysRef.current.keys())) {
+      const overlay = zoneOverlaysRef.current.get(layerName);
+      if (overlay && map.hasLayer(overlay)) overlay.bringToFront();
     }
   }, [visibility, zoneData, resolvedMode, halfWidthM, weekendView]);
 
